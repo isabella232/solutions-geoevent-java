@@ -17,6 +17,6 @@ the pom.xml may need modification to point to the geoevent server sdk repository
 </repository>
 ```
 
-In the example above the url points to the sdk on a local machuine at the path:
+In the example above the url points to the sdk on a local machine at the path:
 
 C:\geoevent-sdk-10.2.0\repository
