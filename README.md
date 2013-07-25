@@ -10,10 +10,12 @@ follow sdk documentation to set up maven repository
 
 the pom.xml may need modification to point to the geoevent server sdk repository. Search for the repository tag in pom.xml and modify the url propery to point to the sdk.  See example below:
 
-<repository> 
-  <id>ages-sdk-repo</id> 
-  <url>file:///geoevent-sdk-10.2.0/repository</url> 
+```
+<repository>
+  <id>ages-sdk-repo</id>
+  <url>file:///geoevent-sdk-10.2.0/repository</url>
 </repository>
+```
 
 In the example above the url points to the sdk on a local machuine at the path:
 
