@@ -22,6 +22,4 @@ prereqs for building from source
   <url>file:///Program Files/ArcGIS/Server/GeoEventProcessor/System</url> 
 </repository>
 ```
-In the example above the url points to the sdk on a local machuine at the path:
 
-C:\geoevent-sdk-10.2.0\repository
