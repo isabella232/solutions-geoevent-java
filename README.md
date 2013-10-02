@@ -6,17 +6,20 @@ repository for defense team's geoevent server development
 To install the compiled adapter, copy the geomessage-adapter-10.2.0.jar file in the ./defense-adapter/target directory and paste into your ``<Geoevent Server Install>\deploy`` directory.
 
 prereqs for building from source
+1. Install ArcGIS geoevent server
 
-1. download and install geoevent server sdk (currently available from the geoevent server beta program site)
+2. download and install geoevent server sdk (sdk included with geoevent server instalation)
 
-2. follow sdk documentation to set up maven repository
+3. follow sdk documentation to set up maven repository
 
-3. the pom.xml may need modification to point to the geoevent server sdk repository. Search for the repository tag in pom.xml and modify the url propery to point to the sdk.  See example below:
+4. the pom.xml may need modification to point to the geoevent server sdk repository. Search for the repositories tag in pom.xml.  The Java Runntime is embedded with Geoevent Server and the libraries are required for advanced geometric operations.  Find the repository with the id 'GEP' Make sure the url points to the System Folder in your GeoEventProcessor install location (example below points to directory in default install location).
 
 ```
 <repository> 
-  <id>ages-sdk-repo</id> 
-  <url>file:///geoevent-sdk-10.2.0/repository</url> 
+  <id>GEP</id>
+  <name>GeoEvent Processor embedded repository</name>
+  <layout>default</layout>
+  <url>file:///Program Files/ArcGIS/Server/GeoEventProcessor/System</url> 
 </repository>
 ```
 In the example above the url points to the sdk on a local machuine at the path:
