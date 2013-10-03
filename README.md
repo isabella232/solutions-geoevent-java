@@ -1,4 +1,4 @@
-defense_geoevent_dev
+solutions-geoevent-java 
 ====================
 
 repository for defense team's geoevent server development
