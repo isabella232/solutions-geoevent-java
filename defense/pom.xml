@@ -15,6 +15,7 @@
 </properties>
 	<modules>
 		<module>adapters/defense-adapter</module>
+		<module>adapters/CAP-adapter</module>
 		<module>processors/defense-geometry-processor</module>
 	</modules>
 	<repositories>
