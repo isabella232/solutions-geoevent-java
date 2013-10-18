@@ -3,7 +3,7 @@
 	<bean id="defenseInboundAdapterServiceBean" class="com.esri.ges.adapter.defense.DefenseInboundAdapterService" activation="eager">
 		<property name="bundleContext" ref="blueprintBundleContext"/>
 	</bean>
-	<bean id="defenseOutboundAdapterServiceBean" class="com.esri.ges.adapter.defense.DefenseOutboundAdapterService" activation="eager">
+	<bean id="defenseOutboundAdapterServiceBean" class="com.esri.ges.solutions.adapter.geomessage.DefenseOutboundAdapterService" activation="eager">
 		<property name="bundleContext" ref="blueprintBundleContext"/>
 	</bean>
 	<service id="defenseInboundAdapterService" ref="defenseInboundAdapterServiceBean" interface="com.esri.ges.adapter.AdapterService"/>
