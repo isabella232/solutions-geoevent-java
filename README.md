@@ -1,7 +1,7 @@
 solutions-geoevent-java 
 ====================
 
-repository for solution's team's geoevent server development
+repository for solution team's geoevent server development
 
 To install the compiled adapter, copy the geomessage-adapter-10.2.0.jar file in the ./defense-adapter/target directory and paste into your ``<Geoevent Server Install>\deploy`` directory.
 
