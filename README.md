@@ -11,15 +11,12 @@ prereqs for building from source
 2. download and install geoevent server sdk (sdk included with geoevent server instalation)
 
 3. follow sdk documentation to set up maven repository
+ 
+4. Install the ArcGIS Java Runtime 10.1.1 sdk
 
-4. the pom.xml may need modification to point to the geoevent server sdk repository. Search for the repositories tag in pom.xml.  The Java Runntime is embedded with Geoevent Server and the libraries are required for advanced geometric operations.  Find the repository with the id 'GEP' Make sure the url points to the System Folder in your GeoEventProcessor install location (example below points to directory in default install location).
+5. Individual modules may need modifications.  Please refer to the read me before building the toplevel pom.xml
+ 
+6. Clone the solutions-geoevent-java repository
 
-```
-<repository> 
-  <id>GEP</id>
-  <name>GeoEvent Processor embedded repository</name>
-  <layout>default</layout>
-  <url>file:///Program Files/ArcGIS/Server/GeoEventProcessor/System</url> 
-</repository>
-```
+7. From a command line prompt go to the directory in which the repository has been cloned
 
