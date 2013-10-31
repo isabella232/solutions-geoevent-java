@@ -11,7 +11,7 @@ Multiple processors are included in the geometry-processor jar.
 
 
 
-# Prerequesits
+# Prerequisites
 The Geometry-Processor requires an ArcGIS Runtime for Java 10.1.1 license to run.
 
 ## Instructions
