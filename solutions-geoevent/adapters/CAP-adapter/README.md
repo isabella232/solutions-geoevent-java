@@ -23,15 +23,15 @@ The cap adapter requires an ArcGIS Runtime for Java 10.1.1 license to run.
 </repository>
 ```
 
- ### Building just the CAP-Adapter
+### Building just the CAP-Adapter
  
- 1. navigate to the ./solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter directory on the command prompt
- 2. type mvn install at the prompt and hit return
- 3. Browse to ./solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter/target (this directory is created when you execute mvn install).
- 4. Copy the CAP-Adapter-10.2.0.jar file and paste it into the deploy directory on your GeoEvent server (<GeoEventServer install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
+1. navigate to the ./solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter directory on the command prompt
+2. type mvn install at the prompt and hit return
+3. Browse to ./solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter/target (this directory is created when you execute mvn install).
+4. Copy the CAP-Adapter-10.2.0.jar file and paste it into the deploy directory on your GeoEvent server (<GeoEventServer install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
  
- ### Validating Install
+### Validating Install
  
- 1 Browse to the 'Site' tab in GeoEvent Service manager
- 2. Click on the 'Adapters' tab and you should see the CAP-adapter as one of the available input adapters
+1. Browse to the 'Site' tab in GeoEvent Service manager
+2. Click on the 'Adapters' tab and you should see the CAP-adapter as one of the available input adapters
 
