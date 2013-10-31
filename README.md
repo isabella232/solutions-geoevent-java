@@ -1,7 +1,7 @@
 solutions-geoevent-java 
 ====================
 
-![Image of geomessage-adapter](Images.JPG "solutions-geoevent-java")
+![Image of geomessage-adapter](images.JPG "solutions-geoevent-java")
 
 repository for solution team's geoevent server development
 
