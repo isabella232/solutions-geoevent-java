@@ -32,7 +32,7 @@ The Geometry-Processor requires an ArcGIS Runtime for Java 10.1.1 license to run
 </repository>
 ```
 
-### Building just the CAP-Adapter
+### Building just the CAP-Adapter (see the [solutions/geoevent README.md](https://github.com/ArcGIS/solutions-geoevent-java/edit/master/README.md) for instructions on building all processors, adapters and transports
  
 1. navigate to the ./solutions-geoevent-java/solutions-geoevent/processors/geometry-processor directory on the command prompt
 2. type mvn install at the prompt and hit return
