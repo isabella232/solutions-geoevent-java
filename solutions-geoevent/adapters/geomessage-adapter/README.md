@@ -1,6 +1,6 @@
 # Geomessage Adapter
 
-![Image of geomessage-adapter]( ScreenShot.PNG "solutions-geoevent-java")
+![Image of geomessage-adapter]( 2525c2.PNG "solutions-geoevent-java")
 
 The Geomessage Adapter provides an example of an adapter that injests and writes out messages in Esri's geomessage format.  Geomessage is an xml format used to transmit messages to esri's military features.
 
