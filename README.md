@@ -6,20 +6,40 @@ repository for solution team's geoevent server development
 To install the compiled adapter, copy the geomessage-adapter-10.2.0.jar file in the ./defense-adapter/target directory and paste into your ``<Geoevent Server Install>\deploy`` directory.
 
 prereqs for building from source
+
+
+
+# Prerequisites
 1. Install ArcGIS geoevent server
-
 2. download and install geoevent server sdk (sdk included with geoevent server instalation)
-
 3. follow sdk documentation to set up maven repository
- 
 4. Install the ArcGIS Java Runtime 10.1.1 sdk
-
 5. Individual modules may need modifications.  Please refer to the read me before building the toplevel pom.xml
- 
 6. Clone the solutions-geoevent-java repository
 
-7. From a command line prompt go to the directory in which the repository has been cloned
 
+## Instructions
+
+### General Help
+
+* [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
+
+## Getting Started
+
+
+Building All Adapters and Processors
+ 
+1. From a command prompt go to the ./solutions-geoevent-java/solutions-geoevent directory
+2. Type mvn install at the prompt and hit return
+3. Each Adapter and processor module will now have a target folder (see each module's readme.md for exact path)
+3. Browse to each target directory 
+4. Copy the copy the .jar file paste it into the deploy directory on your GeoEvent server (<GeoEventServer install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
+ 
+### Validating Install
+ 
+1. Browse to the 'Site' tab in GeoEvent Service manager
+2. Click on the 'Adapters' tab and you should see each installed adapter as one of the available adapters
+3. Click on the 'Processors' tab (from the 'Site' tab) and you should see each installed processor as one of the available processors
 
 ## Resources
 
@@ -54,4 +74,3 @@ limitations under the License.
 
 A copy of the license is available in the repository's
 [license.txt](license.txt) file.
-
