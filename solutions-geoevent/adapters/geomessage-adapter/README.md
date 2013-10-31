@@ -5,7 +5,7 @@ The Geomessage Adapter provides an example of an adapter that injests and writes
 
 
 
-# Prerequesits
+# Prerequisites
 
 1. Install ArcGIS geoevent server
 
