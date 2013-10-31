@@ -1,5 +1,7 @@
 # CAP-Adapter
 
+![Image of geomessage-adapter](CAP_logo.JPG "solutions-geoevent-java")
+
 The CAP adapter provides an example of how to injest Common Alert Protocol (CAP) messages as geoevents.
 
 # Prerequisites
