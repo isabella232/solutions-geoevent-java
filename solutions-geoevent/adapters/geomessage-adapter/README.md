@@ -1,6 +1,6 @@
 # Geomessage Adapter
 
-![Image of geomessage-adapter]( 2525c2.PNG "solutions-geoevent-java")
+![Image of geomessage-adapter](2525c2.PNG "solutions-geoevent-java")
 
 The Geomessage Adapter provides an example of an adapter that injests and writes out messages in Esri's geomessage format.  Geomessage is an xml format used to transmit messages to esri's military features.
 
@@ -22,7 +22,8 @@ The Geomessage Adapter provides an example of an adapter that injests and writes
 ## Getting Started
 
 
-### Building just the CAP-Adapter (see the [solutions/geoevent README.md](https://github.com/ArcGIS/solutions-geoevent-java/edit/master/README.md) for instructions on building all processors, adapters and transports
+### Building just the CAP-Adapter 
+see the [solutions/geoevent README.md](https://github.com/ArcGIS/solutions-geoevent-java/edit/master/README.md) for instructions on building all processors, adapters and transports
  
 1. navigate to the ./solutions-geoevent-java/solutions-geoevent/adapters/geomessage-adapter directory on the command prompt
 2. type mvn install at the prompt and hit return
