@@ -1,4 +1,5 @@
 # Geomessage Adapter
+====================
 
 ![Image of geomessage-adapter](2525c2.PNG "solutions-geoevent-java")
 
