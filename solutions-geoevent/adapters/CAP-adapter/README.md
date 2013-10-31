@@ -3,7 +3,10 @@
 The CAP adapter provides an example of how to injest Common Alert Protocol (CAP) messages as geoevents.
 
 # Prerequisites
-The cap adapter requires an ArcGIS Runtime for Java 10.1.1 license to run.
+1. Install ArcGIS geoevent server
+2. download and install geoevent server sdk (sdk included with geoevent server instalation)
+3. follow sdk documentation to set up maven repository
+4. Install the ArcGIS Java Runtime 10.1.1 sdk
 
 ## Instructions
 
