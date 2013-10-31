@@ -1,5 +1,7 @@
 # Geometry Processor
 
+![Image of geomessage-adapter](Buffer.PNG "solutions-geoevent-java")
+
 The geometry processor demonstrates how to extend geoevent server to build processors that manipulate the geometry of a geoevent service.
 Multiple processors are included in the geometry-processor jar.  
 
@@ -35,7 +37,8 @@ Multiple processors are included in the geometry-processor jar.
 </repository>
 ```
 
-### Building just the CAP-Adapter (see the [solutions/geoevent README.md](https://github.com/ArcGIS/solutions-geoevent-java/edit/master/README.md) for instructions on building all processors, adapters and transports
+### Building just the CAP-Adapter 
+see the [solutions/geoevent README.md](https://github.com/ArcGIS/solutions-geoevent-java/edit/master/README.md) for instructions on building all processors, adapters and transports
  
 1. navigate to the ./solutions-geoevent-java/solutions-geoevent/processors/geometry-processor directory on the command prompt
 2. type mvn install at the prompt and hit return
