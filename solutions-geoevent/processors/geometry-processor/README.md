@@ -1,15 +1,29 @@
-# geometry processor
+# Geometry Processor
+
 The geometry processor demonstrates how to extend geoevent server to build processors that manipulate the geometry of a geoevent service.
 Multiple processors are included in the geometry-processor jar.  
+
 * Buffer Processor: convert the geoevent geometry to a buffer around the incoming event
 * Ellipse Processor: convert the geoevent geometry to an ellipse centered on the incoming event geometry
 * Rangefan Processor: convert the geoevent geometry to a rangefan with an origin at the incoming event geometry
 * Visibility Processor: Generate a viewshed with an observer located at the incoming geoevent geometry.  The visibility processor also allows the user to clip the viewshed to a polygon.
 * Query Report Processor: Executes a spatial query on feature services registered in the geoevent server's datastore.  The author of the service then configures a report based on returned features.
 
-1. The path to the repository in the module's pom.xml may need to be modified to point at Systems folder in the geoevent server install location.  In the example below the repo points to the default location of the systems folder.
 
-```
+
+# Prerequesits
+The Geometry-Processor requires an ArcGIS Runtime for Java 10.1.1 license to run.
+
+## Instructions
+
+### General Help
+
+* [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
+
+## Getting Started
+1. The path to the repository in the module's pom.xml may need to be modified to point at Systems folder in the geoevent server install location.  In the example below the repo points to the default location of the systems folder.
+ 
+ ```
 <repository> 
   <id>GEP</id>
   <name>GeoEvent Processor embedded repository</name>
@@ -17,3 +31,16 @@ Multiple processors are included in the geometry-processor jar.
   <url>file:///Program Files/ArcGIS/Server/GeoEventProcessor/System</url> 
 </repository>
 ```
+
+### Building just the CAP-Adapter
+ 
+1. navigate to the ./solutions-geoevent-java/solutions-geoevent/processors/geometry-processor directory on the command prompt
+2. type mvn install at the prompt and hit return
+3. Browse to ./solutions-geoevent-java/solutions-geoevent/processors/geometry-processor/target (this directory is created when you execute mvn install).
+4. Copy the as one of the available input adaptersgeometry-processor-10.2.0.jar file and paste it into the deploy directory on your GeoEvent server (<GeoEventServer install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
+ 
+### Validating Install
+ 
+1. Browse to the 'Site' tab in GeoEvent Service manager
+2. Click on the 'Processors' tab and you should see the Buffer, Ellipse, Rangefan, Visibility and Query-Report processors listed.
+
