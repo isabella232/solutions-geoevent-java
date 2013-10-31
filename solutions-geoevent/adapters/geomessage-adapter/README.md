@@ -1,19 +1,16 @@
-# Geomessage Processor
+# Geomessage Adapter
+
+![Image of geomessage-adapter]( ScreenShot.PNG "solutions-geoevent-java")
 
 The Geomessage Adapter provides an example of an adapter that injests and writes out messages in Esri's geomessage format.  Geomessage is an xml format used to transmit messages to esri's military features.
-
-
 
 
 # Prerequisites
 
 1. Install ArcGIS geoevent server
-
 2. download and install geoevent server sdk (sdk included with geoevent server instalation)
-
 3. follow sdk documentation to set up maven repository
- 
-6. Clone the solutions-geoevent-java repository
+4. Clone the solutions-geoevent-java repository
 
 
 ## Instructions
