@@ -1,4 +1,6 @@
 # CAP-Adapter
+====================
+
 
 ![Image of geomessage-adapter](CAP_logo.JPG "solutions-geoevent-java")
 
