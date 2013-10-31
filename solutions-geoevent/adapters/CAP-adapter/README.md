@@ -2,7 +2,7 @@
 
 The CAP adapter provides an example of how to injest Common Alert Protocol (CAP) messages as geoevents.
 
-# Prerequesits
+# Prerequisites
 The cap adapter requires an ArcGIS Runtime for Java 10.1.1 license to run.
 
 ## Instructions
