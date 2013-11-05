@@ -3,17 +3,31 @@ solutions-geoevent-java
 
 ![Image of geomessage-adapter](images.JPG "solutions-geoevent-java")
 
-repository for solution team's geoevent server development
+The solutions-geoevent-java repository includes custom connectors for use with [ArcGIS GeoEvent Processor for Server](http://www.esri.com/software/arcgis/arcgisserver/extensions/geoevent-extension). 
 
+## Features
 
-# Prerequisites
-1. Install ArcGIS geoevent server
-2. download and install geoevent server sdk (sdk included with geoevent server instalation)
-3. follow sdk documentation to set up maven repository
-4. Install the ArcGIS Java Runtime 10.1.1 sdk
-5. Individual modules may need modifications.  Please refer to the read me before building the toplevel pom.xml
-6. Clone the solutions-geoevent-java repository
+* [Geomessage Adapter](solutions-geoevent/adapters/geomessage-adapter/README.md)
+* [Common Alert Protocol (CAP) Adapter](solutions-geoevent/adapters/CAP-adapter/README.md)
+* [Geometry Processor](solutions-geoevent/processors/geometry-processor/README.md)
 
+## Sections
+
+* [Requirements](#requirements)
+* [Instructions](#instructions)
+* [Resources](#resources)
+* [Issues](#issues)
+* [Contributing](#contributing)
+* [Licensing](#licensing)
+
+## Requirements
+
+* ArcGIS Geoevent Server (GES)
+* ArcGIS Geoevent Server Software Development Kit (SDK) - the SDK is included with the Geoevent Server instalation
+* Maven (you may follow the GES SDK documentation to learn how to set up a maven repository)
+* Java JDK 1.6 or greater
+* ArcGIS Runtime for Java 10.1.1 SDK (needed to run standalone Maven Tests)
+* Note: individual sub-modules may have additional requirements. See the Readme for [each project](#features) for more information.
 
 ## Instructions
 
@@ -21,29 +35,32 @@ repository for solution team's geoevent server development
 
 * [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
 
-## Getting Started
-
-
-Building All Adapters and Processors
+### Building All Adapters and Processors
  
-1. From a command prompt go to the ./solutions-geoevent-java/solutions-geoevent directory
-2. Type mvn install at the prompt and hit return
-3. Each Adapter and processor module will now have a target folder (see each module's readme.md for exact path)
-3. Browse to each target directory 
-4. Copy the copy the .jar file paste it into the deploy directory on your GeoEvent server (<GeoEventServer install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
+* Verify that Maven is installed and working correctly
+    * From a command prompt, type `mvn -version` and verify that it returns the version correctly
+* Make any necessary changes to the pom.xml files to reflect the location of the GEP Server and GEP SDK repositories
+    * If necessary, change the locations for the repository entries in the pom.xml 
+    * The current settings assume these will be located at 
+        * /Program Files/ArcGIS/Server/GeoEventProcessor/sdk/repository
+        * /Program Files/ArcGIS/Server/GeoEventProcessor/system
+* From a command prompt go to the `./solutions-geoevent-java/solutions-geoevent` directory
+* Type `mvn install` at the prompt and hit return
+* Each Adapter and processor module will now have a target folder (see each module's readme.md for exact path)
+* Browse to each target directory 
+* Copy the copy the .jar file paste it into the deploy directory on your GeoEvent server (<GeoEventServer install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
  
 ### Validating Install
  
-1. Browse to the 'Site' tab in GeoEvent Service manager
-2. Click on the 'Adapters' tab and you should see each installed adapter as one of the available adapters
-3. Click on the 'Processors' tab (from the 'Site' tab) and you should see each installed processor as one of the available processors
+* Browse to the 'Site' tab in GeoEvent Service manager
+* Click on the 'Adapters' tab and you should see each installed adapter as one of the available adapters
+* Click on the 'Processors' tab (from the 'Site' tab) and you should see each installed processor as one of the available processors
 
 ## Resources
 
 * Learn more about Esri's [ArcGIS for the Military](http://solutions.arcgis.com/military/).
-* Learn more about Esri's[ArcGIS GeoEvent Processor for Server Resource Center](http://pro.arcgis.com/share/geoevent-processor/)
-* Learn more about Esri's[ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
-* Learn more about [twitter@esri](http://twitter.com/esri)
+* Learn more about Esri's [ArcGIS GeoEvent Processor for Server Resource Center](http://pro.arcgis.com/share/geoevent-processor/)
+* Learn more about Esri's [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
 
 ## Issues
 
@@ -55,7 +72,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ## Licensing
 
-Copyright 2012-2013 Esri
+Copyright 2013 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
