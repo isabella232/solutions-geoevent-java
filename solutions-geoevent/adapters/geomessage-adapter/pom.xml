@@ -11,9 +11,11 @@
 	<repositories>
 		<repository>
 			<id>ages-sdk-repo</id>
-			<url>file:///geoevent-sdk-10.2.0/repository</url>
-		</repository>
+			<name>GeoEvent Processor SDK repository</name>						
+			<url>file:///Program Files/ArcGIS/Server/GeoEventProcessor/sdk/repository</url>
+		</repository>	
 	</repositories>
+		
 	<dependencies>
 		<dependency>
 			<groupId>com.esri.ges.sdk</groupId>

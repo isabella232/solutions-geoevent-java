@@ -19,6 +19,7 @@ The CAP adapter provides an example of how to injest Common Alert Protocol (CAP)
 * [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
 
 ## Getting Started
+
 1. The path to the repository in the module's pom.xml may need to be modified to point at Systems folder in the geoevent server install location.  In the example below the repo points to the default location of the systems folder.
  
  ```
@@ -31,7 +32,8 @@ The CAP adapter provides an example of how to injest Common Alert Protocol (CAP)
 ```
 
 ### Building just the CAP-Adapter 
-see the [solutions/geoevent README.md](https://github.com/ArcGIS/solutions-geoevent-java/edit/master/README.md) for instructions on building all processors, adapters and transports
+
+See the [solutions/geoevent README.md](https://github.com/ArcGIS/solutions-geoevent-java/edit/master/README.md) for instructions on building all processors, adapters and transports
  
 1. navigate to the ./solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter directory on the command prompt
 2. type mvn install at the prompt and hit return
@@ -46,9 +48,7 @@ see the [solutions/geoevent README.md](https://github.com/ArcGIS/solutions-geoev
 ## Resources
 
 * Learn more about Esri's [ArcGIS for the Military](http://solutions.arcgis.com/military/).
-* Learn more about Esri's[ArcGIS GeoEvent Processor for Server Resource Center](http://pro.arcgis.com/share/geoevent-processor/)
-* Learn more about Esri's[ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
-* Learn more about [twitter@esri](http://twitter.com/esri)
+* Learn more about Esri's [ArcGIS GeoEvent Processor for Server Resource Center](http://pro.arcgis.com/share/geoevent-processor/)
 
 ## Issues
 
