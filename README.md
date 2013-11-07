@@ -1,7 +1,7 @@
 solutions-geoevent-java 
 ====================
 
-![Image of geomessage-adapter](images.JPG "solutions-geoevent-java")
+![Image of geomessage-adapter](ScreenShot.JPG)
 
 The solutions-geoevent-java repository includes custom connectors for use with [ArcGIS GeoEvent Processor for Server](http://www.esri.com/software/arcgis/arcgisserver/extensions/geoevent-extension). 
 
@@ -22,10 +22,10 @@ The solutions-geoevent-java repository includes custom connectors for use with [
 
 ## Requirements
 
-* ArcGIS Geoevent Server (GES)
-* ArcGIS Geoevent Server Software Development Kit (SDK) - the SDK is included with the Geoevent Server instalation
-* Maven (you may follow the GES SDK documentation to learn how to set up a maven repository)
-* Java JDK 1.6 or greater
+* ArcGIS GeoEvent Processor (GEP) for Server
+* ArcGIS Geoevent Server Software Development Kit (SDK) - the SDK is included with the Geoevent Server installation
+* Java Development Kit (JDK) 1.6 or greater
+* [Apache Maven](http://maven.apache.org) (you may follow the GES SDK documentation to learn how to set up a Maven repository)
 * ArcGIS Runtime for Java 10.1.1 SDK (needed to run standalone Maven Tests)
 * Note: individual sub-modules may have additional requirements. See the Readme for [each project](#features) for more information.
 
@@ -44,15 +44,16 @@ The solutions-geoevent-java repository includes custom connectors for use with [
     * The current settings assume these will be located at 
         * /Program Files/ArcGIS/Server/GeoEventProcessor/sdk/repository
         * /Program Files/ArcGIS/Server/GeoEventProcessor/system
+* Depending on the version of software you have installed, you may also need to change the version property in the pom.xml files
 * From a command prompt go to the `./solutions-geoevent-java/solutions-geoevent` directory
 * Type `mvn install` at the prompt and hit return
-* Each Adapter and processor module will now have a target folder (see each module's readme.md for exact path)
+* Each installed module will now have a target folder (see each module's Readme.md for the exact path)
 * Browse to each target directory 
-* Copy the copy the .jar file paste it into the deploy directory on your GeoEvent server (<GeoEventServer install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
+* Copy the .jar file from the target folder and paste it into the deploy directory on your GEP installation (ex. <GEP install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
  
 ### Validating Install
  
-* Browse to the 'Site' tab in GeoEvent Service manager
+* Browse to the 'Site' tab in GEP manager
 * Click on the 'Adapters' tab and you should see each installed adapter as one of the available adapters
 * Click on the 'Processors' tab (from the 'Site' tab) and you should see each installed processor as one of the available processors
 
