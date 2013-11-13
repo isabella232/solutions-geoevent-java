@@ -8,9 +8,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class MessageParser extends DefaultHandler
 {
-	private static final String MESSAGES  = "messages";
-	private static final String MESSAGE   = "message";
-
+	private static final String MESSAGES_TAG1  = "messages";
+	private static final String MESSAGE_TAG1   = "message";
+	private static final String MESSAGES_TAG2  = "geomessages";
+	private static final String MESSAGE_TAG2   = "geomessage";
+	
 	private enum MessageLevel
 	{
 		root, inMessages, inMessage, inAttribute;
@@ -35,11 +37,11 @@ public class MessageParser extends DefaultHandler
 		if(qName == null)
 			return;
 
-		if (messageLevel == MessageLevel.root && (qName.equalsIgnoreCase(MESSAGES) || qName.equalsIgnoreCase("geomessages")))
+		if (messageLevel == MessageLevel.root && (qName.equalsIgnoreCase(MESSAGES_TAG1) || qName.equalsIgnoreCase(MESSAGES_TAG2)))
 		{
 			messageLevel = MessageLevel.inMessages;
 		}
-		else if(messageLevel == MessageLevel.inMessages && (qName.equalsIgnoreCase(MESSAGE) || qName.equalsIgnoreCase("geomessage")))
+		else if(messageLevel == MessageLevel.inMessages && (qName.equalsIgnoreCase(MESSAGE_TAG1) || qName.equalsIgnoreCase(MESSAGE_TAG2)))
 		{
 			messageLevel = MessageLevel.inMessage;
 		}
@@ -58,11 +60,11 @@ public class MessageParser extends DefaultHandler
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException
 	{
-		if (messageLevel == MessageLevel.inMessages && (qName.equalsIgnoreCase(MESSAGES) || qName.equalsIgnoreCase("geomessages")))
+		if (messageLevel == MessageLevel.inMessages && (qName.equalsIgnoreCase(MESSAGES_TAG1) || qName.equalsIgnoreCase(MESSAGES_TAG2)))
 		{
 			messageLevel = MessageLevel.root;
 		}
-		else if (messageLevel == MessageLevel.inMessage && (qName.equalsIgnoreCase(MESSAGE) || qName.equalsIgnoreCase("geomessage")))
+		else if (messageLevel == MessageLevel.inMessage && (qName.equalsIgnoreCase(MESSAGE_TAG1) || qName.equalsIgnoreCase(MESSAGE_TAG2)))
 		{
 			messageLevel = MessageLevel.inMessages;
 			adapter.queueGeoEvent(attributes);

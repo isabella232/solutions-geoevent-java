@@ -26,8 +26,9 @@ The solutions-geoevent-java repository includes custom connectors for use with [
 * ArcGIS Geoevent Server Software Development Kit (SDK) - the SDK is included with the Geoevent Server installation
 * Java Development Kit (JDK) 1.6 or greater
 * [Apache Maven](http://maven.apache.org) (you may follow the GES SDK documentation to learn how to set up a Maven repository)
-* ArcGIS Runtime for Java 10.1.1 SDK (needed to run standalone Maven Tests)
-* Note: individual sub-modules may have additional requirements. See the Readme for [each project](#features) for more information.
+* Notes on individual projects
+    * Individual projects may have additional requirements. See the Readme for [each project](#features) for more information.
+    * Some project have a dependency on the ArcGIS Runtime for Java SDK in order to run standalone Maven Tests. See the Readme for [each project](#features) for more information.
 
 ## Instructions
 
@@ -39,6 +40,7 @@ The solutions-geoevent-java repository includes custom connectors for use with [
  
 * Verify that Maven is installed and working correctly
     * From a command prompt, type `mvn -version` and verify that it returns the version correctly
+    * If the Maven version is not returned correctly, consult the GEP SDK Developer Guide for more information on how to set up Maven. 
 * Make any necessary changes to the pom.xml files to reflect the location of the GEP Server and GEP SDK repositories
     * If necessary, change the locations for the repository entries in the pom.xml 
     * The current settings assume these will be located at 
@@ -53,15 +55,17 @@ The solutions-geoevent-java repository includes custom connectors for use with [
  
 ### Validating Install
  
-* Browse to the 'Site' tab in GEP manager
-* Click on the 'Adapters' tab and you should see each installed adapter as one of the available adapters
-* Click on the 'Processors' tab (from the 'Site' tab) and you should see each installed processor as one of the available processors
+* Open the GeoEvent Processor Manager 
+* Navigate to 'Site' > 'Components' >  'Adapters'
+    *  You should see each newly installed adapter as one of the available adapters
+* Navigate to 'Site' > 'Components' >  'Processors' 
+    * You should see each newly installed processor as one of the available processors
 
 ## Resources
 
-* Learn more about Esri's [ArcGIS for the Military](http://solutions.arcgis.com/military/).
 * Learn more about Esri's [ArcGIS GeoEvent Processor for Server Resource Center](http://pro.arcgis.com/share/geoevent-processor/)
-* Learn more about Esri's [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
+* Learn more about [Extending ArcGIS GeoEvent Processor](http://resources.arcgis.com/en/help/main/10.2/index.html#//015400000664000000)
+* Learn more about Esri's [ArcGIS for the Military](http://solutions.arcgis.com/military/)
 
 ## Issues
 
