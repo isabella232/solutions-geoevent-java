@@ -56,7 +56,7 @@ chemlight | To create chemlights reports
     *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘GeoEvent Definitions’ 
     *  Confirm that the following GEP geoevent definitions are available
 
-![Image of geoeventdefinition](geoeventdefinitions.png)
+![Image of geoeventdefinition](doc/geoeventdefinitions.png)
 
 * If these definitions are not available, do the following to install these definitions
     *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘Configuration Store’ and click ‘Import Configuration’
@@ -81,7 +81,7 @@ chemlight | To create chemlights reports
     * Navigate to ‘Site’ > ‘GeoEvent Processor’ > 'Connectors'
     * Select Create Connector and configure as shown
 
-![Image of create connector](create-connector.png)
+![Image of create connector](doc/create-connector.png)
 
 * Next use the GEP Manager and Service Designer to
     * Create an Input to receive geomessage data using the created connector 
@@ -89,11 +89,11 @@ chemlight | To create chemlights reports
     * Create a simple service to direct the Input data to the Output
     * An example of a simple service is shown below 
 
-![Image of service](service.png)
+![Image of service](doc/service.png)
 
 * Navigate to ‘Services’ > ‘Monitor’ and observe that you have a configuration similar to the following (note: your names/outputs may differ)
 
-![Image of monitor](monitor.png)
+![Image of monitor](doc/monitor.png)
 
 * Start the UDP geomessage simulator and observe that the values increase on the monitor and the selected outputs are updated.
 

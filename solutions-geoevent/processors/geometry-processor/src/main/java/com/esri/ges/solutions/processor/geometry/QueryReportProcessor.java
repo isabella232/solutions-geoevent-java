@@ -618,7 +618,6 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 			body += lyrHeader + items;
 		}
 		String content = "";
-		   //File file = new File("C:/Dev/Java/DefenseSolution/defense-geometry-processor/src/main/resources/ReportTemplate.html"); //for ex foo.txt
 		   try {
 			   //String name = this.getClass().getName();
 		       InputStream is = this.getClass().getClassLoader().getResourceAsStream("ReportTemplate.html");

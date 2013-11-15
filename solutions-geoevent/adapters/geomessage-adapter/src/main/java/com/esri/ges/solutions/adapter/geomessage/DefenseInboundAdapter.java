@@ -1,3 +1,18 @@
+/*
+ | Copyright 2013 Esri
+ |
+ | Licensed under the Apache License, Version 2.0 (the "License");
+ | you may not use this file except in compliance with the License.
+ | You may obtain a copy of the License at
+ |
+ |    http://www.apache.org/licenses/LICENSE-2.0
+ |
+ | Unless required by applicable law or agreed to in writing, software
+ | distributed under the License is distributed on an "AS IS" BASIS,
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ | See the License for the specific language governing permissions and
+ | limitations under the License.
+ */
 package com.esri.ges.solutions.adapter.geomessage;
 
 import java.io.ByteArrayInputStream;
@@ -37,80 +52,12 @@ public class DefenseInboundAdapter extends InboundAdapterBase
 	private final ArrayList<GeoEvent> queue = new ArrayList<GeoEvent>();
 	private final boolean tryingToRecoverPartialMessages = false;
 
-	// private WontCloseInputStream in;
-	// private PipedOutputStream out;
-	// private Thread readerThread;
-
-	// class WontCloseInputStream extends BufferedInputStream
-	// {
-	// boolean closed;
-	// public WontCloseInputStream(InputStream arg0)
-	// {
-	// super(arg0);
-	// closed = false;
-	// }
-	// @Override
-	// public void close()
-	// {
-	// closed = true;
-	// }
-	// public void reopen()
-	// {
-	// closed = false;
-	// }
-	// public boolean isOpen()
-	// {
-	// return !closed;
-	// }
-	// public void reallyClose() throws IOException
-	// {
-	// super.close();
-	// }
-	// }
-
 	public DefenseInboundAdapter(AdapterDefinition definition) throws ComponentException, ParserConfigurationException, SAXException, IOException
 	{
 		super(definition);
 		messageParser = new MessageParser(this);
 		saxFactory = SAXParserFactory.newInstance();
 		saxParser = saxFactory.newSAXParser();
-		// PipedInputStream pipedInputStream = new PipedInputStream(5*1024);
-		// in = new WontCloseInputStream( pipedInputStream );
-		// //in.mark(4*1024);
-		// out = new PipedOutputStream();
-		// out.connect(pipedInputStream);
-		// readerThread = new Thread()
-		// {
-		// @Override
-		// public void run()
-		// {
-		// try
-		// {
-		// while(true)
-		// {
-		// if(in.isOpen())
-		// {
-		// try
-		// {
-		// System.out.println("Parsing started.");
-		// saxParser.parse( in, messageParser);
-		// System.out.println("Parsing ended.");
-		// } catch (SAXException e)
-		// {
-		// //in.reset();
-		// System.out.println(e.getMessage());
-		// }
-		// }
-		// }
-		// } catch (IOException e)
-		// {
-		// LOG.error("IOException while trying to route data from the pipe to the parser.",
-		// e );
-		// }
-		// }
-		// };
-		// readerThread.setDaemon(true);
-		// readerThread.start();
 	}
 
 	@Override
@@ -155,9 +102,6 @@ public class DefenseInboundAdapter extends InboundAdapterBase
 					commit();
 				}
 			}
-			// out.write(bytes);
-			// in.reopen();
-			// LOG.info("bytes : " + (new String( bytes, Charset.forName("UTF-8"))));
 		}
 		catch (IOException e)
 		{
