@@ -28,7 +28,7 @@ The CAP adapter provides an example of how to ingest Common Alerting Protocol (C
     * verifying your Maven installation
     * setting the location of the GEP Server and GEP SDK repositories
     * and any other common required steps
- * Open a command prompt and navigate to `solutions-geoevent-java/solutions-geoevent/adapters/cot-adapter`
+ * Open a command prompt and navigate to `solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter`
  * * Enter `mvn install` at the prompt
 
 ## Installation
@@ -83,7 +83,10 @@ The CAP adapter provides an example of how to ingest Common Alerting Protocol (C
 ## Resources
 
 * Learn more about the Common Alerting Protocol
-    * [CoT](http://cot.mitre.org/index.html)
+    * [CAP on Wikipedia](http://en.wikipedia.org/wiki/Common_Alerting_Protocol)
+* Sample CAP feeds available at the following 
+    * [http://www.gdacs.org/](http://www.gdacs.org/)
+    * [http://wcatwc.arh.noaa.gov/](http://wcatwc.arh.noaa.gov/)
 
 ## Licensing
 
