@@ -3,13 +3,13 @@
 
 	<reference id="geoDefManagerService" interface="com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager"/>
 
-	<bean id="symbolIdToNameProcessorServiceBean" class="com.esri.ges.solutions.processor.symbollookup.SymbolIdToNameProcessorService" 
+	<bean id="symbolIdToNameProcessorServiceBean" class="com.esri.geoevent.solutions.processor.symbollookup.SymbolIdToNameProcessorService" 
 	      init-method="start" activation="eager">
 		<property name="bundleContext" ref="blueprintBundleContext" />
 		<property name="manager" ref="geoDefManagerService"/>		
 	</bean>
 
-	<bean id="symbolNameToIdProcessorServiceBean" class="com.esri.ges.solutions.processor.symbollookup.SymbolNameToIdProcessorService" 
+	<bean id="symbolNameToIdProcessorServiceBean" class="com.esri.geoevent.solutions.processor.symbollookup.SymbolNameToIdProcessorService" 
 	      init-method="start" activation="eager">
 		<property name="bundleContext" ref="blueprintBundleContext" />
 		<property name="manager" ref="geoDefManagerService"/>			

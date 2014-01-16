@@ -13,7 +13,7 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-package com.esri.ges.solutions.processor.symbollookup.test;
+package com.esri.geoevent.solutions.processor.symbollookup.test;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.esri.ges.solutions.processor.symbollookup.SymbolLookup;
+import com.esri.geoevent.solutions.processor.symbollookup.SymbolLookup;
 
 import com.esri.runtime.ArcGISRuntime;
 
