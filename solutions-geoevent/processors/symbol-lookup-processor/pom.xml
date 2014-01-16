@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.esri.geoevent.solutions.processor</groupId>
-	<version>10.2.1</version>
+	<version>10.2.0</version>
 	<packaging>bundle</packaging>
 	<artifactId>symbol-lookup-processor</artifactId>
 	
@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.2.1</version>
+			<version>10.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -55,11 +55,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.8.1</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.esri.ges.sdk</groupId>
-			<artifactId>ges-lib</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.arcgis.runtime</groupId>

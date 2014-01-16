@@ -108,7 +108,7 @@ public class SymbolIdToNameProcessorDefinition extends GeoEventProcessorDefiniti
 	@Override
 	public String getVersion()
 	{
-		return "10.2.1";
+		return "10.2.0";
 	}
 
 	@Override
