@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.esri.ges</groupId>
+  <groupId>com.esri.geoevent</groupId>
   <artifactId>defense</artifactId>
-  <version>10.2.1</version>
+  <version>10.2.0</version>
   <packaging>pom</packaging>
 
   <name>Esri :: AGES :: Solutions</name>
@@ -16,6 +16,7 @@
 	<modules>
 		<module>adapters/geomessage-adapter</module>
 		<module>adapters/CAP-adapter</module>
+		<module>processors/symbol-lookup-processor</module>
 		<module>processors/geometry-processor</module>
 	</modules>
 	<repositories>
