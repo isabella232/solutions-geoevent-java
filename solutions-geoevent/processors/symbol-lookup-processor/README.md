@@ -35,8 +35,8 @@ The symbol lookup processor demonstrates how to convert between military symbol 
 
 * Install the processor
     * Browse to `solutions-geoevent-java/solutions-processors/symbol-lookup-processor/target` (this directory is created when you execute mvn install).
-    * Copy the jar file and paste it into the deploy directory on your GeoEvent server (<GEP install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
-    *  Open the GeoEvent Processor Manager web application and ensure that the SymbolIdToNameProcessor, SymbolNameToIdProcessor, etc. processors are present on the 'Site' > 'Components' > 'Processors' page.
+    * Copy the jar file and paste it into the deploy directory on your GeoEvent Processor server (<GEP install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
+    *  Open the GeoEvent Processor Manager web application and ensure that the SymbolIdToNameProcessor, SymbolNameToIdProcessor processors are present on the 'Site' > 'Components' > 'Processors' page.
 * Check the existing geoevent definitions
     *  Open the GeoEvent Processor Manager web application.
     *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘GeoEvent Definitions’ 
@@ -54,23 +54,25 @@ The symbol lookup processor demonstrates how to convert between military symbol 
 ### Validating the Installation
  
 * See the [solutions-geoevent-java validation instructions](../../../README.md#validating-install).
-    * Ensure that the SymbolIdToNameProcessor, SymbolNameToIdProcessor, etc. processors are present
+    * Ensure that the SymbolIdToNameProcessor, SymbolNameToIdProcessor processors are present
 
 ### Testing with Simulated Test Data
 
 * In the following steps you will configure GEP to receive and process simulated  data
 * Open the GEP Manager web application
 * Create a Input to receive simulated data over TCP 
-    * Navigate to ‘Site’ > ‘Services’ > 'Inputs'
+    * Navigate to ‘Services’ > 'Inputs'
     * Select Add Input and configure a TCP Input as shown
 
 ![Image of create connector](doc/input-settings.png)
 
 * Next Create an Output to observe received data
-    * Navigate to ‘Site’ > ‘Services’ > 'Outputs'
-    * Select Add Input and configure an output to `Write to a .csv file`
+    * Navigate to ‘Services’ > 'Outputs'
+    * Select Add Output and configure an output to `Write to a .csv file`
+    * On the Creating Output page, configure the Name, Folder, and Filename Prefix properties for your new output.
 * Use the GEP Service Designer to
     * Create a simple service to direct the Input data to the Output using the selected processor
+    * Set "SymbolId/SymbolName Event to an appropriate value (e.g. MilitaryFeaturesLookup::SymbolId/SymbolName )
     * The simple service and the processor configuration are shown below
 
 ![Image of service](doc/processor.png)
