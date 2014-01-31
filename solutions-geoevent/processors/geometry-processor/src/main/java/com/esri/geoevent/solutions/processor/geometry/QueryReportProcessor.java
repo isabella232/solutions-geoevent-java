@@ -100,7 +100,7 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 	private SpatialReference srOut;
 	private ArrayList<Object>queries = new ArrayList<Object>();
 	private HashMap<String, Object>responseMap = new HashMap<String, Object>();
-	com.esri.core.geometry.Geometry inGeometry;
+	private com.esri.core.geometry.Geometry inGeometry;
 	public QueryReportProcessor(GeoEventProcessorDefinition definition, Spatial s, GeoEventDefinitionManager m, ArcGISServerConnectionManager cm, Messaging msg)
 			throws ComponentException {
 		super(definition);
@@ -130,12 +130,13 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		srBuffer = SpatialReference.create(bufferwkid);
 		srOut = SpatialReference.create(outwkid);
 
-		Geometry geo = ge.getGeometry();
-		
-		Geometry inGeo = null;
+		com.esri.ges.spatial.Geometry geo = ge.getGeometry();
+		com.esri.ges.spatial.Geometry inGeo = null;
 		if(properties.get("geosrc").getValueAsString().equals("Buffer"))
 		{
-			inGeo = constructBuffer(geo,radius,units);
+			inGeometry = constructGeometry(geo);
+			Unit u = queryUnit(units);
+			inGeo = constructBuffer(geo,radius,u);
 		}
 		else if(properties.get("geosrc").getValueAsString().equals("Event Definition"))
 		{
@@ -143,11 +144,20 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 			String eventfld = properties.get("geoeventdef").getValue().toString();
 			String[] arr = eventfld.split(":");
 			String geostr = (String)ge.getField(arr[1]);
-			inGeo = constructGeometryFromString(geostr);
+			com.esri.ges.spatial.Geometry g = constructGeometryFromString(geostr);
+			inGeometry = constructGeometry(g);
+			com.esri.core.geometry.Geometry projGeo = GeometryEngine.project(inGeometry, srBuffer, srOut);
+			String json = GeometryEngine.geometryToJson(srOut, projGeo);
+			inGeo = spatial.fromJson(json);
 		}
 		else
 		{
-			inGeo = geo;
+			
+			inGeometry = constructGeometry(geo);
+			com.esri.core.geometry.Geometry projGeo = GeometryEngine.project(inGeometry, srBuffer, srOut);
+			String json = GeometryEngine.geometryToJson(srOut, projGeo);
+			inGeo = spatial.fromJson(json);
+			
 		}
 		String jsonGeo =  inGeo.toJson();
 		String geotype = GeometryUtility.parseGeometryType(inGeo.getType());
@@ -203,6 +213,31 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		return geOut;
 
 	}
+	private Unit queryUnit(String units)
+	{
+		UnitConverter uc = new UnitConverter();
+		String cn = uc.findConnonicalName(units);
+		int unitout = uc.findWkid(cn);
+		Unit  u = new LinearUnit(unitout);
+		return u;
+	}
+	private com.esri.core.geometry.Geometry constructGeometry(com.esri.ges.spatial.Geometry geo) throws Exception
+	{
+		try{
+			String jsonIn = geo.toJson();
+			JsonFactory jf = new JsonFactory();
+			JsonParser jp = jf.createJsonParser(jsonIn);
+			MapGeometry mgeo = GeometryEngine.jsonToGeometry(jp);
+			com.esri.core.geometry.Geometry geoIn= mgeo.getGeometry();
+			return GeometryEngine.project(geoIn, srIn, srBuffer);
+		}
+		catch(Exception e)
+		{
+			LOG.error(e.getMessage());
+			LOG.error(e.getStackTrace());
+			throw(e);
+		}
+	}
 	
 	private com.esri.ges.spatial.Geometry constructGeometryFromString(String geoString) throws GeometryException
 	{
@@ -237,19 +272,11 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		String json = GeometryEngine.geometryToJson(srIn, polygon);
 		return spatial.fromJson(json);
 	}
-	private com.esri.ges.spatial.Geometry constructBuffer(Geometry geo, double radius, String units) throws GeometryException, JsonParseException, IOException
+	
+	
+	private com.esri.ges.spatial.Geometry constructBuffer(Geometry geo, double radius, Unit u) throws GeometryException, JsonParseException, IOException
 	{
 		
-		String jsonIn = geo.toJson();
-		JsonFactory jf = new JsonFactory();
-		JsonParser jp = jf.createJsonParser(jsonIn);
-		MapGeometry mgeo = GeometryEngine.jsonToGeometry(jp);
-		com.esri.core.geometry.Geometry geoIn= mgeo.getGeometry();
-		UnitConverter uc = new UnitConverter();
-		String cn = uc.findConnonicalName(units);
-		int unitout = uc.findWkid(cn);
-		Unit  u = new LinearUnit(unitout);
-		inGeometry = GeometryEngine.project(geoIn, srIn, srBuffer);
 		com.esri.core.geometry.Geometry buffer = GeometryEngine.buffer(inGeometry, srBuffer, radius, u);
 		com.esri.core.geometry.Geometry bufferout = GeometryEngine.project(buffer, srBuffer, srOut);
 		String json = GeometryEngine.geometryToJson(srOut, bufferout);
