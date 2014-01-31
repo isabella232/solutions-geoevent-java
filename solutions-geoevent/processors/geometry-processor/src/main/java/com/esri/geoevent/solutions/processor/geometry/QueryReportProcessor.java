@@ -58,6 +58,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
 import org.joda.time.DateTime;
 
+import com.esri.core.geometry.Envelope;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.LinearUnit;
 import com.esri.core.geometry.MapGeometry;
@@ -145,16 +146,22 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 			String[] arr = eventfld.split(":");
 			String geostr = (String)ge.getField(arr[1]);
 			com.esri.ges.spatial.Geometry g = constructGeometryFromString(geostr);
-			inGeometry = constructGeometry(g);
-			com.esri.core.geometry.Geometry projGeo = GeometryEngine.project(inGeometry, srBuffer, srOut);
+			com.esri.core.geometry.Geometry polyGeo= constructGeometry(g);
+			Envelope env = new Envelope();
+			polyGeo.queryEnvelope(env);
+			inGeometry = env.getCenter();
+			com.esri.core.geometry.Geometry projGeo = GeometryEngine.project(polyGeo, srBuffer, srOut);
 			String json = GeometryEngine.geometryToJson(srOut, projGeo);
 			inGeo = spatial.fromJson(json);
 		}
 		else
 		{
 			
-			inGeometry = constructGeometry(geo);
-			com.esri.core.geometry.Geometry projGeo = GeometryEngine.project(inGeometry, srBuffer, srOut);
+			com.esri.core.geometry.Geometry polyGeo = constructGeometry(geo);
+			Envelope env = new Envelope();
+			polyGeo.queryEnvelope(env);
+			inGeometry = env.getCenter();
+			com.esri.core.geometry.Geometry projGeo = GeometryEngine.project(polyGeo, srBuffer, srOut);
 			String json = GeometryEngine.geometryToJson(srOut, projGeo);
 			inGeo = spatial.fromJson(json);
 			
