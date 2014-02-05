@@ -1,8 +1,8 @@
 ﻿#TCP Squirt Transport
 
-The TCP-Squirt transport provides an example of how to send TCP on demand.
+The TCP-Squirt transport provides an example of how to send TCP on demand. TCP Squirt is specifically designed for use with Cursor on Target Outbound connectors
 
-![Image of geomessage-adapter](TCP-Squirt.PNG)
+![Image of geomessage-adapter](TCP-Squirt.png)
 
 ## Features
 
@@ -28,13 +28,13 @@ The TCP-Squirt transport provides an example of how to send TCP on demand.
     * verifying your Maven installation
     * setting the location of the GEP Server and GEP SDK repositories
     * and any other common required steps
- * Open a command prompt and navigate to `solutions-geoevent-java/solutions-geoevent/adapters/cot-adapter`
+ * Open a command prompt and navigate to `solutions-geoevent-java/solutions-geoevent/transports/tcpSquirt-transport`
  * * Enter `mvn install` at the prompt
 
 ## Installation
 
 * Install the transport
-    * Browse to `solutions-geoevent-java/solutions-geoevent/transports/tcp-squirt/target` (this directory is created when you execute mvn install).
+    * Browse to `solutions-geoevent-java/solutions-geoevent/transports/tcpSquirt-transport/target` (this directory is created when you execute mvn install).
     * Copy the jar file and paste it into the deploy directory on your GeoEvent server (<GEP install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
 
 ## Testing
@@ -55,7 +55,7 @@ The TCP-Squirt transport provides an example of how to send TCP on demand.
   * In GeoEvent Manager go to Services->Inputs and click 'Add Input'
   * Click Add CoT the button next to Receive Cursor on Target over TCP
   * Set the CoT Types and XSD Paths to the locations of those files
-  * Make sure the Mode is set to SERVER
+  * Set a server port to listen from
   * Click Save
 * To test tcp squirt follow the instructions for setting up the CoT-Adapter(../../adapters/cot-adapter/README.md)
 * Note that one step is to create the TCP-Squirt Output and add it to the tcp service
@@ -63,6 +63,7 @@ The TCP-Squirt transport provides an example of how to send TCP on demand.
 * Run the simulation from the CoT adapter
 * Go to Services->monitor
 * Note that the the cot-tcp-in has received a message
+![Image of cottcpin monitor](doc/cot-tcp-in-monitor)
 ## Resources
 
 * Learn more about the Cursor on Target
