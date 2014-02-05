@@ -57,7 +57,7 @@ The TCP-Squirt transport provides an example of how to send TCP on demand. TCP S
   * Set the CoT Types and XSD Paths to the locations of those files
   * Set a server port to listen from
   * Click Save
-* To test tcp squirt follow the instructions for setting up the CoT-Adapter(../../adapters/cot-adapter/README.md)
+* To test tcp squirt see [building, installing, and testing the CoT Adapter  instructions](../../adapters/cot-adapter/README.md#building)
 * Note that one step is to create the TCP-Squirt Output and add it to the tcp service
 * Make sure that you set the client connection tcp port in the cot-out to the same port as the tcp server port on cot-tcp-in
 * Run the simulation from the CoT adapter
