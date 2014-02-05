@@ -64,6 +64,7 @@ The CoT adapter provides an example of how to ingest Cursor on Target (CoT) mess
     * Create a simple service to direct the Input CoT over Http to an output json file
 ![Image of create connector](doc/cot-geoevent-service.png)
     * Use an html poster application such as Firefox Poster to send messages to the CoT service
+    * Firefox Poster (https://addons.mozilla.org/en-US/firefox/addon/poster/)
 ![Image of create connector](doc/cot-poster.png)
 	* In the URL textbox put the receiver endpoint of your CoT inbound service in the form of: 'https://<host machine of geoevent server>:6143/geoevent/rest/receiver/<name of inbound service>'        
 	* Browse to the simulation_files folder downloaded from github (<install location>/solutions-geoevent-java\data\simulation_files)
