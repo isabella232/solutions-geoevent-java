@@ -53,6 +53,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.*;
 
 public class CoTAdapterOutbound extends OutboundAdapterBase {
@@ -62,7 +64,7 @@ public class CoTAdapterOutbound extends OutboundAdapterBase {
 	private Charset charset = Charset.forName("UTF-8");
 	private String dateFormat = "yyyy-MM-dd HH:mm:ss";
 	private SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
-
+	private static final Log LOG = LogFactory.getLog(CoTAdapterOutbound.class);
 
 	/**
 	 * @param definition
@@ -92,43 +94,46 @@ public class CoTAdapterOutbound extends OutboundAdapterBase {
 		GeoEventDefinition definition = geoEvent.getGeoEventDefinition();
 		System.out.println("Creating Event to marshal...");
 		Event event=new Event();
-		for (FieldDefinition fieldDefinition : definition.getFieldDefinitions())
-		{
-			try{
+		for (FieldDefinition fieldDefinition : definition.getFieldDefinitions()) {
+			try {
 				String attributeName = fieldDefinition.getName();
-				Object value = geoEvent.getField(attributeName);
-				//System.out.println("DEBUG: " + attributeName + " --- " + value.toString());
-				if (attributeName.equalsIgnoreCase("version")){
-					event.setVersion((Double) value);
-				}else if(attributeName.equalsIgnoreCase("uid")){
-					event.setUid(value.toString());
-				}else if(attributeName.equalsIgnoreCase("type")){
-					event.setType(value.toString());
-				}else if(attributeName.equalsIgnoreCase("how")){
-					event.setHow(value.toString());
-				}else if(attributeName.equalsIgnoreCase("time")){
-					event.setTime((Date) value);
-				}else if(attributeName.equalsIgnoreCase("start")){
-					event.setStart((Date) value);
-				}else if(attributeName.equalsIgnoreCase("stale")){
-					event.setStale((Date) value);
-				}else if(attributeName.equalsIgnoreCase("access")){
-					event.setAccess(value.toString());
-				}else if(attributeName.equalsIgnoreCase("opex")){
-					event.setOpex(value.toString());
-				}else if(attributeName.equalsIgnoreCase("qos")){
-					event.setQos(value.toString());
-				}else if(attributeName.equalsIgnoreCase("detail")){
-					event.setDetail(this.unpackDetial(fieldDefinition,geoEvent.getFieldGroup("detail")));
+				Object value;
+				if ((value = geoEvent.getField(attributeName)) != null) {
+					
+					if (attributeName.equalsIgnoreCase("version")) {
+						event.setVersion((Double) value);
+					} else if (attributeName.equalsIgnoreCase("uid")) {
+						event.setUid(value.toString());
+					} else if (attributeName.equalsIgnoreCase("type")) {
+						event.setType(value.toString());
+					} else if (attributeName.equalsIgnoreCase("how")) {
+						event.setHow(value.toString());
+					} else if (attributeName.equalsIgnoreCase("time")) {
+						event.setTime((Date) value);
+					} else if (attributeName.equalsIgnoreCase("start")) {
+						event.setStart((Date) value);
+					} else if (attributeName.equalsIgnoreCase("stale")) {
+						event.setStale((Date) value);
+					} else if (attributeName.equalsIgnoreCase("access")) {
+						event.setAccess(value.toString());
+					} else if (attributeName.equalsIgnoreCase("opex")) {
+						event.setOpex(value.toString());
+					} else if (attributeName.equalsIgnoreCase("qos")) {
+						event.setQos(value.toString());
+					} else if (attributeName.equalsIgnoreCase("detail")) {
+						event.setDetail(this.unpackDetial(fieldDefinition,
+								geoEvent.getFieldGroup("detail")));
 
-					//GETALLFIELDS 
-					//CHECK ITS TYPE IF GROUP THEN INSPECT THEM
-				}else if(attributeName.equalsIgnoreCase("point")){
-					event.setPoint(pointFromJson(value));
+						// GETALLFIELDS
+						// CHECK ITS TYPE IF GROUP THEN INSPECT THEM
+					} else if (attributeName.equalsIgnoreCase("point")) {
+						Point p = pointFromJson(value);
+						event.setPoint(pointFromJson(p));
+					}
 				}
 
-			}catch(Exception e){
-			
+			} catch (Exception e) {
+				LOG.error(e.getMessage());
 			}
 
 		}
@@ -221,10 +226,15 @@ public class CoTAdapterOutbound extends OutboundAdapterBase {
 	
 	private Point pointFromJson(Object value) {
 		//JSONObject json = (JSONObject) JSONSerializer.toJSON( jsonTxt );
+		if(value instanceof com.esri.ges.spatial.Point)
+		{
+			com.esri.ges.spatial.Point p = (com.esri.ges.spatial.Point)value;
+			
+		}
 		Point point=new Point();
 		JsonFactory jf= new JsonFactory();
 		try {
-			JsonParser parser=jf.createJsonParser((String) value);
+			JsonParser parser=jf.createJsonParser(value.toString());
 			parser.nextValue();//skips the initial JsonToken.START_OBJECT
 			while (parser.nextToken() != JsonToken.END_OBJECT) {
 				String field_name=parser.getCurrentName();

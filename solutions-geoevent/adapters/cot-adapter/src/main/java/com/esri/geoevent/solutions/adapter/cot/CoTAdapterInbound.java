@@ -78,7 +78,7 @@ import com.esri.ges.spatial.Geometry;
 
 public class CoTAdapterInbound extends InboundAdapterBase {
 	private static final Log log = LogFactory.getLog(CoTAdapterInbound.class);
-
+	
 	private static final int GCS_WGS_1984 = 4326;
 	@SuppressWarnings("unused")
 	private String guid;

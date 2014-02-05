@@ -54,6 +54,7 @@ public class CoTAdapterServiceInbound extends AdapterServiceBase
 		XmlAdapterDefinition xmlAdapterDef = new XmlAdapterDefinition(getResourceAsStream("input-adapter-definition.xml"));
 		try {
 			xmlAdapterDef.loadConnector(getResourceAsStream("input-connector-definition.xml"));
+			xmlAdapterDef.loadConnector(getResourceAsStream("input-connector-cot-tcp-definition.xml"));
 			definition = xmlAdapterDef;
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
