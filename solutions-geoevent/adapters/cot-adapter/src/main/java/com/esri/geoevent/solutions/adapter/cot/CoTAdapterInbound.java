@@ -30,15 +30,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.ByteBuffer;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+//import java.text.DateFormat;
+//import java.text.ParseException;
+//import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TimeZone;
+//import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,6 +80,7 @@ public class CoTAdapterInbound extends InboundAdapterBase {
 	private static final Log log = LogFactory.getLog(CoTAdapterInbound.class);
 
 	private static final int GCS_WGS_1984 = 4326;
+	@SuppressWarnings("unused")
 	private String guid;
 
 	// this ArrayList contains ALL the type defs but it must be used differently
@@ -137,7 +138,7 @@ public class CoTAdapterInbound extends InboundAdapterBase {
 						log.error("Cannot set the maximum buffer size to "
 								+ maxBufferSize);
 					} else
-						this.maxBufferSize = maxBufferSize;
+						this.setMaxBufferSize(maxBufferSize);
 				}
 			}
 			if (hasProperty(CoTAdapterServiceInbound.COT_TYPES_PATH_LABEL)) {
@@ -214,7 +215,7 @@ public class CoTAdapterInbound extends InboundAdapterBase {
 			log.error(e.getStackTrace());
 		}
 	}
-
+	/*may need this function for future enhancements
 	private void parseUsingDocument(String xml, String channelId) {
 		if (buffers.containsKey(channelId)) {
 			String temp = buffers.remove(channelId);
@@ -310,7 +311,7 @@ public class CoTAdapterInbound extends InboundAdapterBase {
 			log.debug("Error while parsing the message : " + xml);
 			return;
 		}
-	}
+	}*/
 
 	/*
 	 * Called from the MessageParser when the Event tag is closed.
@@ -425,14 +426,15 @@ public class CoTAdapterInbound extends InboundAdapterBase {
 			return 2.0;
 		}
 	}
-
+	/*may use for future enhancements
 	private String scanForEvent(String buffer) {
 		int index = buffer.indexOf("<?xml version'", 1);
 		if (index > 0)
 			return buffer.substring(index);
 		return null;
-	}
+	}*/
 
+	@SuppressWarnings("incomplete-switch")
 	private void traverseBranch(Node node, FieldGroup fieldGroup,
 			FieldDefinition fieldDefinition) throws FieldException {
 		try {
@@ -982,6 +984,22 @@ public class CoTAdapterInbound extends InboundAdapterBase {
 		
 
 		return null;
+	}
+
+	public int getMaxBufferSize() {
+		return maxBufferSize;
+	}
+
+	public void setMaxBufferSize(int maxBufferSize) {
+		this.maxBufferSize = maxBufferSize;
+	}
+
+	public HashMap<String, String> getBuffers() {
+		return buffers;
+	}
+
+	public void setBuffers(HashMap<String, String> buffers) {
+		this.buffers = buffers;
 	}
 
 }

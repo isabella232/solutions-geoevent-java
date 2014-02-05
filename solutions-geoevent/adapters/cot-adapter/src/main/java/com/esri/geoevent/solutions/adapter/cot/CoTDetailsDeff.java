@@ -55,40 +55,6 @@ public class CoTDetailsDeff {
 
 	}
 
-	private ArrayList<String> getNewNames(Node n) {
-		// drilldown to get the names and their corresponding types.
-		ArrayList<String> myTempNames = new ArrayList<String>();
-		ArrayList<String> myNewNames = new ArrayList<String>();
-
-		// now parse through them to append the types to the preceding item.
-
-		// note we dont want to grab the very last element yet
-		for (int i = 0; i < myTempNames.size() - 1; i++) {
-			System.out.println(myTempNames.get(i));
-
-			if (myTempNames.get(i).startsWith(".")
-					&& myTempNames.get(i + 1).startsWith("&")) {
-				myNewNames.add("detail"
-						+ myTempNames.get(i).concat(myTempNames.get(i + 1)));
-
-			} else if (myTempNames.get(i).startsWith(".")
-					&& !myTempNames.get(i + 1).startsWith("&")) {
-				myNewNames
-				.add("detail" + myTempNames.get(i).concat("&String&"));
-			}
-		}
-
-		// now check on the last element (special case)
-		if (myTempNames.get(myTempNames.size() - 1).startsWith(".")) {
-			myNewNames.add("detail"
-					+ myTempNames.get(myTempNames.size() - 1)
-					.concat("&String&"));
-
-		}
-
-		return myNewNames;
-	}
-
 	public ArrayList<String> getNewAttribs()
 	{
 		return this.newAttribs;

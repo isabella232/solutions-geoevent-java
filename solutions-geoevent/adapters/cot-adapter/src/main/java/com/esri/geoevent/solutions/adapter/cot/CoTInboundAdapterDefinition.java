@@ -33,15 +33,10 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.xml.sax.InputSource;
-
-import com.esri.ges.adapter.Adapter;
-import com.esri.ges.adapter.AdapterDefinition;
 import com.esri.ges.adapter.AdapterDefinitionBase;
 import com.esri.ges.adapter.AdapterType;
 import com.esri.ges.core.ConfigurationException;
-import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.DefaultFieldDefinition;
 import com.esri.ges.core.geoevent.DefaultGeoEventDefinition;
 import com.esri.ges.core.geoevent.FieldDefinition;
@@ -51,7 +46,6 @@ import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.core.property.PropertyType;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
-import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManagerException;
 import com.esri.ges.spatial.Spatial;
 
 public class CoTInboundAdapterDefinition extends AdapterDefinitionBase {
@@ -149,33 +143,6 @@ public class CoTInboundAdapterDefinition extends AdapterDefinitionBase {
 
 	public ArrayList<CoTDetailsDeff> getDynamicMessageAttributes() {
 		return this.dynamicMessageAttributes;
-	}
-
-	private String extractName(String nameAndType) {
-		return nameAndType.substring(0, nameAndType.indexOf("&"));
-
-	}
-
-	private FieldType extractType(String nameAndType) {
-
-		/*
-		 * NEED TO ACCOUNT FOR THE FOLLOWING TYPES: FieldType.Date;
-		 * FieldType.Boolean; FieldType.Double; DONE
-		 * FieldType.Geometry; FieldType.Integer; DONE
-		 * FieldType.Long; FieldType.Short; FieldType.String; DONE
-		 */
-
-		if (nameAndType.toLowerCase().contains("decimal")) {
-			return FieldType.Double;
-
-		} else if (nameAndType.toLowerCase().contains("integer")) {
-			return FieldType.Integer;
-
-		} else {
-			return FieldType.String;
-
-		}
-
 	}
 
 	@Override
@@ -335,20 +302,5 @@ public class CoTInboundAdapterDefinition extends AdapterDefinitionBase {
 
 		return retFiles;
 
-	}
-
-	
-	
-
-	private static void report( int indent, FieldDefinition def )
-	{
-		for( int i = 0; i < indent; i++ )
-			System.out.print(" ");
-		System.out.println( def );
-		if( def.getType() == FieldType.Group )
-		{
-			for( FieldDefinition child : def.getChildren() )
-				report( indent + 4, child);
-		}
 	}	
 }

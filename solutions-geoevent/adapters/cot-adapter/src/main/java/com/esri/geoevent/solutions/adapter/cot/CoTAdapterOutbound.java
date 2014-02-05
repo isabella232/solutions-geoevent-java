@@ -256,4 +256,28 @@ public class CoTAdapterOutbound extends OutboundAdapterBase {
 
 	}
 
+	public ByteBuffer getByteBuffer() {
+		return byteBuffer;
+	}
+
+	public void setByteBuffer(ByteBuffer byteBuffer) {
+		this.byteBuffer = byteBuffer;
+	}
+
+	public Charset getCharset() {
+		return charset;
+	}
+
+	public void setCharset(Charset charset) {
+		this.charset = charset;
+	}
+
+	public SimpleDateFormat getFormatter() {
+		return formatter;
+	}
+
+	public void setFormatter(SimpleDateFormat formatter) {
+		this.formatter = formatter;
+	}
+
 }

@@ -24,7 +24,7 @@ package com.esri.geoevent.solutions.adapter.cot;
  */
 
 
-import java.io.ByteArrayInputStream;
+//import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -97,7 +97,9 @@ public class CoTAdapter extends InboundAdapterBase
 	private int maxBufferSize;
 
 	private SAXParserFactory saxFactory;
+	@SuppressWarnings("unused")
 	private SAXParser saxParser;
+	@SuppressWarnings("unused")
 	private MessageParser messageParser;
 
 
@@ -107,9 +109,6 @@ public class CoTAdapter extends InboundAdapterBase
 		super(adapterDefinition);
 
 		this.guid = guid;
-		CoTAdapterService cotas = (CoTAdapterService) adapterDefinition;
-
-		//this.coTTypeMap = CoTUtilities.getCoTTypeMap(this.getClass().getResourceAsStream( cotas.getPropertyDefinitions().get("CoT Types Path").getDefaultValue().toString()));
 
 		messageParser = new MessageParser(null);
 		saxFactory = SAXParserFactory.newInstance();
@@ -197,7 +196,8 @@ public class CoTAdapter extends InboundAdapterBase
 		//parseUsingStream(buf);
 	}
 
-	private void parseUsingStream( ByteBuffer bb )
+	//Might need this block for future enhancements...
+	/*private void parseUsingStream( ByteBuffer bb )
 	{
 		try
 		{
@@ -215,7 +215,7 @@ public class CoTAdapter extends InboundAdapterBase
 		{
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	private void parseUsingDocument( String xml, String channelId )
 	{
@@ -315,6 +315,7 @@ public class CoTAdapter extends InboundAdapterBase
 		return null;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	private void traverseBranch(Node node, FieldGroup fieldGroup, FieldDefinition fieldDefinition) throws FieldException
 	{
 		if( node == null ) return;

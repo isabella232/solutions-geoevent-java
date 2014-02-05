@@ -2,7 +2,7 @@
 
 The CoT adapter provides an example of how to ingest Cursor on Target (CoT) messages as geoevents.
 
-![Image of geomessage-adapter](CursorOnTarget.JPG)
+![Image of geomessage-adapter](CursorOnTarget.PNG)
 
 ## Features
 
@@ -75,7 +75,7 @@ The CoT adapter provides an example of how to ingest Cursor on Target (CoT) mess
 * Repeat with the other simulation files if desired
 ## Resources
 
-* Learn more about the Common Alerting Protocol
+* Learn more about the Cursor on Target
     * [CoT](http://cot.mitre.org/index.html)
 ## Licensing
 

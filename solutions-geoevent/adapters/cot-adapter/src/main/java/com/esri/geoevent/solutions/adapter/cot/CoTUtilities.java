@@ -129,7 +129,7 @@ public class CoTUtilities {
 				return UNKNOWN_SYMBOL;
 			}
 		} catch (Exception generalException) {
-			generalException.printStackTrace();
+			log.error(generalException);
 		} finally {
 		}
 
@@ -230,7 +230,7 @@ public class CoTUtilities {
 
 				} else if (attrs.getLength() == 2 && name.equals("cot")) {
 					String zero = attrs.item(0).getNodeName();
-					String one = attrs.item(1).getNodeName();
+					
 					// make sure we are grabbing the elements in the right order
 					int k = 0;
 					int v = 1;
@@ -247,7 +247,7 @@ public class CoTUtilities {
 				} else if (attrs.getLength() == 2 && name.equals("weapon")) {
 
 					String zero = attrs.item(0).getNodeName();
-					String one = attrs.item(1).getNodeName();
+					
 					// make sure we are grabbing the elements in the right order
 					int k = 0;
 					int v = 1;
@@ -264,7 +264,6 @@ public class CoTUtilities {
 				} else if (attrs.getLength() == 2 && name.equals("relation")) {
 
 					String zero = attrs.item(0).getNodeName();
-					String one = attrs.item(1).getNodeName();
 					// make sure we are grabbing the elements in the right order
 					int k = 0;
 					int v = 1;
@@ -281,7 +280,6 @@ public class CoTUtilities {
 				} else if (attrs.getLength() == 2 && name.equals("how")) {
 
 					String zero = attrs.item(0).getNodeName();
-					String one = attrs.item(1).getNodeName();
 					// make sure we are grabbing the elements in the right order
 					int k = 0;
 					int v = 1;
@@ -298,7 +296,6 @@ public class CoTUtilities {
 
 				} else if (attrs.getLength() == 2 && name.equals("is")) {
 					String zero = attrs.item(0).getNodeName();
-					String one = attrs.item(1).getNodeName();
 					// make sure we are grabbing the elements in the right order
 					int k = 0;
 					int v = 1;
@@ -319,7 +316,6 @@ public class CoTUtilities {
 					}
 				} else if (attrs.getLength() == 2 && name.equals("how")) {
 					String zero = attrs.item(0).getNodeName();
-					String one = attrs.item(1).getNodeName();
 					// make sure we are grabbing the elements in the right order
 					int k = 0;
 					int v = 1;

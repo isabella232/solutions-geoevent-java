@@ -148,20 +148,15 @@ public class CoTAdapterService extends AdapterDefinitionBase implements AdapterS
 	public ArrayList<CoTDetailsDeff> getDynamicMessageAttributes() {
 		return this.dynamicMessageAttributes;
 	}
-
+	/* keep for future enhancement
 	private String extractName(String nameAndType) {
 		return nameAndType.substring(0, nameAndType.indexOf("&"));
 
-	}
-
+	}*/
+	/* keep for future enhancement
 	private FieldType extractType(String nameAndType) {
 
-		/*
-		 * NEED TO ACCOUNT FOR THE FOLLOWING TYPES: FieldType.Date;
-		 * FieldType.Boolean; FieldType.Double; DONE
-		 * FieldType.Geometry; FieldType.Integer; DONE
-		 * FieldType.Long; FieldType.Short; FieldType.String; DONE
-		 */
+		
 
 		if (nameAndType.toLowerCase().contains("decimal")) {
 			return FieldType.Double;
@@ -174,7 +169,7 @@ public class CoTAdapterService extends AdapterDefinitionBase implements AdapterS
 
 		}
 
-	}
+	}*/
 
 	@Override
 	public String getName()
@@ -372,7 +367,7 @@ public class CoTAdapterService extends AdapterDefinitionBase implements AdapterS
 	{
 		try
 		{
-			GeoEventDefinition cotDef = new DefaultGeoEventDefinition();
+			//GeoEventDefinition cotDef = new DefaultGeoEventDefinition();
 			FieldDefinition detailsField = new DefaultFieldDefinition("detail", FieldType.Group);
 			CoTAdapterService service = new CoTAdapterService();
 			service.getAdditionalSchemasFromXSDFolder(detailsField);
