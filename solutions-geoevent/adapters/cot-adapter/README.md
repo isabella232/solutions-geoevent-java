@@ -78,6 +78,7 @@ The CoT adapter provides an example of how to ingest Cursor on Target (CoT) mess
 
 * Learn more about the Cursor on Target
     * [CoT](http://cot.mitre.org/index.html)
+
 ## Licensing
 
 Copyright 2013 Esri
