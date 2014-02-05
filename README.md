@@ -10,6 +10,7 @@ The solutions-geoevent-java repository includes custom connectors for use with [
 * [Geomessage Adapter](solutions-geoevent/adapters/geomessage-adapter/README.md)
 * [Common Alert Protocol (CAP) Adapter](solutions-geoevent/adapters/CAP-adapter/README.md)
 * [Geometry Processor](solutions-geoevent/processors/geometry-processor/README.md)
+* [CoT Adapter](solutions-geoevent/processors/cot-adapter/README.md)
 
 ## Sections
 
