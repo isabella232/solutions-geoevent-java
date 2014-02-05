@@ -2,7 +2,7 @@
 
 The TCP-Squirt transport provides an example of how to send TCP on demand. TCP Squirt is specifically designed for use with Cursor on Target Outbound connectors
 
-![Image of geomessage-adapter](TCP-Squirt.png)
+![Image of geomessage-adapter](doc/TCP-Squirt.png)
 
 ## Features
 
@@ -63,7 +63,7 @@ The TCP-Squirt transport provides an example of how to send TCP on demand. TCP S
 * Run the simulation from the CoT adapter
 * Go to Services->monitor
 * Note that the the cot-tcp-in has received a message
-![Image of cottcpin monitor](doc/cot-tcp-in-monitor)
+![Image of cottcpin monitor](doc/cot-tcp-in-monitor.png)
 ## Resources
 
 * Learn more about the Cursor on Target
