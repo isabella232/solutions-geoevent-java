@@ -1,13 +1,13 @@
-﻿# CAP-Adapter
+﻿# CAP Adapter
 
-The CAP adapter provides an example of how to ingest Common Alerting Protocol (CAP) XML messages as geoevents.
+The CAP Adapter provides an example of how to stream Common Alerting Protocol (CAP) XML messages as GeoEvents into ArcGIS GeoEvent Processor for Server.
 
 ![Image of geomessage-adapter](CAP_logo.JPG)
 
 ## Features
 
-* Receives XML messages conforming to the CAP message format
-* Converts message received using available GEP definitions
+* Receives XML messages conforming to the CAP message format.
+* Converts messages received using available GeoEvent Definitions.
 
 ## Sections
 
@@ -26,16 +26,16 @@ The CAP adapter provides an example of how to ingest Common Alerting Protocol (C
 
 * See the [solutions-geoevent-java instructions](../../../README.md#instructions) for general instructions on 
     * verifying your Maven installation
-    * setting the location of the GEP Server and GEP SDK repositories
+    * setting the location of the GeoEvent Processor and GeoEvent Processor SDK repositories
     * and any other common required steps
  * Open a command prompt and navigate to `solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter`
  * * Enter `mvn install` at the prompt
 
 ## Installation
 
-* Install the adapter
+* Install the CAP Adapter
     * Browse to `solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter/target` (this directory is created when you execute mvn install).
-    * Copy the jar file and paste it into the deploy directory on your GeoEvent server (<GEP install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
+    * Copy the .jar file and paste it into the deploy directory on your GeoEvent server ([GeoEvent Processor install location]\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy).
 
 ## Testing
 
@@ -45,40 +45,39 @@ The CAP adapter provides an example of how to ingest Common Alerting Protocol (C
 
 ### Testing with Simulated Test Data
 
-* In the following steps you will configure GEP to receive and process simulated CAP data
-* Open the GEP Manager web application
-* Create a connector to receive file data updated to a folder
-    * Navigate to ‘Site’ > ‘GeoEvent Processor’ > 'Connectors'
-    * Select Create Connector and configure as shown
+* In the following steps you will configure GeoEvent Processor to receive and process simulated CAP messages.
+* Open GeoEvent Processor Manager.
+* Create a connector to receive file data updated to a folder.
+    * Navigate to ‘Site’ > ‘GeoEvent Processor’ > 'Connectors'.
+    * Select 'Create Connector' and configure as illustrated below.
 
 ![Image of create connector](doc/create-connector.png)
 
-* Next use the GEP Manager and Service Designer to
-    * Create an Input to receive file data using the created connector 
-    * Create an Output to observe received data
-    * Create a simple service to direct the Input data to the Output
+* Next use the GeoEvent Processor Manager to:
+    * Create an Input Connector to receive file data using the connector created above. 
+    * Create an Output Connector to observe received data.
+    * Create a simple GeoEvent Service to direct the input data to the output.
 
-* An example of a simple file/folder input is shown below 
-    * Choose the Input Connector "Watch a folder for new .json files"
-    * Note: this will work for any file type, just select a wildcard or other compatible file filter
-    * An example Input is shown below
+* An example of a simple file/folder input is illustrated below: 
+    * Choose the Input Connector 'Watch a folder for new .json files'. Note: this connector will work for any file type, just select a wildcard or other compatible file filter.
+    * An example Input Connector configuration is illustrated below.
 
 ![Image of input settings](doc/input-settings.png)
 
-* An example of a simple service is shown below 
+* An example of a simple GeoEvent Service is illustrated below. 
 
 ![Image of service](doc/service.png)
 
-* Navigate to ‘Services’ > ‘Monitor’ and observe that you have a configuration similar to the following (note: your names/outputs may differ)
+* In GeoEvent Processor Manager, navigate to ‘Services’ > ‘Monitor’ and observe the GeoEvent Processor components, the should be similar to the illustratoin below (note: your names/outputs may differ).
 
 ![Image of monitor](doc/monitor.png)
 
-* One at a time, copy the "CAP-" XML files from solutions-geoevent-java\data\simulation_files into the input folder created during the Input step and observe that the values increase on the monitor and the selected outputs are updated. 
-    * Note: each CAP message may generate multiple geoevents
+* One at a time, copy the "CAP-" XML files from solutions-geoevent-java\data\simulation_files into the input folder created during the input step and observe the values increase on the Monitor page and the selected outputs are updated. 
+    * Note: each CAP message may generate multiple geoevents.
 
 ### Testing with Live Data Feeds
 
-* Multiple government sites exist that publish CAP message data over HTTP and REST. See the resources sections for links to these sites and the GEP documentation for how to configure appropriate connectors.
+* Several government sites exist that publish CAP message data over HTTP and REST. See the resources sections for links to these sites and the GeoEvent Processor documentation and tutorials to learn how to configure appropriate connectors.
 
 ## Resources
 
