@@ -19,8 +19,8 @@ The CAP Adapter provides an example of how to stream Common Alerting Protocol (C
 
 ## Requirements
 
-* See common [solutions-geoevent-java requirements](../../../README.md#requirements)
-* There are no additional requirements for this project
+* See common [solutions-geoevent-java requirements](../../../README.md#requirements).
+* There are no additional requirements for this project.
 
 ## Building 
 
@@ -29,11 +29,11 @@ The CAP Adapter provides an example of how to stream Common Alerting Protocol (C
     * setting the location of the GeoEvent Processor and GeoEvent Processor SDK repositories
     * and any other common required steps
  * Open a command prompt and navigate to `solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter`
- * * Enter `mvn install` at the prompt
+ * * Enter `mvn install` at the prompt.
 
 ## Installation
 
-* Install the CAP Adapter
+* Install the CAP Adapter.
     * Browse to `solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter/target` (this directory is created when you execute mvn install).
     * Copy the .jar file and paste it into the deploy directory on your GeoEvent server ([GeoEvent Processor install location]\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy).
 
@@ -59,7 +59,7 @@ The CAP Adapter provides an example of how to stream Common Alerting Protocol (C
     * Create a simple GeoEvent Service to direct the input data to the output.
 
 * An example of a simple file/folder input is illustrated below: 
-    * Choose the Input Connector 'Watch a folder for new .json files'. Note: this connector will work for any file type, just select a wildcard or other compatible file filter.
+    * Choose the Input Connector 'Watch a folder for new .json files' (note: this connector will work for any file type, just select a wildcard or other compatible file filter).
     * An example Input Connector configuration is illustrated below.
 
 ![Image of input settings](doc/input-settings.png)
@@ -68,12 +68,12 @@ The CAP Adapter provides an example of how to stream Common Alerting Protocol (C
 
 ![Image of service](doc/service.png)
 
-* In GeoEvent Processor Manager, navigate to ‘Services’ > ‘Monitor’ and observe the GeoEvent Processor components, the should be similar to the illustratoin below (note: your names/outputs may differ).
+* In GeoEvent Processor Manager, navigate to ‘Services’ > ‘Monitor’ and observe the GeoEvent Processor components, they should be similar to the illustration below (note: your names/outputs may differ).
 
 ![Image of monitor](doc/monitor.png)
 
 * One at a time, copy the "CAP-" XML files from solutions-geoevent-java\data\simulation_files into the input folder created during the input step and observe the values increase on the Monitor page and the selected outputs are updated. 
-    * Note: each CAP message may generate multiple geoevents.
+    * Note: each CAP message may generate multiple GeoEvents.
 
 ### Testing with Live Data Feeds
 
