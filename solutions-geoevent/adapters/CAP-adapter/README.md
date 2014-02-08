@@ -28,14 +28,14 @@ The CAP Adapter provides an example of how to stream Common Alerting Protocol (C
     * verifying your Maven installation
     * setting the location of the GeoEvent Processor and GeoEvent Processor SDK repositories
     * and any other common required steps
- * Open a command prompt and navigate to `solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter`
- * * Enter `mvn install` at the prompt.
+* Open a command prompt and navigate to `solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter`
+    * Enter `mvn install` at the prompt.
 
 ## Installation
 
 * Install the CAP Adapter.
     * Browse to `solutions-geoevent-java/solutions-geoevent/adapters/CAP-adapter/target` (this directory is created when you execute mvn install).
-    * Copy the .jar file and paste it into the deploy directory on your GeoEvent server ([GeoEvent Processor install location]\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy).
+    * Copy the .jar file and paste it into the deploy folder in the GeoEvent Processor install directory ([GeoEvent Processor install location]\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy).
 
 ## Testing
 
