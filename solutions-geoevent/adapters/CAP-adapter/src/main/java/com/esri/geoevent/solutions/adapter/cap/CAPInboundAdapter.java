@@ -31,6 +31,7 @@ import org.w3c.dom.*;
 import org.xml.sax.*;
 
 import com.esri.core.geometry.GeometryEngine;
+import com.esri.core.geometry.SpatialReference;
 import com.esri.ges.adapter.AdapterDefinition;
 import com.esri.ges.adapter.InboundAdapterBase;
 import com.esri.ges.core.component.ComponentException;
@@ -682,7 +683,7 @@ public class CAPInboundAdapter extends InboundAdapterBase
 		try
 		{
 			msg = geoEventCreator.create(((AdapterDefinition)definition).getGeoEventDefinition("CAPInfoAreaGeom").getGuid()); 
-			
+			Integer len = identifier.length();
 			try{msg.setField(0, identifier);}catch(Exception ex){LOG.debug("Failed to set 'identifier': " + identifier);}
             try{msg.setField(1, infoID);}catch(Exception ex){LOG.debug("Failed to set 'infoID': " + infoID);}
             try{msg.setField(2, areaID);}catch(Exception ex){LOG.debug("Failed to set 'areaID': " + areaID);}
@@ -703,8 +704,8 @@ public class CAPInboundAdapter extends InboundAdapterBase
             	String[] coords = strValue.split(" ");
             	if (coords.length >= 4 )
             	{
-            		String firstCoordPair = coords[1];
-            		String lastCoordPair = coords[coords.length - 1];
+            		String firstCoordPair = coords[0].trim();
+            		String lastCoordPair = coords[coords.length - 1].trim();
             		boolean firstAndLastCoordsAreEqual = firstCoordPair.equals(lastCoordPair);
             		if (!firstAndLastCoordsAreEqual) {
             			System.out.println("      Invalid coordinate list.");
@@ -714,36 +715,36 @@ public class CAPInboundAdapter extends InboundAdapterBase
             			
             		try
             		{
-            		    Point gepPt = spatial.createPoint(-10,10,4326);
-            			gepWGS = gepPt.getSpatialReference();
-            			com.esri.ges.spatial.Polygon polyG = spatial.createPolygon();
-            			String coordPair = coords[0];
-            			String[] xAndY = coordPair.split(",");
-            			Double y = Double.parseDouble(xAndY[0]);
-            			Double x = Double.parseDouble(xAndY[1]);            			
-            			polyG.setSpatialReference(gepWGS);        			 
-						polyG.startPath(x, y, 0);
-						for (int p = 2; p<coords.length;p++)
-						{
-							coordPair = coords[p];
-							xAndY = coordPair.split(",");
-							y = Double.parseDouble(xAndY[0]);
-							x = Double.parseDouble(xAndY[1]); 
-							if (Double.isNaN(y) | y == 0)
+            			SpatialReference sr = SpatialReference.create(4326);
+            			com.esri.core.geometry.Polygon capPoly = new com.esri.core.geometry.Polygon();
+            			Boolean first = true;
+            			for(String pair: coords)
+            			{
+            				String[] xyArr = pair.split(",");
+            				Double y = Double.parseDouble(xyArr[0].trim());
+            				Double x = Double.parseDouble(xyArr[1].trim());
+            				if (Double.isNaN(y) | y == 0)
 								continue;
 							if (Double.isNaN(x) | x == 0)
-								continue;            			            			
-							polyG.lineTo(x, y, 0);            			
-						}
-						if (!firstAndLastCoordsAreEqual)
-						{							
-						
-						}
-						polyG.closeAllPaths();
-						msg.setField(7, polyG);
-						System.out.println("");
-						System.out.println("      Set a polygon geometry for " + areaID + ".");
-						System.out.println("");
+								continue;
+            				com.esri.core.geometry.Point p = GeometryEngine.project(x, y, sr);
+            				if(first)
+            				{
+            					capPoly.startPath(p);
+            					first=false;
+            				}
+            				else
+            				{
+            					capPoly.lineTo(p);
+            				}
+            			}
+            			capPoly.closeAllPaths();
+            			com.esri.core.geometry.Geometry simple = GeometryEngine.simplify(capPoly, sr);
+            			String json = GeometryEngine.geometryToJson(sr, simple);
+            			com.esri.ges.spatial.Geometry geo = spatial.fromJson(json);
+            			
+            			msg.setGeometry(geo);
+            			
             		}
             		catch(Exception ex)
             		{
