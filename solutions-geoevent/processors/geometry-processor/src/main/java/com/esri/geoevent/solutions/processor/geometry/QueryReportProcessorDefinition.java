@@ -287,7 +287,7 @@ public class QueryReportProcessorDefinition extends
 					pdDistanceToken);
 
 			PropertyDefinition pField = new PropertyDefinition("field",
-					PropertyType.ArcGISField, null, "Layer", "layer to query",
+					PropertyType.ArcGISField, null, "Field", "Field to query",
 					true, false);
 			propertyDefinitions.put(pField.getPropertyName(), pField);
 

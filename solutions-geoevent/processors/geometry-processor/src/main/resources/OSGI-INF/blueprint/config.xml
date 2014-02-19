@@ -27,8 +27,9 @@
 	</bean>
 
 	<bean id="bufferProcessorServiceBean"
-		class="com.esri.geoevent.solutions.processor.geometry.BufferProcessorService">
+		class="com.esri.geoevent.solutions.processor.geometry.BufferProcessorService" init-method="start">
 		<property name="bundleContext" ref="blueprintBundleContext" />
+		<property name="manager" ref="geoDefManagerService" />
 		<property name="spatial" ref="spatialService" />
 	</bean>
 
@@ -68,7 +69,5 @@
 	<service id="visibilityProcessorService" ref="visibilityProcessorServiceBean"
 		interface="com.esri.ges.processor.GeoEventProcessorService" />
 	<service id="queryReportProcessorService" ref="queryReportProcessorServiceBean"
-		interface="com.esri.ges.processor.GeoEventProcessorService" />
-	<service id="polygonProcessorService" ref="polygonProcessorServiceBean"
 		interface="com.esri.ges.processor.GeoEventProcessorService" />
 </blueprint>

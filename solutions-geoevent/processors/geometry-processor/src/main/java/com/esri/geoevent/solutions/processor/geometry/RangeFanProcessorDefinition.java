@@ -146,7 +146,7 @@ public class RangeFanProcessorDefinition extends GeoEventProcessorDefinitionBase
 					"Output Coordinate system", true, false);
 			propertyDefinitions.put(procWKIDOut.getPropertyName(), procWKIDOut);
 
-			PropertyDefinition procShowVis = new PropertyDefinition(
+			/*PropertyDefinition procShowVis = new PropertyDefinition(
 					"showVisibility", PropertyType.Boolean, false,
 					"Process Visibility", "Process visibility polygons", true,
 					false);
@@ -180,7 +180,7 @@ public class RangeFanProcessorDefinition extends GeoEventProcessorDefinitionBase
 			procUnitsElev.addAllowedValue("Feet");
 			procUnitsElev.setDependsOn("showVisibility=true");
 			propertyDefinitions.put(procUnitsElev.getPropertyName(),
-					procUnitsElev);
+					procUnitsElev);*/
 		} catch (PropertyException e) {
 			LOG.error("Geometry processor");
 			LOG.error(e.getMessage());
