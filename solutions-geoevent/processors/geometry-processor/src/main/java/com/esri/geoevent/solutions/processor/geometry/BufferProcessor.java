@@ -85,7 +85,8 @@ public class BufferProcessor extends GeoEventProcessorBase {
 		SpatialReference srBuffer = SpatialReference.create(wkidbuffer);
 		SpatialReference srOut = SpatialReference.create(wkidout);
 		UnitConverter uc = new UnitConverter();
-		int unitout = uc.findWkid(units);
+		String c_name = uc.findConnonicalName(units);
+		int unitout = uc.findWkid(c_name);
 		Unit  u = new LinearUnit(unitout);
 		Point centerProj = (Point) GeometryEngine.project(center, srIn, srBuffer);
 		Geometry buffer = GeometryEngine.buffer(centerProj, srBuffer, radius, u);
