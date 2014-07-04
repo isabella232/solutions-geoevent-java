@@ -55,6 +55,9 @@ Below are instructions for creating your own map of current weather (provided by
             *  buoy-regexText-in
             *  metar-regexText-in
     *  Check that all have a status of STARTED, and start any that are not
+    *  Note that if, for any reason, your outputs start after your geoevent services, or if they require some tweaking of parameters before they work, then the Update Only Processor may start filtering out data that it believes has already been received. Once you have your outputs working, it is therefore a good idea to clear the cache in the Update Only Processor within each of the METAR and BUOY GeoEvent Services. To do this, in the Update Only Processor Properties, click "Yes" to clear the cache, then 'OK', and then 'Publish' the services again.
+
+![Image of update only processor](updateOnlyProcessor.png)
 
 *  Finally, view the service you created above in a map to see the stations with up-to-date weather information against them. In a web map, you can set your layers to refresh at an appropriate interval to ensure they show up-to-date information.
 
@@ -71,7 +74,7 @@ Below are instructions for creating your own map of current weather (provided by
    ... then consider using NOAA's data query services in order to refine your input and so save on bandwidth. These services can output data as comma-separated values (CSV). Details of how to construct a URL to query these services can be found here:
     *  BUOY:  http://sdf.ndbc.noaa.gov/sos/
     *  METAR: https://aviationweather.gov/adds/dataserver
-   An alternative would be to add Filter Processors (perhaps using GeoFences) to achieve the same effect in GeoEvent Processor itself. Your decision on the appropriate route to take should be based on a balanced view of the additional use of processing resources on NOAA's servers that frequent use of their query services would imply, against any savings in bandwidth that might be achieved.
+    *  An alternative would be to add Filter Processors (perhaps using GeoFences) to achieve the same effect in GeoEvent Processor itself. Your decision on the appropriate route to take should be based on a balanced view of the additional use of processing resources on NOAA's servers that frequent use of their query services would imply, against any savings in bandwidth that might be achieved.
    
  *  Having got up-and-running, you could now extend and enhance your use of the data using your existing GeoEvent Processor configuration skills. For example:
      *  Add filters or field reducers to restrict the data flowing through (e.g. to a geographic area or to just a few weather parameters)
