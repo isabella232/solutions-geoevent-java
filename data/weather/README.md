@@ -2,7 +2,7 @@
 
 Below are instructions for creating your own map of current weather (provided by NOAA) that is frequently updated through the GeoEvent Processor for Server.  The regex Text Adapter and the Update Only Processor are both employed.
 
-![Image of weather map](weatherMap.JPG) [TODO]
+![Image of weather map](weatherMap.JPG)
 
 ## Features
 
@@ -61,7 +61,7 @@ Below are instructions for creating your own map of current weather (provided by
 
 *  Finally, view the service you created above in a map to see the stations with up-to-date weather information against them. In a web map, you can set your layers to refresh at an appropriate interval to ensure they show up-to-date information.
 
-*  SEE IT LIVE: http://...[TODO]
+*  SEE IT LIVE: https://afmiedev.esri.com/arcgis/home/item.html?id=7cfa0d486a8342f6afd7c7a446fa9537
 
 ## Usage
 
