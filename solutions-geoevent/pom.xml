@@ -19,6 +19,8 @@
 		<module>processors/symbol-lookup-processor</module>
 		<module>processors/geometry-processor</module>
 		<module>adapters/cot-adapter</module>
+		<module>processors/updateOnly-processor</module>
+		<module>adapters/regexText-adapter</module>
 	</modules>
 	<repositories>
 		<repository>
