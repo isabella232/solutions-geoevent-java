@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.esri.geoevent.solutions.adapter</groupId>
-	<version>10.3.0</version>
+	<version>10.2.2</version>
 	<packaging>bundle</packaging>
 	<artifactId>regexText-adapter</artifactId>
 	<name>Regex Text Adapter that allows lines to be ignored and for a line of headings to be used as GeoEvent Definition field names</name>
@@ -20,14 +20,14 @@
 		<dependency>
 			<groupId>com.esri.ges.adapter</groupId>
 			<artifactId>text-adapter</artifactId>
-			<version>10.2.2</version>
+			<version>${project.version}</version>
 			<scope>system</scope>
-			<systemPath>${env.AGSSERVER}/GeoEventProcessor/system/com/esri/ges/framework/adapter/text-adapter/10.3.0/text-adapter-10.3.0.jar</systemPath>
+			<systemPath>${env.AGSSERVER}/GeoEventProcessor/system/com/esri/ges/framework/adapter/text-adapter/${project.version}/text-adapter-${project.version}.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.ges.sdk</groupId>
 			<artifactId>ges-lib</artifactId>
-			<version>10.3.0</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
