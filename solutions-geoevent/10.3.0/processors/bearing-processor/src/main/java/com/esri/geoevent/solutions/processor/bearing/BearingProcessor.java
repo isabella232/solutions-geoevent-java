@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.esri.core.geometry.Geometry;
+import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.MapGeometry;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polyline;
@@ -20,6 +21,7 @@ import com.esri.ges.core.geoevent.FieldDefinition;
 import com.esri.ges.core.geoevent.FieldType;
 import com.esri.ges.core.geoevent.GeoEvent;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
+import com.esri.ges.core.geoevent.Tag;
 import com.esri.ges.core.validation.ValidationException;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
 import com.esri.ges.messaging.GeoEventCreator;
@@ -42,7 +44,7 @@ public class BearingProcessor extends GeoEventProcessorBase {
 	private String bfldName = properties.get("newfld").getValueAsString();
 	private String gedName = properties.get("newdef").getValueAsString();
 	private Boolean createGeo = false;
-
+	private Integer wkid;
 	private static final Log LOG = LogFactory
 			.getLog(BearingProcessor.class);
 	public BearingProcessor(GeoEventProcessorDefinition definition)
@@ -50,8 +52,7 @@ public class BearingProcessor extends GeoEventProcessorBase {
 		super(definition);
 	}
 	
-	
-	
+
 	public void setMessaging(Messaging m)
 	{
 		messaging = m;
@@ -146,16 +147,32 @@ public class BearingProcessor extends GeoEventProcessorBase {
 		}
 		Double b = generateBearing(ox,oy,dx,dy);
 		GeoEventDefinition geDef = ge.getGeoEventDefinition();
+		List<FieldDefinition> fdefs = geDef.getFieldDefinitions();
+		Boolean hasGeo = false;
+		for(FieldDefinition fldDef: fdefs)
+		{
+			List<String> tags = fldDef.getTags();
+			for (String tag:tags)
+			{
+				if(tag.equals("GEOMETRY"))
+				{
+					hasGeo = true;
+				}
+			}
+		}
 		GeoEventDefinition outDef = null;
 		Collection<GeoEventDefinition> defs = manager.searchGeoEventDefinitionByName(gedName);
 		if(defs.size() == 0)
 		{
 			List<FieldDefinition> newPropertyDefs = new ArrayList<FieldDefinition>();
 			FieldDefinition bfDef = new DefaultFieldDefinition(bfldName, FieldType.Double);
-
+			
 			newPropertyDefs.add(bfDef);
-			
-			
+			if(!hasGeo && createGeo)
+			{
+				FieldDefinition geoFld = new DefaultFieldDefinition("geometry", FieldType.Geometry, "GEOMETRY");
+				newPropertyDefs.add(geoFld);
+			}
 			outDef = geDef.augment(newPropertyDefs);
 			outDef.setOwner(geDef.getOwner());
 			outDef.setName(gedName);
@@ -168,15 +185,43 @@ public class BearingProcessor extends GeoEventProcessorBase {
 		GeoEventCreator creator = messaging.createGeoEventCreator();
 		GeoEvent newEvent = creator.create(outDef.getGuid());
 		newEvent.setField(bfldName, b);
-		List<FieldDefinition>fdefs = geDef.getFieldDefinitions();
+		
+		
 		for(FieldDefinition fDef:fdefs)
 		{
 			String name = fDef.getName();
-			newEvent.setField(name, ge.getField(name));
+			Object val = ge.getField(name);
+			
+			newEvent.setField(name, val);
 		}
+		
 		if(createGeo)
 		{
-			MapGeometry mapGeo = GenerateGeometry(ox,oy,dx, dy, ge.getGeometry().getSpatialReference());
+			SpatialReference sr;
+			SpatialReference srout = null;
+			Boolean projectGeo = false;
+			if(!hasGeo)
+			{
+				sr = SpatialReference.create(wkid);
+			}
+			else
+			{
+				sr = ge.getGeometry().getSpatialReference();
+				if(sr.getID() != wkid)
+				{
+					projectGeo = true;
+					srout = SpatialReference.create(wkid);
+				}
+			}
+			MapGeometry mapGeo = null;
+			if(projectGeo)
+			{
+				mapGeo = GenerateGeometry(ox,oy,dx,dy,sr,srout);
+			}
+			else
+			{
+				mapGeo = GenerateGeometry(ox,oy,dx,dy,sr);
+			}
 			newEvent.setGeometry(mapGeo);
 		}
 		return newEvent;
@@ -195,6 +240,23 @@ public class BearingProcessor extends GeoEventProcessorBase {
 		return mapGeo;
 		
 	}
+	
+	private MapGeometry GenerateGeometry(Double ox, Double oy, Double dx, Double dy, SpatialReference srin, SpatialReference srout)
+	{
+		Point origin = new Point();
+		Point destination = new Point();
+		origin.setXY(ox, oy);
+		destination.setXY(dx, dy);
+		Polyline ln = new Polyline();
+		ln.startPath(origin);
+		ln.lineTo(destination);
+		MapGeometry tmp_mapGeo = new MapGeometry(ln, srin);
+		Geometry projected = GeometryEngine.project(tmp_mapGeo.getGeometry(), srin, srout);
+		MapGeometry mapGeo = new MapGeometry(projected, srout);
+		return mapGeo;
+		
+	}
+	
 	public Double generateBearing(Double ox, Double oy, Double dx, Double dy)
 	{
 		Double bearing = 0.0;
@@ -258,6 +320,7 @@ public class BearingProcessor extends GeoEventProcessorBase {
 		bfldName = properties.get("newfld").getValueAsString();
 		gedName = properties.get("newdef").getValueAsString();
 		createGeo = (Boolean)properties.get("generateGeo").getValue();
+		wkid = (Integer)properties.get("wkidout").getValue();
 	}
 	
 }

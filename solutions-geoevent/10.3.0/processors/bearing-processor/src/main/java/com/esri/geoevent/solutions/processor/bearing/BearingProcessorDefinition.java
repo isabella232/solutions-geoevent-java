@@ -31,18 +31,13 @@ public class BearingProcessorDefinition extends GeoEventProcessorDefinitionBase 
 	private String defaultSrc="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.DEFAULT_SRC}";
 	private String lblNewFld="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.LBL_NEW_FIELD}";
 	private String descNewFld="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.DESC_NEW_FLD}";
-	private String defaultNewFld="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.DEF_NEW_FIELD_NAME}";
-	//private String defaultNewFld="bearing";
 	private String lblGenerateGeo="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.LBL_GENERATE_GEO}";
 	private String descGenerateGeo="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.DESC_GENERATE_GEO}";
 	private String lblEventDefName="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.LBL_GEOEVENT_DEFINITION_NAME}";
 	private String descEventDefName="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.DESC_GEOEVENT_DEFINITION_NAME}";
-	private String defaultEventDefName="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.DEF_EVENT_DEFINITION_NAME}";
-	//private String defaultEventDefName="calculateBearing";
-	//private String defaultDefName="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.DEFAULT_DEF_NAME}";
-	//private String defaultFldName="${com.esri.geoevent.solutions.processor.bearing.bearing-processor.DEFAULT_FLD_NAME}";
-	private String defaultDefName="";
-	private String defaultFldName="";
+	private String lblWkidOut = "${com.esri.geoevent.solutions.processor.bearing.bearing-processor.LBL_WKID}";
+	private String descWkidOut = "${com.esri.geoevent.solutions.processor.bearing.bearing-processor.DESC_WKID}";
+
 	public BearingProcessorDefinition() throws PropertyException {
 		
 		List<AllowedValue> srcValues = new ArrayList<AllowedValue>();
@@ -78,13 +73,16 @@ public class BearingProcessorDefinition extends GeoEventProcessorDefinitionBase 
 		pdDYField.setDependsOn("dsrc=coord");
 		propertyDefinitions.put(pdDYField.getPropertyName(),pdDYField);
 		
-		PropertyDefinition pdBearingField = new PropertyDefinition("newfld", PropertyType.String, defaultFldName, lblNewFld, descNewFld,true, false);
+		PropertyDefinition pdBearingField = new PropertyDefinition("newfld", PropertyType.String, "", lblNewFld, descNewFld, true, false);
 		propertyDefinitions.put(pdBearingField.getPropertyName(), pdBearingField);
 		
 		PropertyDefinition pdGenerateGeometry = new PropertyDefinition("generateGeo", PropertyType.Boolean, true, lblGenerateGeo, descGenerateGeo, true, false);
 		propertyDefinitions.put(pdGenerateGeometry.getPropertyName(), pdGenerateGeometry);
 		
-		PropertyDefinition pdNewGeoDef = new PropertyDefinition("newdef", PropertyType.String, defaultDefName, lblEventDefName, descEventDefName, true, false);
+		PropertyDefinition pdOutWkid = new PropertyDefinition("wkidout", PropertyType.Integer, 4326, lblWkidOut, descWkidOut, "generategeo=true", false, false);
+		propertyDefinitions.put(pdOutWkid.getPropertyName(), pdOutWkid);
+		
+		PropertyDefinition pdNewGeoDef = new PropertyDefinition("newdef", PropertyType.String, "", lblEventDefName, descEventDefName, true, false);
 		propertyDefinitions.put(pdNewGeoDef.getPropertyName(), pdNewGeoDef);
 	}
 	@Override
