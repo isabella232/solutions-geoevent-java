@@ -52,13 +52,13 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 * The following example configures the Bearing Processor, the other processors can be configured in a similar manner.
 
 * Open GeoEvent Processor Manager.
-* Create an Input Connector to receive simulated data over TCP.
+* Create an Input service to receive simulated data over TCP.
     * Navigate to ‘Site’ > ‘Services’ > 'Inputs'.
     * Click Add Input and select 'Receive text from a TCP Socket' and configure as illustrated below.
 
 ![Image of create connector](doc/geometry-input.png)
 
-* Next, create an Output Connector to observe the received data.
+* Next, create an Output service to observe the received data.
     * Navigate to ‘Site’ > ‘Services’ > 'Outputs'.
     * Select Add Input and select 'Write to a json file' and configure the properties.
 * Create a simple GeoEvent Service to direct the input data to the output using the selected processor.
@@ -76,7 +76,7 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 
 ## Licensing
 
-Copyright 2013 Esri
+Copyright 2014 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
