@@ -35,7 +35,7 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 ## Installation
 
 * Install the Bearing Processor.
-    * Browse to `solutions-geoevent-java/solutions-processors/bearing-processor/target` (this directory is created when you execute mvn install).
+    * Browse to `solutions-geoevent-java/solutions-geoevent/processors/10.3.0/bearing-processor/target` (this directory is created when you execute mvn install).
     * Copy the .jar file and paste it into the deploy folder in the GeoEvent Processor install directory ([GeoEvent Processor install location]\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy).
 
 
