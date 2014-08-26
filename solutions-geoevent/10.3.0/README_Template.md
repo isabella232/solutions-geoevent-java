@@ -1,6 +1,6 @@
 # <PROCESSORNAME>
 
-The Geometry Processors demonstrate how to extend GeoEvent Processor to build custom processors that perform actions and processing on the geometries of a GeoEvent Service.  
+<DESCRIPTION>  
 
 ![Image of <PROCESSORNAME>]<PROCESSOR_PICTURE_NAME>.PNG
 
