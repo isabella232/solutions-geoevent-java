@@ -49,13 +49,17 @@
 ### Testing with Simulated Test Data
 
 * In the following steps you will configure GeoEvent Processor to receive and process simulated data.
-* The following example configures the Bearing Processor, the other processors can be configured in a similar manner.
+* The following example configures the <PROCESSORNAME>, the other processors can be configured in a similar manner.
 
 * Open GeoEvent Processor Manager.
 * Create a new GeoEvent definition 
    * Go to Site > GeoEvent > GeoEvent Definitions
    * Click 'New GeoEvent Definition'
-   * In the 'New GeoEvent Definition' Window type 'bearing_input' in the GeoEvent Definition Name textbox and click 'Create'
+   * In the the New Geoevent Definition dialog configure similar to the follwing illustration
+
+![Image of Add New Input](doc/add-new-def.png)
+
+in the GeoEvent Definition Name textbox and click 'Create'
    * Configure the fields as in the image below (this will ensure that the sample simulation data can be consumed in the test service).
    
 ![Image of geoevent definition](doc/geoeventdefinition.png)
@@ -77,25 +81,27 @@
    * Click 'Save' when you are finished.
 * Create a simple GeoEvent Service to direct the input data to the output using the selected processor.
    * Go to Services > GeoEvent Services and click 'Add Service'
-   * In the Add Service dialog type 'bearing-tests' in the Service Name textbox.
-   * Type 'Test bearing processor' in the Service Description textbox
-   * On the left panel click and drag the bearing-tcp-text-in and tests-json-output services into the service constructor window
-   * Next click and drag a Processor into the service constructor window
-   * Configure the processor like the illustration below
+   * In the Add New Service dialog enter a name and description similar to the following
+
+![Image Add New Service](doc/add-geoevent-service.png)
+
+   * On the left panel click and drag the input service you created previously and tests-json-output services into the service constructor window.
+   * Next click and drag a Processor into the service constructor window.
+   * Configure the processor similar to the illustration below.
    
 ![Image of processor](doc/configure.png)
 
-   * Connect the components of the service as illustrated below
+   * Connect the components of the service as illustrated below.
 
 ![Image of service](doc/test-service.png)
 
-* When finished click the 'Publish' button to save the service
+* When finished click the 'Publish' button to save the service.
 
 
 
 * In GeoEvent Processor Manager, navigate to ‘Services’ > ‘Monitor’ and observe the GeoEvent Processor components. You should see the newly created service and it should have a status of 'Started'.
 
-* Using the GeoEvent Simulator, load the simulation file located at  solutions-geoevent-java\data\simulation_files\bearing.csv
+* Using the GeoEvent Simulator, load the simulation file located at  solutions-geoevent-java\data\simulation_files\<SIMULATION>.csv
 * Set the listening server to your geoevent server instance (local host if the simulator is on the same machine as geoevent server)
 * Set the port to the same value as you set the input services port and click the connect button
 * Click the 'Play' button to run the simulation
