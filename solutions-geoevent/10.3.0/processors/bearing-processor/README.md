@@ -55,7 +55,10 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 * Create a new GeoEvent definition 
    * Go to Site > GeoEvent > GeoEvent Definitions
    * Click 'New GeoEvent Definition'
-   * In the 'New GeoEvent Definition' Window type 'bearing_input' in the GeoEvent Definition Name textbox and click 'Create'
+   * In the the New Geoevent Definition dialog configure similar to the follwing illustration
+
+![Image of Add New Input](doc/add-new-def.png)
+
    * Configure the fields as in the image below (this will ensure that the sample simulation data can be consumed in the test service).
    
 ![Image of geoevent definition](doc/geoeventdefinition.png)
