@@ -105,6 +105,7 @@
 * In a file browser go to the folder where your tests-json-output is located.
 * Open the tests_<timestamp>.json file with the most recent timestamp.
 * You can now test the processors with additional outputs such as published feature services.
+
 ## Licensing
 
 Copyright 2014 Esri
