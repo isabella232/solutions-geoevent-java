@@ -1,4 +1,4 @@
-ï»¿# Geometry Processors
+# Geometry Processors
 
 The Geometry Processors demonstrate how to extend GeoEvent Processor to build custom processors that perform actions and processing on the geometries of a GeoEvent Service.  
 
@@ -37,13 +37,13 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
     * Copy the .jar file and paste it into the deploy folder in the GeoEvent Processor install directory ([GeoEvent Processor install location]\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy).
 * Check for existing GeoEvent Definitions.
     *  Open GeoEvent Processor Manager.
-    *  Navigate to â€˜Siteâ€™ > â€˜GeoEvent Processorâ€™ > â€˜GeoEvent Definitionsâ€™.
+    *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘GeoEvent Definitions’.
     *  Confirm GeoEvent Definition(s) exist for the processor(s) you want to run (e.g. if you are going to run the Buffer Processor, confirm a GeoEvent Definition is available as illustrated below).
 
 ![Image of geoeventdefinition](doc/geoeventdefinition.png)
 
 * If these GeoEvent Definitions are not available, do the following to create these GeoEvent Definitions.
-    *  Navigate to â€˜Siteâ€™ > â€˜GeoEvent Processorâ€™ > â€˜Configuration Storeâ€™ and click â€˜Import Configurationâ€™.
+    *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘Configuration Store’ and click ‘Import Configuration’.
     *  Browse to `solutions-geoevent-java\data\configurations` and locate the `GeoEventDefinitions-GeometryProcessors.xml` configuration file. This file is located [here](../../../data/configurations/GeoEventDefinitions-GeometryProcessors.xml).
     *  On the Import Configuration dialog, click Import.
 
@@ -57,51 +57,69 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 ### Testing with Simulated Test Data
 
 * In the following steps you will configure GeoEvent Processor to receive and process simulated data.
-* A prerequisite to using the Query Report processor is that an arcgis server instance must be registered with geoevent server. The AGS must contain a feature service hosting the layer on which the spatial query will be executed.  Additionally, the query geometry derived from the event geometry must intersect features in the feature layer that is queried.  See the ArcGIS sever help topic in ArcGIS Resources [here](http://resources.arcgis.com/en/help/main/10.2/#/Welcome_to_the_ArcGIS_10_2_for_Server_Windows_Help/0154000002np000000/) for more information on setting up an instance of ArcGIS Server and publishing feature services.
-* Open GeoEvent Processor Manager.
-* Go to Site > GeoEvent Processor > GeoEvent Services
-* If not already present create a new GeoEvent definition called buffer
-	*Click the 'New GeoEvent Definition' button
-	*Configure the event definition using the following table (Note - uses the same geoevent definition as the buffer processor)
-	 
-![Image of GeoEvent Definition](doc/geoeventdefinition.png)
-	
-* Create an Input Connector to receive simulated data over TCP.
-    * Navigate to â€˜Siteâ€™ > â€˜Servicesâ€™ > 'Inputs'.
-    * Click Add Input and select 'Receive text from a TCP Socket' and configure as illustrated below.
+* The following example configures the <PROCESSORNAME>, the other processors can be configured in a similar manner.
 
-![Image of create connector](doc/geometry-tcp-in.png)
+* Open GeoEvent Processor Manager.
+* Create a new GeoEvent definition 
+   * Go to Site > GeoEvent > GeoEvent Definitions
+   * Click 'New GeoEvent Definition'
+   * In the the New Geoevent Definition dialog configure similar to the follwing illustration
+
+![Image of Add New Input](doc/add-new-def.png)
+
+in the GeoEvent Definition Name textbox and click 'Create'
+   * Configure the fields as in the image below (this will ensure that the sample simulation data can be consumed in the test service).
+   
+![Image of geoevent definition](doc/geoeventdefinition.png)
+
+* Create an Input Service to accept text over tcp messages
+   * In GeoEvent Manager go to Services->Input and click Add Input
+   * In the Input Connectors Window choose 'Receive text from a TCP socket'
+   * Configure the service similar to the picture below.
+
+![Image of Input Service](doc/input-service.png)
 
 * Next, create an Output Connector to observe the received data.
-    * Navigate to â€˜Siteâ€™ > â€˜Servicesâ€™ > 'Outputs'.
-    * Select Add Input and select 'Write to JSON' and configure the properties.
+    * Navigate ‘Services’ > 'Outputs'.
+    * Select Add Output and select 'Write to a json file' and configure the properties using the image below as a guide.
+    
+![Image of Output Service](doc/tests-json-output.png)
+
+   * If you do not have a registered folder already to write json files to, click the 'Register Folder' button and give the folder a name and point it to an existing folder on your file system. In the example the name is test_components_out and the path is C:\gep\registered\tests.  
+   * Click 'Save' when you are finished.
 * Create a simple GeoEvent Service to direct the input data to the output using the selected processor.
-    * An example GeoEvent Service and processor configuration is illustrated below.
+   * Go to Services > GeoEvent Services and click 'Add Service'
+   * In the Add New Service dialog enter a name and description similar to the following
 
-![Image of service](doc/geometry-simple-service.png)
+![Image Add New Service](doc/add-geoevent-service.png)
 
-Description of Configuration Properties
-![Image of processor](doc/query-report-items.png)
+   * On the left panel click and drag the input service you created previously and tests-json-output services into the service constructor window.
+   * Next click and drag a Processor into the service constructor window.
+   * Configure the processor similar to the illustration below.
+   
+![Image of processor](doc/configure.png)
 
-*Fill in the required properties.
-	*Select a file prefix for the html report you will generate (a timestamp will be appended to the file name so that the report is uniquely named).
-	*Type in a title for the report
-	*For the geometry source use 'Buffer' and select appropriate distance, units and wkid for the feature class you will be querying.
-	*Type in the host name of geoevent server acceptable formats are <hostname>, https://<hostname>:6143, or https://<hostname>.  If the geoevent server is n the local machine, a hostname of localhost will suffice.
-	*Select the Conection, Folder, Layer, Feature Service and Field for the service hosting the data you wish to query.
-	*The Item Configuration will have a token '{$Item}'.  This token will be replaced in the report with text representing the field value for each returned feature.
-* Since the query geometry must overlap the service being queried, the Geometry-Buffer.csv file located at solutions-geoevent-java\data\simulation_files\Geometry-Buffer.csv may need to be modified.
-	*Open the Geometry-Buffer.csv in MS Excel or in a text editor of your choice.
-	*Add new rows or change values in rows so that the x, y coordinates overlap the feature service geometry you wish to query.
-* Using the GeoEvent Simulator, load the simulation file 
+   * Connect the components of the service as illustrated below.
+
+![Image of service](doc/test-service.png)
+
+* When finished click the 'Publish' button to save the service.
+
+
+
+* In GeoEvent Processor Manager, navigate to ‘Services’ > ‘Monitor’ and observe the GeoEvent Processor components. You should see the newly created service and it should have a status of 'Started'.
+
+* Using the GeoEvent Simulator, load the simulation file located at  solutions-geoevent-java\data\simulation_files\<SIMULATION>.csv
+* Set the listening server to your geoevent server instance (local host if the simulator is on the same machine as geoevent server)
+* Set the port to the same value as you set the input services port and click the connect button
+* Click the 'Play' button to run the simulation
 * In GeoEvent Processor Manager, navigate to 'Services' > 'Monitor' to observe that the values are increasing and the selected outputs are updated. 
-![Image of monitor](doc/monitor.png)
-* Go to Services > Output and stop the output service created above
-* In the file browser go to the registered output folder and sort the contents by date.
-* Open the most recent entry (if the query report processor is the only service writing to this location the most recent file should contain the json output of the test).
-* Examine the output.  If the query report processor successfully created a report a field with the name configured in the processor properties will be present and the value will be the path to an html document.
-* Open the file at the path above.  The result is the report configured in the processor properties.
+* Next go to Services > Output and find the tests-json-out service you created previosly
+* Click the Stop button to stop the service
+* In a file browser go to the folder where your tests-json-output is located.
+* Open the tests_<timestamp>.json file with the most recent timestamp.
 * You can now test the processors with additional outputs such as published feature services.
+
 
 ## Licensing
 
