@@ -98,6 +98,8 @@ public class QueryReportProcessorDefinition extends
 	private String descDistToken = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_DIST_TOKEN}";
 	private String lblQueryFld = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_QUERY_FIELD}";
 	private String descQueryFld = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_QUERY_FIELD}";
+	private String lblSortFld = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_SORT_FIELD}";
+	private String descSortFld = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_SORT_FIELD}";
 	private String itemLabel = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.ITEM_LABEL}";
 	private String lblItemToken = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_ITEM_TOKEN}";
 	private String descItemToken = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_ITEM_TOKEN}";
@@ -266,6 +268,8 @@ public class QueryReportProcessorDefinition extends
 			propertyDefinitions.put(pdSortByDist.getPropertyName(),
 					pdSortByDist);
 			
+			
+			
 			PropertyDefinition procDistUnits = new PropertyDefinition(
 					"dist_units", PropertyType.String, "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_METERS_LBL}", lblDistUnits,
 					descDistUnits, true, false, unitsAllowedVals);
@@ -278,7 +282,7 @@ public class QueryReportProcessorDefinition extends
 			PropertyDefinition pdDistanceToken = new PropertyDefinition(
 					"dist_token",
 					PropertyType.String,
-					distLabel,
+					tk,
 					lblDistToken,
 					descDistToken,
 					false, true);
@@ -287,15 +291,19 @@ public class QueryReportProcessorDefinition extends
 					pdDistanceToken);
 
 			PropertyDefinition pField = new PropertyDefinition("field",
-					PropertyType.ArcGISField, null, lblQueryFld, descQueryFld,
+					PropertyType.String, null, lblQueryFld, descQueryFld,
 					true, false);
 			propertyDefinitions.put(pField.getPropertyName(), pField);
 
-			tk = tokenizer.tokenize("item");
-			PropertyDefinition fldTokenPd = new PropertyDefinition(
-					"field-token", PropertyType.String, tk, lblItemToken,
-					descItemToken, true, true);
-			propertyDefinitions.put(fldTokenPd.getPropertyName(), fldTokenPd);
+			PropertyDefinition pdSortField = new PropertyDefinition("sortfield", PropertyType.String, "", lblSortFld, descSortFld, false, false);
+			pdSortField.setDependsOn("sortdist=false");
+			propertyDefinitions.put(pdSortField.getPropertyName(),
+					pdSortField);
+			//tk = tokenizer.tokenize("item");
+			//PropertyDefinition fldTokenPd = new PropertyDefinition(
+					//"field-token", PropertyType.String, tk, lblItemToken,
+					//descItemToken, true, true);
+			//propertyDefinitions.put(fldTokenPd.getPropertyName(), fldTokenPd);
 
 			PropertyDefinition pdItemConfig = new PropertyDefinition(
 					"item-config",

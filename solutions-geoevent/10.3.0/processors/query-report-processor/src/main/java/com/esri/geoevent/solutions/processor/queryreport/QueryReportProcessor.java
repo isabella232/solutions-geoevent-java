@@ -68,8 +68,11 @@ import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.LinearUnit;
 import com.esri.core.geometry.MapGeometry;
+import com.esri.core.geometry.MultiPath;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
+import com.esri.core.geometry.Polyline;
+import com.esri.core.geometry.Segment;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 import com.esri.core.map.Graphic;
@@ -97,6 +100,8 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 	//private enum SortType {Name, Distance};
 	//public SortType currentSort = SortType.Name;
 	private static final Log LOG = LogFactory.getLog(QueryReportProcessor.class);
+	private Tokenizer tokenizer = new Tokenizer();
+	private Map<String, String> eventTokenMap = new HashMap<String, String>();
 	public GeoEventDefinitionManager manager;
 	public ArcGISServerConnectionManager connectionManager;
 	public Messaging messaging;
@@ -124,18 +129,20 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 	Layer layer;
 	String layerId;
 	String field;
-	Field[] fields;
+	//Field[] fields;
 	Boolean calcDist;
 	String wc;
 	String lyrHeaderCfg;
 	Boolean sortByDist;
 	String distToken="";
 	String distUnits="";
-	String token;
+	//String token;
+	String sortField;
 	String itemConfig;
 	String title;
 	String header;
 	private com.esri.core.geometry.Geometry inGeometry;
+	GeoEvent currentEvent = null;
 	
 	public QueryReportProcessor(GeoEventProcessorDefinition definition, GeoEventDefinitionManager m, ArcGISServerConnectionManager cm, Messaging msg)
 			throws ComponentException {
@@ -184,21 +191,38 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		folder = properties.get("folder").getValueAsString();
 		service = properties.get("service").getValueAsString();
 		lyrName = properties.get("layer").getValueAsString();
+		try
+		{
+			conn = connectionManager.getArcGISServerConnection(connName);
+		}
+		catch(Exception e)
+		{
+			LOG.error(e.getMessage());
+			ValidationException ve = new ValidationException("Unable to make connection to ArcGIS Server");
+			LOG.error(ve.getMessage());
+			try {
+				throw ve;
+			} catch (ValidationException e1) {
+
+				e1.printStackTrace();
+			}
+		}
 		layer =conn.getLayer(folder, service, lyrName, ArcGISServerType.FeatureServer);
 		layerId = ((Integer)layer.getId()).toString();
 		field = properties.get("field").getValueAsString();
-		fields = conn.getFields(folder, service, layer.getId(), ArcGISServerType.FeatureServer);
+		sortField = properties.get("sortfield").getValueAsString();
+		//fields = conn.getFields(folder, service, layer.getId(), ArcGISServerType.FeatureServer);
 		calcDist = (Boolean)properties.get("calcDistance").getValue();
 		wc = properties.get("wc").getValueAsString();
 		lyrHeaderCfg = properties.get("lyrheader").getValueAsString();
 		sortByDist=false;
 		if(calcDist)
 		{
-			sortByDist = (Boolean)properties.get("sortByDist").getValue();
+			sortByDist = (Boolean)properties.get("sortdist").getValue();
 			distToken=properties.get("dist_token").getValueAsString();
 			distUnits=properties.get("dist_units").getValueAsString();
 		}
-		token = properties.get("field-token").getValueAsString();
+		//token = properties.get("field-token").getValueAsString();
 		itemConfig = properties.get("item-config").getValueAsString();
 		title = properties.get("title").getValueAsString();
 	    Object objHeader = properties.get("header");
@@ -251,23 +275,25 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 			LOG.error(ve.getMessage());
 			throw ve;
 		}
-		try
-		{
-			conn = connectionManager.getArcGISServerConnection(connName);
-		}
-		catch(Exception e)
-		{
-			LOG.error(e.getMessage());
-			ValidationException ve = new ValidationException("Unable to make connection to ArcGIS Server");
-			LOG.error(ve.getMessage());
-			throw ve;
-		}
+		
 		
 	}
 	
 	@Override
 	public GeoEvent process(GeoEvent ge) throws Exception {
 		//CreateQueryMap();
+		currentEvent = ge;
+		List<FieldDefinition> fldDefs = ge.getGeoEventDefinition().getFieldDefinitions();
+		for(FieldDefinition fd: fldDefs)
+		{
+			if(fd.getType() != FieldType.Geometry && fd.getType() != FieldType.Group)
+			{
+				String n = fd.getName();
+				String tk = tokenizer.tokenize("geoevent."+n);
+				eventTokenMap.put(tk, n);
+			}
+			
+		}
 		ArrayList<Object> queries = CreateQueries();
 		
 
@@ -464,13 +490,20 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		String restpath = curPath + "/query?";
 		HashMap<String, Object> query = new HashMap<String, Object>();
 		HashMap<String, String> fieldMap = new HashMap<String, String>();
+
 		String fldsString = field;
-		fieldMap.put(field, token);
+		String[] fieldArray = fldsString.split(",");
+		for(String f: fieldArray)
+		{
+			String tk = tokenizer.tokenize(f);
+			fieldMap.put(f, tk);
+		}
+		
 		query.put("restpath", restpath);
 		query.put("path", curPath);
 		query.put("whereclause", wc);
 		query.put("fields", fldsString );
-		query.put("outfields", fields);
+		//query.put("outfields", fields);
 		query.put("tokenMap", fieldMap);
 		query.put("headerconfig", lyrHeaderCfg);
 		query.put("usingdist", calcDist);
@@ -510,8 +543,8 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 					+ geo
 					+ "&geometryType="
 					+ geoType
-					+ "&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields="
-					+ fields
+					+ "&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*"
+					//+ fields
 					+ "&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&gdbVersion=&returnDistinctValues=false&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&f=json";
 			String uri = path + args;
 			try {
@@ -598,13 +631,128 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		return responseMap;
 	}
 	
-	private String GetDistAsString(String jsonGeo, SpatialReference inputSr, String units) throws JsonParseException, IOException
+	private Geometry generateGeoFromMap(Map<String, Object> objGeo)
 	{
-		//com.esri.core.geometry.Geometry geo = g.getGeometry();
-		JsonFactory jf = new JsonFactory();
-		JsonParser jp = jf.createJsonParser(jsonGeo);
-		MapGeometry mapgeo = GeometryEngine.jsonToGeometry(jp);
-		Geometry geo = mapgeo.getGeometry();
+		Geometry geo = null;
+		if(objGeo.containsKey("rings"))
+		{
+			ArrayList<ArrayList<ArrayList<String>>> rings= (ArrayList<ArrayList<ArrayList<String>>>)objGeo.get("rings");
+			geo = generatePolygon(rings);
+		}
+		else if(objGeo.containsKey("paths"))
+		{
+			ArrayList<ArrayList<ArrayList<String>>> paths= (ArrayList<ArrayList<ArrayList<String>>>)objGeo.get("paths");
+			geo = generatePolyLine(paths);
+		}
+		else if(objGeo.containsKey("points"))
+		{
+			
+		}
+		else
+		{
+			Double x = Double.valueOf(objGeo.get("x").toString());
+			Double y = Double.valueOf(objGeo.get("y").toString());
+			if(objGeo.size() > 2)
+			{
+				Double z = Double.valueOf(objGeo.get("z").toString());
+				geo = generate3DPoint(x,y,z);
+			}
+			else
+			{
+				geo = generatePoint(x,y);
+			}
+		}
+		return geo;
+	}
+	
+	private Point generatePoint(Double x, Double y)
+	{
+		Point p = new Point(x, y);
+		return p;
+	}
+	
+	private Point generate3DPoint(Double x, Double y, Double z)
+	{
+		Point p = new Point(x, y, z);
+		return p;
+	}
+	
+	private Polyline generatePolyLine(ArrayList<ArrayList<ArrayList<String>>> paths)
+	{
+		Polyline polyln = new Polyline();
+		for(ArrayList<ArrayList<String>> path: paths)
+		{
+			Boolean firstPt = true;
+			for(ArrayList<String> strPt: path)
+			{
+				Point p = null;
+				if(strPt.size() > 2)
+				{
+					Double x = Double.valueOf(strPt.get(0));
+					Double y = Double.valueOf(strPt.get(1));
+					Double z = Double.valueOf(strPt.get(2));
+					p = generate3DPoint(x,y,z);
+				}
+				else
+				{
+					Double x = Double.valueOf(strPt.get(0));
+					Double y = Double.valueOf(strPt.get(1));
+					p = generatePoint(x,y);
+				}
+				if(firstPt)
+				{
+					polyln.startPath(p);
+					firstPt = false;
+				}
+				else
+				{
+					polyln.lineTo(p);
+				}
+			}
+		}
+		return polyln;
+	}
+	
+	private Polygon generatePolygon(ArrayList<ArrayList<ArrayList<String>>> paths)
+	{
+		Polygon polygon = new Polygon();
+		for(ArrayList<ArrayList<String>> path: paths)
+		{
+			Boolean firstPt = true;
+			for(ArrayList<String> strPt: path)
+			{
+				Point p = null;
+				if(strPt.size() > 2)
+				{
+					Double x = Double.valueOf(strPt.get(0));
+					Double y = Double.valueOf(strPt.get(1));
+					Double z = Double.valueOf(strPt.get(2));
+					p = generate3DPoint(x,y,z);
+				}
+				else
+				{
+					Double x = Double.valueOf(strPt.get(0));
+					Double y = Double.valueOf(strPt.get(1));
+					p = generatePoint(x,y);
+				}
+				if(firstPt)
+				{
+					polygon.startPath(p);
+					firstPt = false;
+				}
+				else
+				{
+					polygon.lineTo(p);
+				}
+			}
+		}
+		polygon.closeAllPaths();
+		return polygon;
+	}
+	
+	private String GetDistAsString(Map<String, Object> objGeo, SpatialReference inputSr, String units) throws JsonParseException, IOException
+	{
+		Geometry geo = generateGeoFromMap(objGeo);
 		com.esri.core.geometry.Geometry curGeo;
 		
 		if(!inputSr.equals(srBuffer))
@@ -663,7 +811,7 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 			String lyrHeader = (String)response.get("lyrheader");
 			if(!lyrHeader.isEmpty())
 			{
-				lyrHeader = "<h3>"+lyrHeader+"</h3>";
+				lyrHeader = "<b>"+lyrHeader+"</b>";
 			}
 			String items = "";
 			
@@ -682,65 +830,69 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 			{
 				HashMap<String, Object> f = features.get(i);
 				Map<String, Object> att = (Map<String, Object>) f.get("attributes");
-				String geoString = f.get("geometry").toString();
+				Map<String, Object> objGeo = (Map<String, Object>)f.get("geometry");
+				//String geoString = f.get("geometry").toString();
 				Set<String> fields = tokenmap.keySet();
 				Iterator<String> itFields = fields.iterator();
 				String item = cfg;
 				Double distVal = null;
 				if(usingDist)
 				{
-					String d = this.GetDistAsString(geoString, fsetSr, distUnits);
+					String d = this.GetDistAsString(objGeo, fsetSr, distUnits);
 					if(sortByDist)
 					{
 						distVal = Double.valueOf(d);
 					}
 					item = item.replace(distToken, d);
 				}
+				String attVal=null;
+				String sortAttVal=null;
 				while(itFields.hasNext())
 				{
 					String fldname = itFields.next();
 					String token = (String) tokenmap.get(fldname);
-					String attVal = att.get(fldname).toString();
-					item = item.replace(token, attVal);
+					attVal = att.get(fldname).toString();
 					if(!sortByDist)
 					{
-						if(!nameSortMap.containsKey(attVal))
+						if(fldname.equals(sortField))
 						{
-							List<String> l = new ArrayList<String>();
-							l.add(item);
-							nameSortMap.put(attVal, l);
-							nSortList.add(attVal);
+							sortAttVal = attVal;
 						}
-						else
-						{
-							List<String> l = nameSortMap.get(attVal);
-							l.add(item);
-							Collections.sort(l);
-						}
+					}
+					item = item.replace(token, attVal);
+					
+				}
+				if(!sortByDist)
+				{
+					if(!nameSortMap.containsKey(sortAttVal))
+					{
+						List<String> l = new ArrayList<String>();
+						l.add(item);
+						nameSortMap.put(sortAttVal, l);
+						nSortList.add(sortAttVal);
 					}
 					else
 					{
-						if(!distSortMap.containsKey(distVal))
-						{
-							List<String> l = new ArrayList<String>();
-							l.add(item);
-							distSortMap.put(distVal, l);
-							dSortList.add(distVal);
-						}
-						else
-						{
-							List<String> l = distSortMap.get(distVal);
-							l.add(item);
-							Collections.sort(l);
-						}
+						List<String> l = nameSortMap.get(attVal);
+						l.add(item);
+						Collections.sort(l);
 					}
-					
-					/*if(i>0)
+				}
+				else
+				{
+					if(!distSortMap.containsKey(distVal))
 					{
-						items += ", ";
+						List<String> l = new ArrayList<String>();
+						l.add(item);
+						distSortMap.put(distVal, l);
+						dSortList.add(distVal);
 					}
-					items += item;*/
-					
+					else
+					{
+						List<String> l = distSortMap.get(distVal);
+						l.add(item);
+						Collections.sort(l);
+					}
 				}
 			}
 			String sortedItems = "";
@@ -755,8 +907,8 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 				sortedItems = ConstructSortedItemsByDistance(distSortMap, dSortList);
 			}
 			//String sortedItems = ConstructSortedItems(sortByDist);
-			items = "<p>"+sortedItems+"</p>";
-			body += lyrHeader + items;
+			items = sortedItems;
+			body += lyrHeader+"<br>"+items;
 		}
 		String content = "";
 		   //File file = new File("C:/Dev/Java/DefenseSolution/defense-geometry-processor/src/main/resources/ReportTemplate.html"); //for ex foo.txt
@@ -784,6 +936,15 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		       content = content.replace("${HEADING}", "<h2>" +header+"</h2>");
 		       content = content.replace("${BODY}", body);
 		       br.close();
+		       Set<String> eventTokens = eventTokenMap.keySet();
+		       Iterator<String> eventIt = eventTokens.iterator();
+		       while(eventIt.hasNext())
+		       {
+		    	   String et = eventIt.next();
+		    	   String fn = eventTokenMap.get(et);
+		    	   String val = currentEvent.getField(fn).toString();
+		    	   content = content.replace(et, val);
+		       }
 		       File dir = new File("assets/reports");
 		       if(!dir.exists())
 		       {
