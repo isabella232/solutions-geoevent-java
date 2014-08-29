@@ -2,7 +2,7 @@
 
 The Geometry Processors demonstrate how to extend GeoEvent Processor to build custom processors that perform actions and processing on the geometries of a GeoEvent Service.  
 
-![Image of geomessage-adapter](Buffer.PNG)
+![Image of geomessage-adapter](doc/report.png)
 
 ## Features 
 
@@ -18,12 +18,12 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 
 ## Requirements
 
-* See common [solutions-geoevent-java requirements](../../../README.md#requirements).
+* See common [solutions-geoevent-java requirements](../../../../README.md#requirements).
 * The ArcGIS Runtime for Java SDK is required in order to run the standalone Maven Tests included with this project.
 
 ## Building 
 
-* See the [solutions-geoevent-java instructions](../../../README.md#instructions) for general instructions on 
+* See the [solutions-geoevent-java instructions](../../../../README.md#instructions) for general instructions on 
     * verifying your Maven installation
     * setting the location of GeoEvent Processor and GeoEvent Processor SDK repositories
     * and any other common required steps
@@ -44,7 +44,7 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
     * Ensure the Buffer, Ellipse, Range Fan, Visibility, Query Report, etc. processors exist.
 
 ### Testing with Simulated Test Data
-In order to use the Query Report Processor some prerequisite steps are required.  The Query Report Processor executes a spatial query on a feature service on an ArcGIS Server instance registered with the GeoEvent extension.  In the following steps you will create a Refugee Camps feature service that will be queried by the processor.
+In order to use the Query Report Processor some prerequisite steps are required.  The Query Report Processor executes a spatial query on a feature service on an [ArcGIS Server instance registered with the GeoEvent extension.](http://resources.arcgis.com/en/help/main/10.2/#/Managing_data_stores/0154000006m2000000/)  In the following steps you will create a Refugee Camps feature service that will be queried by the processor.
 * Browse to `solutions-geoevent-java/data/packages` and find the refugee_camps.mpk map package.
 * Double click the map package to open in ArcMap.
 * The map package will pull the features into a local file geodatabase.  To publish the features in a feature service the feature class must be in an sde geodatabase.  Use the export features tool to export the features into an sde geodatabase.
