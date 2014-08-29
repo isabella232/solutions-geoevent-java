@@ -124,6 +124,10 @@ in the GeoEvent Definition Name textbox and click 'Create'
 * Click the Stop button to stop the service
 * In a file browser go to the folder where your tests-json-output is located.
 * Open the tests_<timestamp>.json file with the most recent timestamp.
+* You should see a url field that has been attached to the output geoevent.  This url is an http page uploaded to the local geoevent web server.  Copy and paste this url into a browser. You should see a report similar to the following.
+
+![Image of service](doc/report.png)
+
 * You can now test the processors with additional outputs such as published feature services.
 
 
