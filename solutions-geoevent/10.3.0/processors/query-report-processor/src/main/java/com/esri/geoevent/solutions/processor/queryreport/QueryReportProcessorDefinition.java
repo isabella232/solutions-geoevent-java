@@ -201,25 +201,6 @@ public class QueryReportProcessorDefinition extends
 			propertyDefinitions.put(procUseTimeStamp.getPropertyName(),
 					procUseTimeStamp);
 
-			PropertyDefinition procTimeStamp = new PropertyDefinition(
-					"timestamp", PropertyType.String, "", lblTimeStampFld,
-					descTimeStampFld, false, false);
-			procTimeStamp.setDependsOn("usetimestamp=true");
-			//SetGeoEventAllowedFields(procTimeStamp);
-			propertyDefinitions.put(procTimeStamp.getPropertyName(),
-					procTimeStamp);
-			String tk = tokenizer.tokenize("time");
-			PropertyDefinition procTimeStampToken = new PropertyDefinition(
-					"timestamptoken",
-					PropertyType.String,
-					"[$TIMESTAMP]",
-					lblTimeStampToken,
-					descTimeStampToken,
-					false, true);
-			procTimeStampToken.setDependsOn("usetimestamp=true");
-			propertyDefinitions.put(procTimeStampToken.getPropertyName(),
-					procTimeStampToken);
-
 			PropertyDefinition procHost = new PropertyDefinition("host",
 					PropertyType.String, "", lblHost, descHost,
 					true, false);
@@ -266,9 +247,7 @@ public class QueryReportProcessorDefinition extends
 			PropertyDefinition pdSortByDist = new PropertyDefinition("sortdist", PropertyType.Boolean, "false", lblSortByDist, descSortByDist, false, false);
 			pdSortByDist.setDependsOn("calcDistance=true");
 			propertyDefinitions.put(pdSortByDist.getPropertyName(),
-					pdSortByDist);
-			
-			
+					pdSortByDist);			
 			
 			PropertyDefinition procDistUnits = new PropertyDefinition(
 					"dist_units", PropertyType.String, "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_METERS_LBL}", lblDistUnits,
@@ -276,19 +255,6 @@ public class QueryReportProcessorDefinition extends
 			procDistUnits.setDependsOn("calcDistance=true");
 			propertyDefinitions.put(procDistUnits.getPropertyName(),
 					procDistUnits);
-			AllowedValue allowedDefaultDistanceLabel = new AllowedValue(distLabel, "distLabel");
-			String dl = allowedDefaultDistanceLabel.getLabel();
-			tk = tokenizer.tokenize("distance");
-			PropertyDefinition pdDistanceToken = new PropertyDefinition(
-					"dist_token",
-					PropertyType.String,
-					tk,
-					lblDistToken,
-					descDistToken,
-					false, true);
-			pdDistanceToken.setDependsOn("calcDistance=true");
-			propertyDefinitions.put(pdDistanceToken.getPropertyName(),
-					pdDistanceToken);
 
 			PropertyDefinition pField = new PropertyDefinition("field",
 					PropertyType.String, null, lblQueryFld, descQueryFld,
@@ -299,16 +265,11 @@ public class QueryReportProcessorDefinition extends
 			pdSortField.setDependsOn("sortdist=false");
 			propertyDefinitions.put(pdSortField.getPropertyName(),
 					pdSortField);
-			//tk = tokenizer.tokenize("item");
-			//PropertyDefinition fldTokenPd = new PropertyDefinition(
-					//"field-token", PropertyType.String, tk, lblItemToken,
-					//descItemToken, true, true);
-			//propertyDefinitions.put(fldTokenPd.getPropertyName(), fldTokenPd);
 
 			PropertyDefinition pdItemConfig = new PropertyDefinition(
 					"item-config",
 					PropertyType.String,
-					tk,
+					"",
 					lblItemCfg,
 					descItemCfg,
 					true, false);

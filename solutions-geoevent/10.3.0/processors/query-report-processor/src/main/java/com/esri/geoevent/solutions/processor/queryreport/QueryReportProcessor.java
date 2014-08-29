@@ -117,7 +117,6 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 	Boolean useCentroid;
 	String eventfld;
 	Boolean useTimeStamp;
-	String tsFld;
 	String file;
 	String host;
 	String outDefName;
@@ -133,8 +132,8 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 	Boolean calcDist;
 	String wc;
 	String lyrHeaderCfg;
-	Boolean sortByDist;
 	String distToken="";
+	Boolean sortByDist;
 	String distUnits="";
 	//String token;
 	String sortField;
@@ -143,6 +142,8 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 	String header;
 	private com.esri.core.geometry.Geometry inGeometry;
 	GeoEvent currentEvent = null;
+	String ts;
+	String time;
 	
 	public QueryReportProcessor(GeoEventProcessorDefinition definition, GeoEventDefinitionManager m, ArcGISServerConnectionManager cm, Messaging msg)
 			throws ComponentException {
@@ -176,14 +177,20 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		useCentroid = (Boolean)properties.get("usecentroid").getValue();
 		eventfld = properties.get("geoeventdef").getValue().toString();
 		useTimeStamp = (Boolean)properties.get("usetimestamp").getValue();
-		tsFld = properties.get("timestamp").getValueAsString();
+		
 		DateTime dt = DateTime.now();
-		String ts = ((Integer) dt.getYear()).toString()
+		ts = ((Integer) dt.getYear()).toString()
 				+ ((Integer) dt.getMonthOfYear()).toString()
 				+ ((Integer) dt.getDayOfMonth()).toString()
 				+ ((Integer) dt.getHourOfDay()).toString()
 				+ ((Integer) dt.getMinuteOfHour()).toString()
 				+ ((Integer) dt.getSecondOfMinute()).toString();
+		time = ((Integer) dt.getYear()).toString()
+				+"/" + ((Integer) dt.getMonthOfYear()).toString()
+				+"/"+ ((Integer) dt.getDayOfMonth()).toString()
+				+" "+ ((Integer) dt.getHourOfDay()).toString()
+				+ ":"+((Integer) dt.getMinuteOfHour()).toString()
+				+ ":"+((Integer) dt.getSecondOfMinute()).toString();
 		file = properties.get("filename").getValueAsString() + ts + ".html";
 		host = properties.get("host").getValueAsString();
 		outDefName = properties.get("gedname").getValueAsString();
@@ -219,7 +226,7 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		if(calcDist)
 		{
 			sortByDist = (Boolean)properties.get("sortdist").getValue();
-			distToken=properties.get("dist_token").getValueAsString();
+			distToken="${distance.value}";
 			distUnits=properties.get("dist_units").getValueAsString();
 		}
 		//token = properties.get("field-token").getValueAsString();
@@ -369,7 +376,7 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		String timestamp = "";
 		if(useTimeStamp)
 	       {
-			timestamp = ge.getField(tsFld).toString();
+			timestamp = time;
 	       }
 
 		ParseResponses(timestamp, file, responseMap);
@@ -924,7 +931,7 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		       
 		       if(!timestamp.isEmpty())
 		       {
-		    	   String tsToken = properties.get("timestamptoken").getValueAsString();
+		    	   String tsToken = "${timestamp.value}";
 		    	   title = title.replace(tsToken, timestamp);
 		    	   if(header != null)
 		    	   {
