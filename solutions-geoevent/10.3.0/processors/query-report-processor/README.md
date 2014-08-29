@@ -27,34 +27,30 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
     * verifying your Maven installation
     * setting the location of GeoEvent Processor and GeoEvent Processor SDK repositories
     * and any other common required steps
-* Open a command prompt and navigate to `solutions-geoevent-java/solutions-geoevent/processors/query-report-processor`
+* Open a command prompt and navigate to `solutions-geoevent-java/solutions-geoevent/processors/10.3.0/query-report-processor`
     * Enter `mvn install` at the prompt.
 
 ## Installation
 
 * Install the Geometry Processors.
-    * Browse to `solutions-geoevent-java/solutions-processors/query-report-processor/target` (this directory is created when you execute mvn install).
+    * Browse to `solutions-geoevent-java/geoevent-solutions/processors/10.3.0/query-report-processor/target` (this directory is created when you execute mvn install).
     * Copy the .jar file and paste it into the deploy folder in the GeoEvent Processor install directory ([GeoEvent Processor install location]\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy).
-* Check for existing GeoEvent Definitions.
-    *  Open GeoEvent Processor Manager.
-    *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘GeoEvent Definitions’.
-    *  Confirm GeoEvent Definition(s) exist for the processor(s) you want to run (e.g. if you are going to run the Buffer Processor, confirm a GeoEvent Definition is available as illustrated below).
-
-![Image of geoeventdefinition](doc/geoeventdefinition.png)
-
-* If these GeoEvent Definitions are not available, do the following to create these GeoEvent Definitions.
-    *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘Configuration Store’ and click ‘Import Configuration’.
-    *  Browse to `solutions-geoevent-java\data\configurations` and locate the `GeoEventDefinitions-GeometryProcessors.xml` configuration file. This file is located [here](../../../data/configurations/GeoEventDefinitions-GeometryProcessors.xml).
-    *  On the Import Configuration dialog, click Import.
 
 ## Testing
 
 ### Validating the Installation
  
-* See the [solutions-geoevent-java validation instructions](../../../README.md#validating-install).
+* See the [solutions-geoevent-java validation instructions](../../../../README.md#validating-install).
     * Ensure the Buffer, Ellipse, Range Fan, Visibility, Query Report, etc. processors exist.
 
 ### Testing with Simulated Test Data
+In order to use the Query Report Processor some prerequisite steps are required.  The Query Report Processor executes a spatial query on a feature service on an ArcGIS Server instance registered with the GeoEvent extension.  In the following steps you will create a Refugee Camps feature service that will be queried by the processor.
+* Browse to `solutions-geoevent-java/data/packages` and find the refugee_camps.mpk map package.
+* Double click the map package to open in ArcMap.
+* The map package will pull the features into a local file geodatabase.  To publish the features in a feature service the feature class must be in an sde geodatabase.  Use the export features tool to export the features into an sde geodatabase.
+* Next modify the paths to the feature data of the refugee camps to point to the sde feature class you just created.
+* Click save to save changes in the map document.
+* Next follow the instructions (here) to publish the refugee camps map document as a feature service.
 
 * In the following steps you will configure GeoEvent Processor to receive and process simulated data.
 * The following example configures the <PROCESSORNAME>, the other processors can be configured in a similar manner.
@@ -80,7 +76,7 @@ in the GeoEvent Definition Name textbox and click 'Create'
 ![Image of Input Service](doc/input-service.png)
 
 * Next, create an Output Connector to observe the received data.
-    * Navigate ‘Services’ > 'Outputs'.
+    * Navigate â€˜Servicesâ€™ > 'Outputs'.
     * Select Add Output and select 'Write to a json file' and configure the properties using the image below as a guide.
     
 ![Image of Output Service](doc/tests-json-output.png)
@@ -107,7 +103,7 @@ in the GeoEvent Definition Name textbox and click 'Create'
 
 
 
-* In GeoEvent Processor Manager, navigate to ‘Services’ > ‘Monitor’ and observe the GeoEvent Processor components. You should see the newly created service and it should have a status of 'Started'.
+* In GeoEvent Processor Manager, navigate to â€˜Servicesâ€™ > â€˜Monitorâ€™ and observe the GeoEvent Processor components. You should see the newly created service and it should have a status of 'Started'.
 
 * Using the GeoEvent Simulator, load the simulation file located at  solutions-geoevent-java\data\simulation_files\<SIMULATION>.csv
 * Set the listening server to your geoevent server instance (local host if the simulator is on the same machine as geoevent server)
