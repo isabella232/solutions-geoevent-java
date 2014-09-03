@@ -39,14 +39,16 @@ public class FieldGrouperProcessorService extends GeoEventProcessorServiceBase {
 	private Messaging messaging;
 	private GeoEventDefinitionManager manager;
 	private static final Log LOG = LogFactory.getLog(FieldGrouperProcessorService.class);
-	public FieldGrouperProcessorService() {
+	public FieldGrouperProcessorService() throws PropertyException {
 		definition = new FieldGrouperProcessorDefinition();
 	}
 
 	public GeoEventProcessor create() throws ComponentException {
 
-		return new FieldGrouperProcessor(definition, manager, messaging);
-
+		FieldGrouperProcessor p = new FieldGrouperProcessor(definition);
+		p.setMessaging(messaging);
+		p.setGeoEventDefinitionManager(manager);
+		return p;
 	}
 	
 	public void setManager(GeoEventDefinitionManager m)
@@ -57,10 +59,5 @@ public class FieldGrouperProcessorService extends GeoEventProcessorServiceBase {
 	public void setMessaging(Messaging m)
 	{
 		messaging = m;
-	}
-	
-	public void start() throws PropertyException
-	{
-		((FieldGrouperProcessorDefinition)definition).setManager(manager);
 	}
 }

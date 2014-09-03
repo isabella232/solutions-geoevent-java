@@ -10,7 +10,7 @@ import java.util.List;
 import com.esri.ges.core.geoevent.FieldDefinition;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
 import com.esri.ges.core.geoevent.Tag;
-import com.esri.ges.core.property.AllowedValue;
+import com.esri.ges.core.property.LabeledValue;
 import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.core.property.PropertyType;
@@ -56,9 +56,9 @@ public class UnitConversionProcessorDefinition extends GeoEventProcessorDefiniti
 		
 		try {
 			
-			List<AllowedValue> allowedInputs = new ArrayList<AllowedValue>();
-			allowedInputs.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.INPUT_FIELD_LBL}","FIELD"));
-			allowedInputs.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.INPUT_NA_LBL}","NA"));
+			List<LabeledValue> allowedInputs = new ArrayList<LabeledValue>();
+			allowedInputs.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.INPUT_FIELD_LBL}","FIELD"));
+			allowedInputs.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.INPUT_NA_LBL}","NA"));
 			
 			PropertyDefinition pdVInputType = new PropertyDefinition("input-v", PropertyType.String,  "${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.INPUT_FIELD_LBL}", lblVelInputType,descVelInputType, true, false, allowedInputs);
 			propertyDefinitions.put(pdVInputType.getPropertyName(), pdVInputType);
@@ -69,25 +69,25 @@ public class UnitConversionProcessorDefinition extends GeoEventProcessorDefiniti
 			pdVMan.setDependsOn("input-v=Field");
 			propertyDefinitions.put(pdVMan.getPropertyName(), pdVMan);
 			
-			List<AllowedValue>allowedVelocities = new ArrayList<AllowedValue>();
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_MILES_PER_HOUR}","Miles/Hour"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_METERS_PER_HOUR}","Meters/Hour"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_KILOMETERS_PER_HOUR}","Kilometers/Hour"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_HECTOMETERS_PER_HOUR}","Hectometers/Hour"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_KNOTS}","Knots"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_FEET_PER_HOUR}","Feet/Hour"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_MILES_PER_MINUTE}","Miles/Minute"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_METERS_PER_MINUTE}","Meters/Minute"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_KILOMETERS_PER_MINUTE}","Kilometers/Minute"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_HECTOMETERS_PER_MINUTE}","Hectometers/Minute"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_NAUTICAL_MILES_PER_MINUTE}","Nautical Miles/Minute"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_FEET_PER_MINUTE}","Feet/Minute"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_MILES_PER_SECOND}","Miles/Second"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_METERS_PER_SECOND}","Meters/Second"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_KILOMETERS_PER_SECOND}","Kilometers/Second"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_HECTOMETERS_PER_SECOND}","Hectometers/Second"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_NAUTICAL_MILES_PER_SECOND}","Nautical Miles/Second"));
-			allowedVelocities.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_FEET_PER_SECOND}","Feet/Second"));
+			List<LabeledValue>allowedVelocities = new ArrayList<LabeledValue>();
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_MILES_PER_HOUR}","Miles/Hour"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_METERS_PER_HOUR}","Meters/Hour"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_KILOMETERS_PER_HOUR}","Kilometers/Hour"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_HECTOMETERS_PER_HOUR}","Hectometers/Hour"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_KNOTS}","Knots"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_FEET_PER_HOUR}","Feet/Hour"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_MILES_PER_MINUTE}","Miles/Minute"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_METERS_PER_MINUTE}","Meters/Minute"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_KILOMETERS_PER_MINUTE}","Kilometers/Minute"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_HECTOMETERS_PER_MINUTE}","Hectometers/Minute"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_NAUTICAL_MILES_PER_MINUTE}","Nautical Miles/Minute"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_FEET_PER_MINUTE}","Feet/Minute"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_MILES_PER_SECOND}","Miles/Second"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_METERS_PER_SECOND}","Meters/Second"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_KILOMETERS_PER_SECOND}","Kilometers/Second"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_HECTOMETERS_PER_SECOND}","Hectometers/Second"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_NAUTICAL_MILES_PER_SECOND}","Nautical Miles/Second"));
+			allowedVelocities.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_FEET_PER_SECOND}","Feet/Second"));
 			PropertyDefinition pdVIn = new PropertyDefinition("vin", PropertyType.String, "${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.VELOCITY_MILES_PER_HOUR}", lblVelInputUnit, descVelInputUnit, false, false, allowedVelocities);
 			propertyDefinitions.put(pdVIn.getPropertyName(), pdVIn);
 			
@@ -103,13 +103,13 @@ public class UnitConversionProcessorDefinition extends GeoEventProcessorDefiniti
 			pdAMan.setDependsOn("input-a=Field");
 			propertyDefinitions.put(pdAMan.getPropertyName(), pdAMan);
 			
-			List<AllowedValue> allowedAltitudes = new ArrayList<AllowedValue>();
-			allowedAltitudes.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_METERS}","Meters"));
-			allowedAltitudes.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_FEET}","Feet"));
-			allowedAltitudes.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_MILES}","Miles"));
-			allowedAltitudes.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_KILOMETERS}","Kilometers"));
-			allowedAltitudes.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_HECTOMETERS}","Hectometers"));
-			allowedAltitudes.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_NM}","Nautical Miles"));
+			List<LabeledValue> allowedAltitudes = new ArrayList<LabeledValue>();
+			allowedAltitudes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_METERS}","Meters"));
+			allowedAltitudes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_FEET}","Feet"));
+			allowedAltitudes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_MILES}","Miles"));
+			allowedAltitudes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_KILOMETERS}","Kilometers"));
+			allowedAltitudes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_HECTOMETERS}","Hectometers"));
+			allowedAltitudes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_NM}","Nautical Miles"));
 			
 			PropertyDefinition pdAltIn = new PropertyDefinition("altin", PropertyType.String, "${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.ALTITUDE_METERS}", lblAltInputUnit, descAltInputUnit, false, false, allowedAltitudes);
 			propertyDefinitions.put(pdAltIn.getPropertyName(), pdAltIn);
@@ -126,11 +126,11 @@ public class UnitConversionProcessorDefinition extends GeoEventProcessorDefiniti
 			pdFMan.setDependsOn("input-f=Field");
 			propertyDefinitions.put(pdFMan.getPropertyName(), pdFMan);
 			
-			List<AllowedValue> allowedFrequencies = new ArrayList<AllowedValue>();
-			allowedFrequencies.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.FREQUENCY_HERTZ}","Hz"));
-			allowedFrequencies.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.FREQUENCY_KILOHERTZ}","KHz"));
-			allowedFrequencies.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.FREQUENCY_MEGAHERTZ}","MHz"));
-			allowedFrequencies.add(new AllowedValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.FREQUENCY_GIGAHERTZ}","GHz"));
+			List<LabeledValue> allowedFrequencies = new ArrayList<LabeledValue>();
+			allowedFrequencies.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.FREQUENCY_HERTZ}","Hz"));
+			allowedFrequencies.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.FREQUENCY_KILOHERTZ}","KHz"));
+			allowedFrequencies.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.FREQUENCY_MEGAHERTZ}","MHz"));
+			allowedFrequencies.add(new LabeledValue("${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.FREQUENCY_GIGAHERTZ}","GHz"));
 			PropertyDefinition pdFIn = new PropertyDefinition("freqin", PropertyType.String, "${com.esri.geoevent.solutions.processor.unitconversion.unitConversion-processor.FREQUENCY_HERTZ}", lblFreqInputUnit, descFreqInputUnit, false, false, allowedFrequencies);
 			propertyDefinitions.put(pdFIn.getPropertyName(), pdFIn);
 			

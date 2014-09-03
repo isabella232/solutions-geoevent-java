@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.esri.ges.core.property.AllowedValue;
+import com.esri.ges.core.property.LabeledValue;
 import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.core.property.PropertyType;
@@ -126,10 +126,10 @@ public class QueryReportProcessorDefinition extends
 			propertyDefinitions.put(procReportHeader.getPropertyName(),
 					procReportHeader);
 
-			List<AllowedValue> allowedGeoSources = new ArrayList<AllowedValue>();
-			allowedGeoSources.add(new AllowedValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_EVENT_LBL}","Geoevent"));
-			allowedGeoSources.add(new AllowedValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_EVENT_DEF_LBL}","Event_Definition"));
-			allowedGeoSources.add(new AllowedValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_BUFFER_LBL}","Buffer"));
+			List<LabeledValue> allowedGeoSources = new ArrayList<LabeledValue>();
+			allowedGeoSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_EVENT_LBL}","Geoevent"));
+			allowedGeoSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_EVENT_DEF_LBL}","Event_Definition"));
+			allowedGeoSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_BUFFER_LBL}","Buffer"));
 			PropertyDefinition procGeometrySource = new PropertyDefinition(
 					"geosrc", PropertyType.String, "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_EVENT_LBL}",
 					lblGeoSrc, descGeoSrc,
@@ -161,12 +161,12 @@ public class QueryReportProcessorDefinition extends
 			procRadius.setDependsOn("geosrc=Buffer");
 			propertyDefinitions.put(procRadius.getPropertyName(), procRadius);
 			
-			List<AllowedValue> unitsAllowedVals = new ArrayList<AllowedValue>();
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_METERS_LBL}","Meters"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_KM_LBL}","Kilometers"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_FT_LBL}","Feet"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_MILES_LBL}","Miles"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_NM_LBL}","Nautical Miles"));
+			List<LabeledValue> unitsAllowedVals = new ArrayList<LabeledValue>();
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_METERS_LBL}","Meters"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_KM_LBL}","Kilometers"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_FT_LBL}","Feet"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_MILES_LBL}","Miles"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_NM_LBL}","Nautical Miles"));
 			PropertyDefinition procUnits = new PropertyDefinition("units",
 					PropertyType.String, "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_METERS_LBL}", lblBufferUnits, descBufferUnits,
 					true, false, unitsAllowedVals);
