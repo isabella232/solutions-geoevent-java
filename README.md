@@ -97,5 +97,5 @@ limitations under the License.
 A copy of the license is available in the repository's
 [license.txt](license.txt) file.
 
-[](Esri Tags: ArcGIS GeoEvent Processor for Server Defense and Intelligence Military Adapter Processor)
+[](Esri Tags: ArcGIS GeoEvent Processor for Server Defense and Intelligence Military Adapter Processor ArcGISSolutions)
 [](Esri Language: Java)
