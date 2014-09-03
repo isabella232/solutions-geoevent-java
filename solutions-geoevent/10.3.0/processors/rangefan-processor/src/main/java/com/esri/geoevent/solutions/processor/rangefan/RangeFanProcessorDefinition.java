@@ -28,7 +28,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.esri.ges.core.property.AllowedValue;
+import com.esri.ges.core.property.LabeledValue;
 import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.core.property.PropertyType;
@@ -43,18 +43,18 @@ public class RangeFanProcessorDefinition extends
 	public RangeFanProcessorDefinition() throws PropertyException {
 		try {
 
-			List<AllowedValue> allowedGeoSources = new ArrayList<AllowedValue>();
+			List<LabeledValue> allowedGeoSources = new ArrayList<LabeledValue>();
 			allowedGeoSources.add(new
-			AllowedValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.SRC_GEOEVENT}","event"));
+			LabeledValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.SRC_GEOEVENT}","event"));
 			allowedGeoSources.add(new
-			AllowedValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.SRC_EVENT_DEF}","geodef"));
+			LabeledValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.SRC_EVENT_DEF}","geodef"));
 			allowedGeoSources.add(new
-			AllowedValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.SRC_COORD_FIELDS}","coord"));
-			//allowedGeoSources.add(new AllowedValue("GeoEvent", "event"));
+			LabeledValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.SRC_COORD_FIELDS}","coord"));
+			//allowedGeoSources.add(new LabeledValue("GeoEvent", "event"));
 			//allowedGeoSources
-					//.add(new AllowedValue("Event Definition", "geodef"));
+					//.add(new LabeledValue("Event Definition", "geodef"));
 			//allowedGeoSources
-					//.add(new AllowedValue("Coordinate Fields", "coord"));
+					//.add(new LabeledValue("Coordinate Fields", "coord"));
 			// PropertyDefinition procGeometrySource = new PropertyDefinition(
 			// "geosrc", PropertyType.String,
 			// "${com.esri.geoevent.solutions.processor.rangefan.rangefan-processor.SRC_GEOEVENT_LBL}",
@@ -88,13 +88,13 @@ public class RangeFanProcessorDefinition extends
 			procYField.setDependsOn("geosrc=coord");
 			propertyDefinitions.put(procYField.getPropertyName(), procYField);
 
-			List<AllowedValue> allowedSources = new ArrayList<AllowedValue>();
+			List<LabeledValue> allowedSources = new ArrayList<LabeledValue>();
 			allowedSources.add(new
-			AllowedValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.SRC_CONSTANT}","Constant"));
+			LabeledValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.SRC_CONSTANT}","Constant"));
 			allowedSources.add(new
-			AllowedValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.SRC_EVENT}","Event"));
-			//allowedSources.add(new AllowedValue("Constant", "Constant"));
-			//allowedSources.add(new AllowedValue("Event", "Event"));
+			LabeledValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.SRC_EVENT}","Event"));
+			//allowedSources.add(new LabeledValue("Constant", "Constant"));
+			//allowedSources.add(new LabeledValue("Event", "Event"));
 			//PropertyDefinition procRangeSource = new PropertyDefinition(
 					//"rangeSource",
 					//PropertyType.String,
@@ -125,22 +125,22 @@ public class RangeFanProcessorDefinition extends
 			propertyDefinitions.put(procRangeEvent.getPropertyName(),
 					procRangeEvent);
 
-			List<AllowedValue> unitsAllowedVals = new ArrayList<AllowedValue>();
+			List<LabeledValue> unitsAllowedVals = new ArrayList<LabeledValue>();
 			unitsAllowedVals.add(new
-			AllowedValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_METERS}","Meters"));
+			LabeledValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_METERS}","Meters"));
 			unitsAllowedVals.add(new
-			AllowedValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_KM}","Kilometers"));
+			LabeledValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_KM}","Kilometers"));
 			unitsAllowedVals.add(new
-			AllowedValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_FT}","Feet"));
+			LabeledValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_FT}","Feet"));
 			unitsAllowedVals.add(new
-			AllowedValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_MILES}","Miles"));
+			LabeledValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_MILES}","Miles"));
 			unitsAllowedVals.add(new
-			AllowedValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_NM}","Nautical Miles"));
-			//unitsAllowedVals.add(new AllowedValue("Meters", "Meters"));
-			//unitsAllowedVals.add(new AllowedValue("Kilometers", "Kilometers"));
-			//unitsAllowedVals.add(new AllowedValue("Feet", "Feet"));
-			//unitsAllowedVals.add(new AllowedValue("Miles", "Miles"));
-			//unitsAllowedVals.add(new AllowedValue("Nautical Miles",
+			LabeledValue("${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_NM}","Nautical Miles"));
+			//unitsAllowedVals.add(new LabeledValue("Meters", "Meters"));
+			//unitsAllowedVals.add(new LabeledValue("Kilometers", "Kilometers"));
+			//unitsAllowedVals.add(new LabeledValue("Feet", "Feet"));
+			//unitsAllowedVals.add(new LabeledValue("Miles", "Miles"));
+			//unitsAllowedVals.add(new LabeledValue("Nautical Miles",
 					//"Nautical Miles"));
 			PropertyDefinition procUnits = new PropertyDefinition("units",
 					PropertyType.String, "${com.esri.geoevent.solutions.processor.rf.rangefan-processor.UNITS_METERS}", "Range Units",

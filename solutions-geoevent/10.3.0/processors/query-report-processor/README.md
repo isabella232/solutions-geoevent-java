@@ -18,12 +18,12 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 
 ## Requirements
 
-* See common [solutions-geoevent-java requirements](../../../README.md#requirements).
+* See common [solutions-geoevent-java requirements](../../../../README.md#requirements).
 * The ArcGIS Runtime for Java SDK is required in order to run the standalone Maven Tests included with this project.
 
 ## Building 
 
-* See the [solutions-geoevent-java instructions](../../../README.md#instructions) for general instructions on 
+* See the [solutions-geoevent-java instructions](../../../../README.md#instructions) for general instructions on 
     * verifying your Maven installation
     * setting the location of GeoEvent Processor and GeoEvent Processor SDK repositories
     * and any other common required steps

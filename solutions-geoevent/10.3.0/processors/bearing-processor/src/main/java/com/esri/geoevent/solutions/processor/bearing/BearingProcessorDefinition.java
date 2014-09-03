@@ -2,7 +2,7 @@ package com.esri.geoevent.solutions.processor.bearing;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esri.ges.core.property.AllowedValue;
+import com.esri.ges.core.property.LabeledValue;
 import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.core.property.PropertyType;
@@ -40,9 +40,9 @@ public class BearingProcessorDefinition extends GeoEventProcessorDefinitionBase 
 
 	public BearingProcessorDefinition() throws PropertyException {
 		
-		List<AllowedValue> srcValues = new ArrayList<AllowedValue>();
-		srcValues.add(new AllowedValue(srcGeoLbl, "geo"));
-		srcValues.add(new AllowedValue(srcCoordLbl, "coord"));
+		List<LabeledValue> srcValues = new ArrayList<LabeledValue>();
+		srcValues.add(new LabeledValue(srcGeoLbl, "geo"));
+		srcValues.add(new LabeledValue(srcCoordLbl, "coord"));
 		PropertyDefinition pdOriginSource = new PropertyDefinition("osrc", PropertyType.String, defaultSrc, lblOSrc, descOSrc, true, false, srcValues);
 		propertyDefinitions.put(pdOriginSource.getPropertyName(), pdOriginSource);
 

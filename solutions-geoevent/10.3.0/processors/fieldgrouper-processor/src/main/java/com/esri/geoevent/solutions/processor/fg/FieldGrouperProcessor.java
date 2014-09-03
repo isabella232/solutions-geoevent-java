@@ -36,13 +36,11 @@ import com.esri.ges.core.ConfigurationException;
 import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.DefaultFieldDefinition;
 import com.esri.ges.core.geoevent.DefaultGeoEventDefinition;
-import com.esri.ges.core.geoevent.FieldCardinality;
 import com.esri.ges.core.geoevent.FieldDefinition;
 import com.esri.ges.core.geoevent.FieldGroup;
 import com.esri.ges.core.geoevent.FieldType;
 import com.esri.ges.core.geoevent.GeoEvent;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
-import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
 import com.esri.ges.messaging.GeoEventCreator;
 import com.esri.ges.messaging.Messaging;
@@ -61,14 +59,30 @@ public class FieldGrouperProcessor extends GeoEventProcessorBase {
 		double lastTime = System.currentTimeMillis();
 		ArrayList<GeoEvent> events = new ArrayList<GeoEvent>();
 	}
-	public FieldGrouperProcessor(GeoEventProcessorDefinition definition, GeoEventDefinitionManager gedm, Messaging m)
+	public FieldGrouperProcessor(GeoEventProcessorDefinition definition)
 			throws ComponentException{
 		super(definition);
-		//((FieldGrouperProcessorDefinition)definition).refreshDefinition();
-		messaging = m;
-		manager = gedm;
+		
 		
 	}
+	
+	public void setGeoEventDefinitionManager(GeoEventDefinitionManager gedm)
+	{
+		manager = gedm;
+	}
+	
+	public void setMessaging(Messaging m)
+	{
+		messaging = m;
+	}
+	
+	@Override
+	public void afterPropertiesSet()
+	{
+		numIn = (Integer) properties.get("num-inputs").getValue();
+		gfname = properties.get("group-field").getValueAsString();
+	}
+	
 	@Override
 	public void shutdown()
 	{
@@ -79,11 +93,6 @@ public class FieldGrouperProcessor extends GeoEventProcessorBase {
 	public GeoEvent process(GeoEvent evt) throws Exception {
 		try {
 			String trackid = evt.getTrackId();
-			numIn = (Integer) properties.get("num-inputs").getValue();
-			String eventfld = properties.get("group-field").getValue()
-					.toString();
-			String[] arr = eventfld.split(":");
-			gfname = arr[1];
 			if (recordCache.containsKey(trackid)) {
 				TrackRecord curRec = recordCache.get(trackid);
 				double now = System.currentTimeMillis();
@@ -108,7 +117,6 @@ public class FieldGrouperProcessor extends GeoEventProcessorBase {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	private GeoEvent mergeEvents(TrackRecord tr) throws Exception {
 		try {
 			GeoEvent evt = tr.events.get(0);
@@ -169,11 +177,6 @@ public class FieldGrouperProcessor extends GeoEventProcessorBase {
 						fg.setField(index, ge.getField(gfname));
 						++index;
 					}
-					/*if(newEvent.getField(gfname)==null)
-					{
-						newEvent.setField(gfname, new ArrayList<FieldGroup>());
-					}
-					((List<FieldGroup>)newEvent.getField(gfname)).add(fg);*/
 					newEvent.setField(gfname, fg);
 				}
 				else
@@ -182,8 +185,6 @@ public class FieldGrouperProcessor extends GeoEventProcessorBase {
 					
 				}
 			}
-			
-			//newEvent.setField(gfname, groupVals);
 			return newEvent;
 		} catch (ConfigurationException e) {
 			LOG.error("Error configuring field definition");

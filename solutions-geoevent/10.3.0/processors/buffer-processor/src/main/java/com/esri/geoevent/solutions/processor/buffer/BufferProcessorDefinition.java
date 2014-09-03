@@ -35,7 +35,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.esri.ges.core.geoevent.FieldDefinition;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
-import com.esri.ges.core.property.AllowedValue;
+import com.esri.ges.core.property.LabeledValue;
 import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.core.property.PropertyType;
@@ -76,9 +76,9 @@ public class BufferProcessorDefinition extends GeoEventProcessorDefinitionBase {
 			unitsAllowedTypes.add("Nautical Miles");
 
 			
-			List<AllowedValue> allowedRadiusSources = new ArrayList<AllowedValue>();
-			allowedRadiusSources.add(new AllowedValue(radSrcConstant,"Constant"));
-			allowedRadiusSources.add(new AllowedValue(radSrcEvent,"Event"));
+			List<LabeledValue> allowedRadiusSources = new ArrayList<LabeledValue>();
+			allowedRadiusSources.add(new LabeledValue(radSrcConstant,"Constant"));
+			allowedRadiusSources.add(new LabeledValue(radSrcEvent,"Event"));
 			PropertyDefinition procRadiusSource = new PropertyDefinition(
 					"radiusSource", PropertyType.String, radSrcConstant,
 					lblRadSrc, descRadSrc, true, false, allowedRadiusSources);
@@ -100,12 +100,12 @@ public class BufferProcessorDefinition extends GeoEventProcessorDefinitionBase {
 			propertyDefinitions.put(procRadiusEvent.getPropertyName(),
 					procRadiusEvent);
 
-			List<AllowedValue> unitsAllowedVals = new ArrayList<AllowedValue>();
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_METERS_LBL}","Meters"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_KM_LBL}","Kilometers"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_FT_LBL}","Feet"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_MILES_LBL}","Miles"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_NM_LBL}","Nautical Miles"));
+			List<LabeledValue> unitsAllowedVals = new ArrayList<LabeledValue>();
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_METERS_LBL}","Meters"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_KM_LBL}","Kilometers"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_FT_LBL}","Feet"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_MILES_LBL}","Miles"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_NM_LBL}","Nautical Miles"));
 			PropertyDefinition procUnits = new PropertyDefinition("units",
 					PropertyType.String, "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.UNITS_METERS_LBL}", lblUnits, descUnits,
 					true, false, unitsAllowedVals);

@@ -24,67 +24,40 @@ package com.esri.geoevent.solutions.processor.fg;
  */
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.esri.ges.core.geoevent.FieldDefinition;
-import com.esri.ges.core.geoevent.GeoEventDefinition;
 import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.core.property.PropertyType;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
-import com.esri.ges.manager.tag.TagManager;
 import com.esri.ges.processor.GeoEventProcessorDefinitionBase;
 
 public class FieldGrouperProcessorDefinition extends
 		GeoEventProcessorDefinitionBase {
-	GeoEventDefinitionManager manager;
+	//GeoEventDefinitionManager manager;
 	private static final Log LOG = LogFactory.getLog(FieldGrouperProcessor.class);
 	private String lblNumEvents = "${com.esri.geoevent.solutions.processor.fg.fieldgrouper.LBL_NUMBER_EVENTS}";
 	private String descNumEvents = "${com.esri.geoevent.solutions.processor.fg.fieldgrouper.DESC_NUMBER_EVENTS}";
 	private String lblGroupField = "${com.esri.geoevent.solutions.processor.fg.fieldgrouper.LBL_GROUP_FIELD}";
 	private String descGroupField = "${com.esri.geoevent.solutions.processor.fg.fieldgrouper.DESC_GROUP_FIELD}";
 	
-	public FieldGrouperProcessorDefinition(){
-		;
-	}
-	
-	public void refreshDefinition() throws Exception {
-		try {
-			PropertyDefinition pdNumInputs = new PropertyDefinition(
-					"num-inputs",
-					PropertyType.Integer,
-					2, lblNumEvents, 
-					descNumEvents,
-					true, false);
-			propertyDefinitions.put(pdNumInputs.getPropertyName(), pdNumInputs);
+	public FieldGrouperProcessorDefinition() throws PropertyException{
+		PropertyDefinition pdNumInputs = new PropertyDefinition(
+				"num-inputs",
+				PropertyType.Integer,
+				2, lblNumEvents, 
+				descNumEvents,
+				true, false);
+		propertyDefinitions.put(pdNumInputs.getPropertyName(), pdNumInputs);
 
-			PropertyDefinition pdGroupFieldName = new PropertyDefinition(
-					lblGroupField, PropertyType.String, "", "Group Field",
-					descGroupField, true, false);
-			//SetGeoEventAllowedFields(pdGroupFieldName);
-			propertyDefinitions.put(pdGroupFieldName.getPropertyName(),
-					pdGroupFieldName);
-		} catch (PropertyException e) {
-			LOG.error(e.getMessage());
-			LOG.error(e.getStackTrace());
-		}
-	}
-
-	public void setManager(GeoEventDefinitionManager m) throws PropertyException {
-		manager = m;
-		try {
-			refreshDefinition();
-		} catch (Exception e) {
-			LOG.error(e.getMessage());
-		}
+		PropertyDefinition pdGroupFieldName = new PropertyDefinition(
+				"group-field", PropertyType.String, "", lblGroupField,
+				descGroupField, true, false);
+		//SetGeoEventAllowedFields(pdGroupFieldName);
+		propertyDefinitions.put(pdGroupFieldName.getPropertyName(),
+				pdGroupFieldName);
 	}
 	
 	public String getName()

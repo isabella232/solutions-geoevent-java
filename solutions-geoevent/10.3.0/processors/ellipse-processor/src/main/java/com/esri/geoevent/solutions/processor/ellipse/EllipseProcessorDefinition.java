@@ -32,7 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.esri.ges.core.geoevent.GeoEventDefinition;
-import com.esri.ges.core.property.AllowedValue;
+import com.esri.ges.core.property.LabeledValue;
 import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.core.property.PropertyType;
@@ -50,9 +50,9 @@ public class EllipseProcessorDefinition extends GeoEventProcessorDefinitionBase 
 	public void setManager(GeoEventDefinitionManager m) {
 		try {
 			this.manager = m;
-			List<AllowedValue> allowedSources = new ArrayList<AllowedValue>();
-			allowedSources.add(new AllowedValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.SRC_CONSTANT_LBL}","Constant"));
-			allowedSources.add(new AllowedValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.SRC_EVENT_LBL}","Event"));
+			List<LabeledValue> allowedSources = new ArrayList<LabeledValue>();
+			allowedSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.SRC_CONSTANT_LBL}","Constant"));
+			allowedSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.SRC_EVENT_LBL}","Event"));
 			PropertyDefinition procMajAxisSource = new PropertyDefinition(
 					"majorAxisSource", PropertyType.String, "",
 					"Major Axis Source", "Source of Major Axis Value", true,
@@ -102,12 +102,12 @@ public class EllipseProcessorDefinition extends GeoEventProcessorDefinitionBase 
 			propertyDefinitions.put(procMinAxisEvent.getPropertyName(),
 					procMinAxisEvent);
 
-			List<AllowedValue> unitsAllowedVals = new ArrayList<AllowedValue>();
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_METERS_LBL}","Meters"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_KM_LBL}","Kilometers"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_FT_LBL}","Feet"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_MILES_LBL}","Miles"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_NM_LBL}","Nautical Miles"));
+			List<LabeledValue> unitsAllowedVals = new ArrayList<LabeledValue>();
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_METERS_LBL}","Meters"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_KM_LBL}","Kilometers"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_FT_LBL}","Feet"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_MILES_LBL}","Miles"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_NM_LBL}","Nautical Miles"));
 			PropertyDefinition procUnits = new PropertyDefinition("units",
 					PropertyType.String, "${com.esri.geoevent.solutions.processor.ellipse.ellipse-processor.UNITS_METERS_LBL}", "Units", "Units of measurement",
 					true, false, unitsAllowedVals);

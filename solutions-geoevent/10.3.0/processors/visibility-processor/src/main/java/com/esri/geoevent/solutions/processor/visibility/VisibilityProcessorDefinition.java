@@ -33,7 +33,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
-import com.esri.ges.core.property.AllowedValue;
+import com.esri.ges.core.property.LabeledValue;
 import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.core.property.PropertyType;
@@ -101,10 +101,10 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 			propertyDefinitions.put(procImageService.getPropertyName(),
 					procImageService);
 
-			List<AllowedValue> allowedObsSrc = new ArrayList<AllowedValue>();
-			allowedObsSrc.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.OBS_SRC_GEOEVENT}", "Geoevent"));
-			allowedObsSrc.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.OBS_SRC_CONSTANT}", "Constant"));
-			allowedObsSrc.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.OBS_SRC_FIELD}", "Field"));
+			List<LabeledValue> allowedObsSrc = new ArrayList<LabeledValue>();
+			allowedObsSrc.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.OBS_SRC_GEOEVENT}", "Geoevent"));
+			allowedObsSrc.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.OBS_SRC_CONSTANT}", "Constant"));
+			allowedObsSrc.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.OBS_SRC_FIELD}", "Field"));
 			PropertyDefinition procObserverSource = new PropertyDefinition(
 					"observerSource", PropertyType.String, "${com.esri.geoevent.solutions.processor.visibility.visibility-processor.OBS_SRC_GEOEVENT}",
 					lblObsSrc, descObsSrc, true,
@@ -143,9 +143,9 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 			propertyDefinitions.put(procEventY.getPropertyName(), procEventY);
 
 
-			List<AllowedValue> allowedSrc = new ArrayList<AllowedValue>();
-			allowedSrc.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.SRC_CONSTANT}", "Constant"));
-			allowedSrc.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.SRC_GEOEVENT}", "Event"));
+			List<LabeledValue> allowedSrc = new ArrayList<LabeledValue>();
+			allowedSrc.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.SRC_CONSTANT}", "Constant"));
+			allowedSrc.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.SRC_GEOEVENT}", "Event"));
 			PropertyDefinition procRadiusSource = new PropertyDefinition(
 					"radiusSource", PropertyType.String, "${com.esri.geoevent.solutions.processor.visibility.visibility-processor.SRC_CONSTANT}", lblRadSrc,
 					descRadSrc, true, false, allowedSrc);
@@ -167,12 +167,12 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 			propertyDefinitions.put(procRadiusEvent.getPropertyName(),
 					procRadiusEvent);
 
-			List<AllowedValue> unitsAllowedVals = new ArrayList<AllowedValue>();
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_METERS_LBL}","Meters"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_KM_LBL}","Kilometers"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_FT_LBL}","Feet"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_MILES_LBL}","Miles"));
-			unitsAllowedVals.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_NM_LBL}","Nautical Miles"));
+			List<LabeledValue> unitsAllowedVals = new ArrayList<LabeledValue>();
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_METERS_LBL}","Meters"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_KM_LBL}","Kilometers"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_FT_LBL}","Feet"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_MILES_LBL}","Miles"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_NM_LBL}","Nautical Miles"));
 			PropertyDefinition procUnits = new PropertyDefinition("units",
 					PropertyType.String, "${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_METERS_LBL}", lblRadUnits, descRadUnits,
 					true, false, unitsAllowedVals);
@@ -201,9 +201,9 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 			propertyDefinitions.put(procElevEvent.getPropertyName(),
 					procElevEvent);
 
-			List<AllowedValue> allowedElevUnits = new ArrayList<AllowedValue>();
-			allowedElevUnits.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_METERS_LBL}","Meters"));
-			allowedElevUnits.add(new AllowedValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_FT_LBL}","Feet"));
+			List<LabeledValue> allowedElevUnits = new ArrayList<LabeledValue>();
+			allowedElevUnits.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_METERS_LBL}","Meters"));
+			allowedElevUnits.add(new LabeledValue("${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_FT_LBL}","Feet"));
 			PropertyDefinition procUnitsElev = new PropertyDefinition(
 					"units_elev", PropertyType.String, "${com.esri.geoevent.solutions.processor.visibility.visibility-processor.UNITS_METERS_LBL}", lblElevUnits,
 					descElevUnits, true, false, allowedElevUnits);
