@@ -3,7 +3,6 @@ package com.esri.geoevent.solutions.processor.unitconversion;
 import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
-import com.esri.ges.manager.tag.TagManager;
 import com.esri.ges.messaging.Messaging;
 import com.esri.ges.processor.GeoEventProcessor;
 import com.esri.ges.processor.GeoEventProcessorServiceBase;
@@ -12,14 +11,14 @@ public class UnitConversionProcessorService extends
 		GeoEventProcessorServiceBase {
 	public GeoEventDefinitionManager manager;
 	public Messaging messaging;
-	public TagManager tagManager;
-	public UnitConversionProcessorService() {
+	//public TagManager tagManager;
+	public UnitConversionProcessorService() throws PropertyException {
 		definition = new UnitConversionProcessorDefinition();
 	}
 	
 	@Override
 	public GeoEventProcessor create() throws ComponentException {
-		return new UnitConversionProcessor(definition, manager, messaging, tagManager);
+		return new UnitConversionProcessor(definition, manager, messaging);
 	}
 	
 	public void setMessaging(Messaging m)
@@ -32,14 +31,5 @@ public class UnitConversionProcessorService extends
 		manager = m;
 	}
 	
-	public void setTagManager(TagManager tm)
-	{
-		tagManager = tm;
-	}
 	
-	public void start() throws PropertyException{
-		UnitConversionProcessorDefinition ucDef = (UnitConversionProcessorDefinition)definition;
-		ucDef.setManager(manager, tagManager);
-	}
-
 }
