@@ -1,11 +1,7 @@
 package com.esri.geoevent.solutions.processor.unitconversion;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,16 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.esri.ges.core.component.ComponentException;
-import com.esri.ges.core.geoevent.DefaultFieldDefinition;
-import com.esri.ges.core.geoevent.DefaultGeoEventDefinition;
-import com.esri.ges.core.geoevent.FieldDefinition;
-import com.esri.ges.core.geoevent.FieldType;
 import com.esri.ges.core.geoevent.GeoEvent;
-import com.esri.ges.core.geoevent.GeoEventDefinition;
-import com.esri.ges.core.geoevent.GeoEventPropertyName;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
-import com.esri.ges.manager.tag.TagManager;
-import com.esri.ges.messaging.GeoEventCreator;
 import com.esri.ges.messaging.Messaging;
 import com.esri.ges.processor.GeoEventProcessorBase;
 import com.esri.ges.processor.GeoEventProcessorDefinition;
@@ -36,6 +24,18 @@ public class UnitConversionProcessor extends GeoEventProcessorBase {
 	HashMap<String, Double> convertMetric = new HashMap<String, Double>();
 	Messaging messaging;
 	GeoEventDefinitionManager manager;
+	private String inputv;
+	private String inputa;
+	private String inputf;
+	private String vtag;
+	private String ftag;
+	private String atag;
+	private String vout;
+	private String vin;
+	private String aout;
+	private String ain;
+	private String fout;
+	private String fin;
 	private String altOut;
 	private String dOut;
 	private String tOut;
@@ -46,14 +46,14 @@ public class UnitConversionProcessor extends GeoEventProcessorBase {
 	private String freqIn;
 	private static final Log LOG = LogFactory
 			.getLog(UnitConversionProcessor.class);
-	public TagManager tm;
+	//public TagManager tm;
 	public UnitConversionProcessor(GeoEventProcessorDefinition definition,
-			GeoEventDefinitionManager m, Messaging msg, TagManager t)
+			GeoEventDefinitionManager m, Messaging msg)
 			throws ComponentException {
 		super(definition);
 		manager = m;
 		messaging = msg;
-		tm = t;
+		//tm = t;
 		geoEventMutator = true;
 		convertDistance.put("km-km", 1.0);
 		convertDistance.put("km-hm", 10.0);
@@ -125,10 +125,10 @@ public class UnitConversionProcessor extends GeoEventProcessorBase {
 		freqUnits.put("Hz", "none");
 	}
 	
-	public void setTagManager(TagManager t)
+	/*public void setTagManager(TagManager t)
 	{
 		tm = t;
-	}
+	}*/
 	
 	private Object ConvertBack(Object o, Double val)
 	{
@@ -148,39 +148,42 @@ public class UnitConversionProcessor extends GeoEventProcessorBase {
 		return out;
 	}
 	
-	public void onServiceStop()
+	@Override
+	public void afterPropertiesSet()
 	{
-		((UnitConversionProcessorDefinition)definition).setManager(manager, tm);
+		inputv = properties.get("input-v").getValueAsString();
+		inputa = properties.get("input-a").getValueAsString();
+		inputf = properties.get("input-f").getValueAsString();
+		vtag = null;
+		ftag = null;
+		atag = null;
+		if (inputv.equals("Field")) {
+			vtag = properties.get("velocity-manual").getValueAsString();
+		}
+
+		if (inputa.equals("Field")) {
+			atag = properties.get("alt-manual").getValueAsString();
+		}
+
+		if (inputf.equals("Field")) {
+			ftag = properties.get("freq-manual").getValueAsString();
+		}
+		vout = properties.get("vout").getValueAsString();
+		vin = properties.get("vin").getValueAsString();
+		aout = properties.get("altout").getValueAsString();
+		ain = properties.get("altin").getValueAsString();
+		fout = properties.get("freqout").getValueAsString();
+		fin = properties.get("freqin").getValueAsString();
 	}
+	
 	@Override
 	public GeoEvent process(GeoEvent evt) throws Exception {
 
 		try {
 			// Integer validation;
-			String inputv = properties.get("input-v").getValueAsString();
-			String inputa = properties.get("input-a").getValueAsString();
-			String inputf = properties.get("input-f").getValueAsString();
+			
 			String tag;
-			String vtag = null;
-			String ftag = null;
-			String atag = null;
-			if (inputv.equals("TAG")) {
-				vtag = properties.get("velocity-tag").getValueAsString();
-			} else if (inputv.equals("MANUAL")) {
-				vtag = properties.get("velocity-manual").getValueAsString();
-			}
-
-			if (inputa.equals("TAG")) {
-				atag = properties.get("altitude-tag").getValueAsString();
-			} else if (inputa.equals("MANUAL")) {
-				atag = properties.get("alt-manual").getValueAsString();
-			}
-
-			if (inputf.equals("TAG")) {
-				ftag = properties.get("frequency-tag").getValueAsString();
-			} else if (inputf.equals("MANUAL")) {
-				ftag = properties.get("freq-manual").getValueAsString();
-			}
+			
 
 			Double v = null;
 			if (!StringIsNullOrEmpty(vtag)) {
@@ -197,9 +200,8 @@ public class UnitConversionProcessor extends GeoEventProcessorBase {
 					if (velocity == null || isEmpty) {
 						evt.setField(tag, null);
 					} else {
-						String vout = properties.get("vout").getValueAsString();
+						
 						parseVelocityOut(vout);
-						String vin = properties.get("vin").getValueAsString();
 						parseVelocityIn(vin);
 						try {
 							v = calculateVelocity(velocity);
@@ -231,10 +233,8 @@ public class UnitConversionProcessor extends GeoEventProcessorBase {
 					if (alt == null || isEmpty) {
 						evt.setField(tag, null);
 					} else {
-						String aout = properties.get("altout")
-								.getValueAsString();
+						
 						parseAltOut(aout);
-						String ain = properties.get("altin").getValueAsString();
 						parseAltIn(ain);
 
 						try {
@@ -267,24 +267,17 @@ public class UnitConversionProcessor extends GeoEventProcessorBase {
 						evt.setField(tag, null);
 					} else {
 
-						if (StringIsNullOrEmpty((String) objFreq)) {
+						parseFreqOut(fout);
+						parseFreqIn(fin);
+						try {
+							freq = calculateFrequency(objFreq);
+							Object f_out = ConvertBack(objFreq, freq);
+							evt.setField(tag, f_out);
+						} catch (Exception e) {
+							LOG.error("Unable to parse", e);
 							evt.setField(tag, null);
-						} else {
-							String fout = properties.get("freqout")
-									.getValueAsString();
-							parseFreqOut(fout);
-							String fin = properties.get("freqin")
-									.getValueAsString();
-							parseFreqIn(fin);
-							try {
-								freq = calculateFrequency(objFreq);
-								Object f_out = ConvertBack(objFreq, freq);
-								evt.setField(tag, f_out);
-							} catch (Exception e) {
-								LOG.error("Unable to parse", e);
-								evt.setField(tag, null);
-							}
 						}
+
 					}
 
 				}
