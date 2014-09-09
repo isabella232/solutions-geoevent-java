@@ -43,7 +43,7 @@
 
 ### Validating the Installation
  
-* See the [solutions-geoevent-java validation instructions](../../../README.md#validating-install).
+* See the [solutions-geoevent-java validation instructions](../../../../README.md#validating-install).
     * Ensure the <PROCESSORNAME> exists.
 
 ### Testing with Simulated Test Data
@@ -129,4 +129,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 A copy of the license is available in the repository's
-[license.txt](../../../license.txt) file.
+[license.txt](../../../../license.txt) file.
