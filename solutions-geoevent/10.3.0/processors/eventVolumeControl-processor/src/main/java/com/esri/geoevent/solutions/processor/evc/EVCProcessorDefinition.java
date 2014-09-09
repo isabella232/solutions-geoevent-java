@@ -10,8 +10,8 @@ import com.esri.ges.processor.GeoEventProcessorDefinitionBase;
 import com.esri.ges.core.property.LabeledValue;
 public class EVCProcessorDefinition extends GeoEventProcessorDefinitionBase
 {
-	private String allowedValInterval = "${com.esri.geoevent.solutions.processor.evc.eventVolumeControl-processor.INTERVAL_LabeledValue_INTERVAL}";
-	private String allowedValMaxPerInterval = "${com.esri.geoevent.solutions.processor.evc.eventVolumeControl-processor.INTERVAL_LabeledValue_MAX_PER_INTERVAL}";
+	private String allowedValInterval = "${com.esri.geoevent.solutions.processor.evc.eventVolumeControl-processor.INTERVAL_ALLOWEDVALUE_INTERVAL}";
+	private String allowedValMaxPerInterval = "${com.esri.geoevent.solutions.processor.evc.eventVolumeControl-processor.INTERVAL_ALLOWEDVALUE_MAX_PER_INTERVAL}";
 	private String lblFilterType = "${com.esri.geoevent.solutions.processor.evc.eventVolumeControl-processor.LBL_FILTER_TYPE}";
 	private String descFilterType = "${com.esri.geoevent.solutions.processor.evc.eventVolumeControl-processor.DESC_FILTER_TYPE}";
 	private String lblMaxPerInterval = "${com.esri.geoevent.solutions.processor.evc.eventVolumeControl-processor.LBL_EVENTS_PER_INTERVAL}";
@@ -23,14 +23,14 @@ public class EVCProcessorDefinition extends GeoEventProcessorDefinitionBase
 			propertyDefinitions.put(pdInterval.getPropertyName(), pdInterval);
 			
 			List<LabeledValue> allowedVals = new ArrayList<LabeledValue>();
-			allowedVals.add(new LabeledValue(allowedValInterval,"byInterval"));
-			allowedVals.add(new LabeledValue(allowedValMaxPerInterval,"maxPerInterval"));
+			allowedVals.add(new LabeledValue(allowedValInterval,"byInterval" ));
+			allowedVals.add(new LabeledValue(allowedValMaxPerInterval, "maxPerInterval"));
 			PropertyDefinition pdFilterType = new PropertyDefinition("filterType", PropertyType.String, allowedValInterval, lblFilterType, descFilterType, true, false, allowedVals);
 
 			propertyDefinitions.put(pdFilterType.getPropertyName(), pdFilterType);
 			
 			PropertyDefinition pdEPI = new PropertyDefinition("epi", PropertyType.Long, 100, lblMaxPerInterval, descMaxPerInterval, true, false);
-			pdEPI.setDependsOn("maxPerInterval");
+			pdEPI.setDependsOn("filterType=maxPerInterval");
 			propertyDefinitions.put(pdEPI.getPropertyName(), pdEPI);
 			
 		} catch (PropertyException e) {
