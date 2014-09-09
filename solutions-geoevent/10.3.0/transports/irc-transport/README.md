@@ -44,35 +44,9 @@ The IRC Transport demonstrates how to consume IRC messages using  GeoEvent Exten
 ### Validating the Installation
  
 * See the [solutions-geoevent-java validation instructions](../../../../README.md#validating-install).
-    * Ensure the Buffer processor exists.
+    * Ensure the IRC Transport exists.
 
-### Testing with Simulated Test Data
-
-* In the following steps you will configure GeoEvent Processor to receive and process simulated data.
-* The following example configures the Buffer Processor, the other processors can be configured in a similar manner.
-
-* Open GeoEvent Processor Manager.
-* Create an Input Connector to receive simulated data over TCP.
-    * Navigate to ‘Site’ > ‘Services’ > 'Inputs'.
-    * Click Add Input and select 'Receive text from a TCP Socket' and configure as illustrated below.
-
-![Image of create connector](doc/geometry-buffer-input.png)
-
-* Next, create an Output Connector to observe the received data.
-    * Navigate to ‘Site’ > ‘Services’ > 'Outputs'.
-    * Select Add Input and select 'Write to a .csv file' and configure the properties.
-* Create a simple GeoEvent Service to direct the input data to the output using the selected processor.
-    * An example GeoEvent Service and processor configuration is illustrated below.
-
-![Image of service](doc/geometry-simple-service.png)
-
-* In GeoEvent Processor Manager, navigate to ‘Services’ > ‘Monitor’ and observe the GeoEvent Processor components, they should be similar to the illustration below (note: your names/outputs may differ).
-
-![Image of monitor](doc/monitor.png)
-
-* Using the GeoEvent Simulator, load the simulation file located at  solutions-geoevent-java\data\simulation_files\Geometry-Buffer.csv
-* In GeoEvent Processor Manager, navigate to 'Services' > 'Monitor' to observe that the values are increasing and the selected outputs are updated. 
-* You can now test the processors with additional outputs such as published feature services.
+In order to test the IRC Adaptor an IRC client is required.  Configuring a client is beyond the scope of this readme. Once a client is set up, you can begin listening to IRC messages transmitted by the client by configuring the irc transport to a particular server/channel settings.
 
 ## Licensing
 
