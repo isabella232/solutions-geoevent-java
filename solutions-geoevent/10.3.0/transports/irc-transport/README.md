@@ -1,13 +1,13 @@
-ï»¿# Geometry Processors
+# IRC Transport
 
-The Geometry Processors demonstrate how to extend GeoEvent Processor to build custom processors that perform actions and processing on the geometries of a GeoEvent Service.  
+The IRC Transport demonstrates how to consume IRC messages using  GeoEvent Extension for ArcGIS Server
 
-![Image of geomessage-adapter](Buffer.PNG)
+![Image of geomessage-adapter](IRC.PNG)
 
 ## Features 
 
 
-* Buffer Processor - Converts the GeoEvent geometry to a buffer around the incoming event.
+* Consumes IRC messages
 
 
 ## Sections
@@ -20,12 +20,12 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 
 ## Requirements
 
-* See common [solutions-geoevent-java requirements](../../../README.md#requirements).
+* See common [solutions-geoevent-java requirements](../../../../README.md#requirements).
 * The ArcGIS Runtime for Java SDK is required in order to run the standalone Maven Tests included with this project.
 
 ## Building 
 
-* See the [solutions-geoevent-java instructions](../../../README.md#instructions) for general instructions on 
+* See the [solutions-geoevent-java instructions](../../../../README.md#instructions) for general instructions on 
     * verifying your Maven installation
     * setting the location of GeoEvent Processor and GeoEvent Processor SDK repositories
     * and any other common required steps
@@ -43,7 +43,7 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 
 ### Validating the Installation
  
-* See the [solutions-geoevent-java validation instructions](../../../README.md#validating-install).
+* See the [solutions-geoevent-java validation instructions](../../../../README.md#validating-install).
     * Ensure the Buffer processor exists.
 
 ### Testing with Simulated Test Data
@@ -53,20 +53,20 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 
 * Open GeoEvent Processor Manager.
 * Create an Input Connector to receive simulated data over TCP.
-    * Navigate to â€˜Siteâ€™ > â€˜Servicesâ€™ > 'Inputs'.
+    * Navigate to ‘Site’ > ‘Services’ > 'Inputs'.
     * Click Add Input and select 'Receive text from a TCP Socket' and configure as illustrated below.
 
 ![Image of create connector](doc/geometry-buffer-input.png)
 
 * Next, create an Output Connector to observe the received data.
-    * Navigate to â€˜Siteâ€™ > â€˜Servicesâ€™ > 'Outputs'.
+    * Navigate to ‘Site’ > ‘Services’ > 'Outputs'.
     * Select Add Input and select 'Write to a .csv file' and configure the properties.
 * Create a simple GeoEvent Service to direct the input data to the output using the selected processor.
     * An example GeoEvent Service and processor configuration is illustrated below.
 
 ![Image of service](doc/geometry-simple-service.png)
 
-* In GeoEvent Processor Manager, navigate to â€˜Servicesâ€™ > â€˜Monitorâ€™ and observe the GeoEvent Processor components, they should be similar to the illustration below (note: your names/outputs may differ).
+* In GeoEvent Processor Manager, navigate to ‘Services’ > ‘Monitor’ and observe the GeoEvent Processor components, they should be similar to the illustration below (note: your names/outputs may differ).
 
 ![Image of monitor](doc/monitor.png)
 
@@ -91,4 +91,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 A copy of the license is available in the repository's
-[license.txt](../../../license.txt) file.
+[license.txt](../../../../license.txt) file.
