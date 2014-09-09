@@ -1,18 +1,14 @@
-﻿# Geometry Processors
+# Rangefan Processor
 
-The Geometry Processors demonstrate how to extend GeoEvent Processor to build custom processors that perform actions and processing on the geometries of a GeoEvent Service.  
+<DESCRIPTION>  
 
-![Image of geomessage-adapter](rangefan.png)
+![Image of Rangefan Processor]<PROCESSOR_PICTURE_NAME>.PNG
 
 ## Features 
 
-Multiple processors are included with the Geometry Processors:
 
-* Buffer Processor - Converts the GeoEvent geometry to a buffer around the incoming event.
-* Ellipse Processor - Converts the GeoEvent geometry to an ellipse centered on the incoming event geometry.
-* Range Fan Processor - Converts the GeoEvent geometry to a range fan with an origin at the incoming event geometry.
-* Visibility Processor - Generates a viewshed with an observer located at the incoming GeoEvent geometry.  The Visibility Processor also allows the user to clip the viewshed to a polygon.
-* Query Report Processor - Executes a spatial query on feature services registered in GeoEvent Processor's data store.  The author of the service can then configures a report based on returned features.
+* Rangefan Processor - <DESCRIPTION>
+
 
 ## Sections
 
@@ -24,12 +20,12 @@ Multiple processors are included with the Geometry Processors:
 
 ## Requirements
 
-* See common [solutions-geoevent-java requirements](../../../README.md#requirements).
+* See common [solutions-geoevent-java requirements](../../../../README.md#requirements).
 * The ArcGIS Runtime for Java SDK is required in order to run the standalone Maven Tests included with this project.
 
 ## Building 
 
-* See the [solutions-geoevent-java instructions](../../../README.md#instructions) for general instructions on 
+* See the [solutions-geoevent-java instructions](../../../../README.md#instructions) for general instructions on 
     * verifying your Maven installation
     * setting the location of GeoEvent Processor and GeoEvent Processor SDK repositories
     * and any other common required steps
@@ -38,60 +34,87 @@ Multiple processors are included with the Geometry Processors:
 
 ## Installation
 
-* Install the Geometry Processors.
+* Install the Rangefan Processor.
     * Browse to `solutions-geoevent-java/solutions-processors/rangefan-processor/target` (this directory is created when you execute mvn install).
     * Copy the .jar file and paste it into the deploy folder in the GeoEvent Processor install directory ([GeoEvent Processor install location]\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy).
-* Check for existing GeoEvent Definitions.
-    *  Open GeoEvent Processor Manager.
-    *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘GeoEvent Definitions’.
-    *  Confirm GeoEvent Definition(s) exist for the processor(s) you want to run (e.g. if you are going to run the Rangefan Processor, confirm a GeoEvent Definition is available as illustrated below).
 
-![Image of geoeventdefinition](doc/geoeventdefinition.png)
-
-* If these GeoEvent Definitions are not available, do the following to create these GeoEvent Definitions.
-    *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘Configuration Store’ and click ‘Import Configuration’.
-    *  Browse to `solutions-geoevent-java\data\configurations` and locate the `GeoEventDefinitions-GeometryProcessors.xml` configuration file. This file is located [here](../../../data/configurations/GeoEventDefinitions-GeometryProcessors.xml).
-    *  On the Import Configuration dialog, click Import.
 
 ## Testing
 
 ### Validating the Installation
  
-* See the [solutions-geoevent-java validation instructions](../../../README.md#validating-install).
-    * Ensure the Buffer, Ellipse, Range Fan, Visibility, Query Report, etc. processors exist.
+* See the [solutions-geoevent-java validation instructions](../../../../README.md#validating-install).
+    * Ensure the Rangefan Processor exists.
 
 ### Testing with Simulated Test Data
 
 * In the following steps you will configure GeoEvent Processor to receive and process simulated data.
-* The following example configures the Ran Fan Processor, the other processors can be configured in a similar manner.
+* The following example configures the Rangefan Processor, the other processors can be configured in a similar manner.
 
 * Open GeoEvent Processor Manager.
-* Create an Input Connector to receive simulated data over TCP.
-    * Navigate to ‘Site’ > ‘Services’ > 'Inputs'.
-    * Click Add Input and select 'Receive text from a TCP Socket' and configure as illustrated below.
+* Create a new GeoEvent definition 
+   * Go to Site > GeoEvent > GeoEvent Definitions
+   * Click 'New GeoEvent Definition'
+   * In the the New Geoevent Definition dialog configure similar to the follwing illustration
 
-![Image of create connector](doc/geometry-tcp-input.png)
+![Image of Add New Input](doc/add-new-def.png)
+
+in the GeoEvent Definition Name textbox and click 'Create'
+   * Configure the fields as in the image below (this will ensure that the sample simulation data can be consumed in the test service).
+   
+![Image of geoevent definition](doc/geoeventdefinition.png)
+
+* Create an Input Service to accept text over tcp messages
+   * In GeoEvent Manager go to Services->Input and click Add Input
+   * In the Input Connectors Window choose 'Receive text from a TCP socket'
+   * Configure the service similar to the picture below.
+
+![Image of Input Service](doc/input-service.png)
 
 * Next, create an Output Connector to observe the received data.
-    * Navigate to ‘Site’ > ‘Services’ > 'Outputs'.
-    * Select Add Input and select 'Write to a .csv file' and configure the properties.
+    * Navigate �Services� > 'Outputs'.
+    * Select Add Output and select 'Write to a json file' and configure the properties using the image below as a guide.
+    
+![Image of Output Service](doc/tests-json-output.png)
+
+   * If you do not have a registered folder already to write json files to, click the 'Register Folder' button and give the folder a name and point it to an existing folder on your file system. In the example the name is test_components_out and the path is C:\gep\registered\tests.  
+   * Click 'Save' when you are finished.
 * Create a simple GeoEvent Service to direct the input data to the output using the selected processor.
-    * An example GeoEvent Service and processor configuration is illustrated below.
+   * Go to Services > GeoEvent Services and click 'Add Service'
+   * In the Add New Service dialog enter a name and description similar to the following
 
-![Image of service](doc/geometry-simple-service.png)
-![Image of processor](doc/geometry-range-fan-input.png)
+![Image Add New Service](doc/add-geoevent-service.png)
 
-* In GeoEvent Processor Manager, navigate to ‘Services’ > ‘Monitor’ and observe the GeoEvent Processor components, they should be similar to the illustration below (note: your names/outputs may differ).
+   * On the left panel click and drag the input service you created previously and tests-json-output services into the service constructor window.
+   * Next click and drag a Processor into the service constructor window.
+   * Configure the processor similar to the illustration below.
+   
+![Image of processor](doc/configure.png)
 
-![Image of monitor](doc/monitor.png)
+   * Connect the components of the service as illustrated below.
 
-* Using the GeoEvent Simulator, load the simulation file located at  solutions-geoevent-java\data\simulation_files\Geometry-RangeFans.csv
+![Image of service](doc/test-service.png)
+
+* When finished click the 'Publish' button to save the service.
+
+
+
+* In GeoEvent Processor Manager, navigate to �Services� > �Monitor� and observe the GeoEvent Processor components. You should see the newly created service and it should have a status of 'Started'.
+
+* Using the GeoEvent Simulator, load the simulation file located at  solutions-geoevent-java\data\simulation_files\rangefan.csv
+* Set the listening server to your geoevent server instance (local host if the simulator is on the same machine as geoevent server)
+* Set the port to the same value as you set the input services port and click the connect button
+* Click the 'Play' button to run the simulation
 * In GeoEvent Processor Manager, navigate to 'Services' > 'Monitor' to observe that the values are increasing and the selected outputs are updated. 
+* Next go to Services > Output and find the tests-json-out service you created previosly
+* Click the Stop button to stop the service
+* In a file browser go to the folder where your tests-json-output is located.
+* Open the tests_<timestamp>.json file with the most recent timestamp.
 * You can now test the processors with additional outputs such as published feature services.
 
 ## Licensing
 
-Copyright 2013 Esri
+Copyright 2014 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -106,4 +129,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 A copy of the license is available in the repository's
-[license.txt](../../../license.txt) file.
+[license.txt](../../../../license.txt) file.
+
