@@ -19,12 +19,12 @@ The esd adapter provides an example of how to ingest Exploitation Support Data (
 
 ## Requirements
 
-* See common [solutions-geoevent-java requirements](../../../README.md#requirements)
+* See common [solutions-geoevent-java requirements](../../../../README.md#requirements)
 * There are no additional requirements for this project
 
 ## Building 
 
-* See the [solutions-geoevent-java instructions](../../../README.md#instructions) for general instructions on 
+* See the [solutions-geoevent-java instructions](../../../../README.md#instructions) for general instructions on 
     * verifying your Maven installation
     * setting the location of the GEP Server and GEP SDK repositories
     * and any other common required steps
@@ -41,37 +41,11 @@ The esd adapter provides an example of how to ingest Exploitation Support Data (
 
 ### Validating the Installation
  
-* See the [solutions-geoevent-java validation instructions](../../../README.md#validating-install).
+* See the [solutions-geoevent-java validation instructions](../../../../README.md#validating-install).
 
 ### Testing with Simulated Test Data
 
-* In the following steps you will configure GEP to receive and process simulated CAP data
-* Open the GEP Manager web application
-* Create a connector to receive file data updated to a folder
-    * Navigate to ‘Site’ > ‘GeoEvent Processor’ > 'Connectors'
-    * Select Create Connector and configure as shown
-
-![Image of create connector](doc/create-connector.png)
-
-* Next use the GEP Manager and Service Designer to
-    * Create an Input to receive file data using the created connector 
-    * Create an Output to observe received data
-    * Create a simple service to direct the Input data to the Output
-
-* An example of a simple file/folder input is shown below 
-    * Choose the Input Connector "Watch a folder for new .json files"
-    * Note: this will work for any file type, just select a wildcard or other compatible file filter
-    * An example Input is shown below
-
-![Image of input settings](doc/input-settings.png)
-
-* An example of a simple service is shown below 
-
-![Image of service](doc/service.png)
-
-* Navigate to ‘Services’ > ‘Monitor’ and observe that you have a configuration similar to the following (note: your names/outputs may differ)
-
-![Image of monitor](doc/monitor.png)
+In order to use the esd adaptor you are required to use your own live esd data feed or an ESD data simulator.  US law prohibits Esri from distributing ESD data.
 
 ## Resources
 
