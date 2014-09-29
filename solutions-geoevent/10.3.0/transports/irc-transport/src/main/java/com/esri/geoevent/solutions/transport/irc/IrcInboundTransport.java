@@ -28,9 +28,15 @@ public class IrcInboundTransport extends InboundTransportBase implements IRCEven
 	private String nickName = "EsriGEP";
 	private String serverName = "irc.freenode.net";
 	private ConnectionManager manager;
-	
-	private ByteBuffer byteBuffer = ByteBuffer.allocate(512+256); // max message is 512 unknown max nick size but we will clip to 256
 
+	private ByteBuffer byteBuffer = ByteBuffer.allocate(512+256); // max message is 512 unknown max nick size but we will clip to 256
+	
+	@Override
+	public boolean isClusterable()
+	{
+		return false;
+	}
+	
 	public IrcInboundTransport(TransportDefinition definition) throws ComponentException
 	{
 		super(definition);

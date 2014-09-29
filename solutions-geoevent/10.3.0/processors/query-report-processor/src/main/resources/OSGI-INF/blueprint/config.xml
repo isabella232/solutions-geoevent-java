@@ -24,8 +24,7 @@
 	<reference id="messagingService" interface="com.esri.ges.messaging.Messaging" />
 	
     <bean id="queryReportProcessorServiceBean"
-		class="com.esri.geoevent.solutions.processor.queryreport.QueryReportProcessorService"
-		init-method="start">
+		class="com.esri.geoevent.solutions.processor.queryreport.QueryReportProcessorService">
 		<property name="bundleContext" ref="blueprintBundleContext" />
 		<property name="manager" ref="geoDefManagerService" />
 		<property name="connectionManager" ref="agsConnectionsManagerService" />
