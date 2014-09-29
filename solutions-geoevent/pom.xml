@@ -31,8 +31,8 @@
 		<module>10.3.0/processors/visibility-processor</module>
 		<module>10.3.0/transports/irc-transport</module>
 		<module>10.3.0/transports/tcpSquirt-transport</module>
-		<module>processors/updateOnly-processor</module>
-		<module>adapters/regexText-adapter</module>	
+		<module>10.3.0/processors/updateOnly-processor</module>
+		<module>10.3.0/adapters/regexText-adapter</module>	
 	</modules>
 	<repositories>
 		<repository>

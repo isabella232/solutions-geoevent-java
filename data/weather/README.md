@@ -1,4 +1,4 @@
-ï»¿# Importing Current Weather data into GeoEvent Processor for Server
+# Importing Current Weather data into GeoEvent Processor for Server
 
 Below are instructions for creating your own map of current weather (provided by NOAA) that is frequently updated through the GeoEvent Processor for Server.  The regex Text Adapter and the Update Only Processor are both employed.
 
@@ -38,10 +38,8 @@ Below are instructions for creating your own map of current weather (provided by
 
 * Thirdly, you can create the appropriate connector, inputs, outputs and geoevent service all in one go by importing a single configuration file.
     *  Browse to `solutions-geoevent-java\data\configurations` and locate the `GeoEventConfig-METARandBUOY.xml` configuration file  This file is located [here](../configurations/GeoEventConfig-METARandBUOY.xml). 
-    *  Open this file in a Text Editor (e.g. Notepad) and use the Replace function to find and replace the text '[ArcGIS Server Name]' with the name of your ArcGIS Server data store (created above). Save your changes.
-    *  Navigate to â€˜Siteâ€™ > â€˜GeoEvent Processorâ€™ > â€˜Configuration Storeâ€™ and click â€˜Import Configurationâ€™.
-    *  Browse to `solutions-geoevent-java\data\configurations` and locate the `GeoEventConfig-METARandBUOY.xml` configuration file.
-    *  On the Import Configuration dialog, click Import.
+    *  Open this file in a Text Editor (e.g. Notepad) and use the Replace function to find and replace the text '[ArcGIS Server Name]' with the name of your ArcGIS Server data store (created above). It may also be necessary to change the <path> entry (e.g. if your service resides in a folder named 'Environment', change <path>/</path> to <path>Environment/</path>. Save your changes.
+    *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘Configuration Store’ and click ‘Import Configuration’.
 
 * Fourthly, check your inputs, services and outputs have started
     *  In ArcGIS GeoEvent Processor Manager, navigate to 'Services' > 'Monitor' and check the status of the following:
