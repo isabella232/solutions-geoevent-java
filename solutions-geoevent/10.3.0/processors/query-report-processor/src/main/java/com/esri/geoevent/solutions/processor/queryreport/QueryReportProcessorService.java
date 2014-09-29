@@ -77,21 +77,5 @@ public class QueryReportProcessorService extends GeoEventProcessorServiceBase {
 	{
 		messaging = m;
 	}
-	public void start() {
-		
-		QueryReportProcessorDefinition qDef = (QueryReportProcessorDefinition)definition;
-		try {
-			//qDef.setManager(manager);
-			//qDef.setConnectionManager(connectionManager);
-		} catch (Exception e) {
-			LOG.error("Geometry processor");
-			LOG.error(e.getMessage());
-			LOG.error(e.getStackTrace());
-		}
-		
-			
-		
-	}
-
 }
 

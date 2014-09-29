@@ -75,7 +75,6 @@ import com.esri.core.geometry.Polyline;
 import com.esri.core.geometry.Segment;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
-import com.esri.core.map.Graphic;
 import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.DefaultFieldDefinition;
 import com.esri.ges.core.geoevent.FieldDefinition;
