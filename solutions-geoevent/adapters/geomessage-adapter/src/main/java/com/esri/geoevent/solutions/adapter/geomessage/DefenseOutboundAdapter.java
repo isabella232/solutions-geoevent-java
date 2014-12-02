@@ -24,6 +24,8 @@ import java.util.Date;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.esri.core.geometry.MapGeometry;
+import com.esri.core.geometry.Point;
 import com.esri.ges.adapter.AdapterDefinition;
 import com.esri.ges.adapter.OutboundAdapterBase;
 import com.esri.ges.core.component.ComponentException;
@@ -31,9 +33,7 @@ import com.esri.ges.core.geoevent.FieldDefinition;
 import com.esri.ges.core.geoevent.FieldType;
 import com.esri.ges.core.geoevent.GeoEvent;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
-import com.esri.ges.spatial.Geometry;
-import com.esri.ges.spatial.GeometryType;
-import com.esri.ges.spatial.Point;
+
 
 public class DefenseOutboundAdapter extends OutboundAdapterBase
 {
@@ -53,7 +53,7 @@ public class DefenseOutboundAdapter extends OutboundAdapterBase
   @Override
   public void receive(GeoEvent geoEvent)
   {
-    String wkid = null;
+    Integer wkid = -1;
     stringBuffer.setLength(0);
     stringBuffer.append("<geomessages>");
     stringBuffer.append("<geomessage>");
@@ -82,16 +82,17 @@ public class DefenseOutboundAdapter extends OutboundAdapterBase
           stringBuffer.append(floatValue);
           break;
         case Geometry:
-          if (definition.getIndexOf(attributeName) == definition.getGeometryId())
+          if (definition.getIndexOf(attributeName) == definition.getIndexOf("GEOMETRY"))
           {
-            Geometry geom = geoEvent.getGeometry();
-            if (geom.getType() == GeometryType.Point)
+            MapGeometry geom = geoEvent.getGeometry();
+            if (geom.getGeometry().getType() == com.esri.core.geometry.Geometry.Type.Point)
             {
-              Point p = (Point) geom;
+              Point p = (Point) geom.getGeometry();
               stringBuffer.append(p.getX());
               stringBuffer.append(",");
               stringBuffer.append(p.getY());
-              wkid = String.valueOf(p.getSpatialReference().getWkid());
+              wkid = (Integer)geom.getSpatialReference().getID();
+              
             }
           }
           else
@@ -118,9 +119,9 @@ public class DefenseOutboundAdapter extends OutboundAdapterBase
 
       }
       stringBuffer.append("</" + attributeName + ">");
-      if (wkid != null)
+      if (wkid > 0)
       {
-        String wkidValue = wkid;
+        String wkidValue = wkid.toString();
         wkid = null;
         stringBuffer.append("<_wkid>");
         stringBuffer.append(wkidValue);
@@ -144,7 +145,7 @@ public class DefenseOutboundAdapter extends OutboundAdapterBase
       LOG.error("Csv Outbound Adapter does not have enough room in the buffer to hold the outgoing data.  Either the receiving transport object is too slow to process the data, or the data message is too big.");
     }
     byteBuffer.flip();
-    byteListener.receive(byteBuffer, geoEvent.getTrackId());
+    super.receive(byteBuffer, geoEvent.getTrackId(), geoEvent);
     byteBuffer.clear();
   }
 }

@@ -30,7 +30,11 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
+import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
+import com.esri.core.geometry.MapGeometry;
+import com.esri.core.geometry.Point;
+import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.ges.adapter.AdapterDefinition;
 import com.esri.ges.adapter.InboundAdapterBase;
@@ -38,7 +42,7 @@ import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.GeoEvent;
 import com.esri.ges.messaging.GeoEventListener;
 import com.esri.ges.messaging.MessagingException;
-import com.esri.ges.spatial.*;
+
 
 public class CAPInboundAdapter extends InboundAdapterBase
 {
@@ -47,7 +51,6 @@ public class CAPInboundAdapter extends InboundAdapterBase
 	private static final int MAX_ENTRIES = 20000;
 	LinkedHashMap MAP;
 	com.esri.core.geometry.SpatialReference arcgisWGS;
-	com.esri.ges.spatial.SpatialReference gepWGS;
 	com.esri.core.geometry.Unit arcgisKmUnit; 
 		
 	public CAPInboundAdapter(AdapterDefinition definition) throws ComponentException
@@ -687,7 +690,7 @@ public class CAPInboundAdapter extends InboundAdapterBase
 			try{msg.setField(0, identifier);}catch(Exception ex){LOG.debug("Failed to set 'identifier': " + identifier);}
             try{msg.setField(1, infoID);}catch(Exception ex){LOG.debug("Failed to set 'infoID': " + infoID);}
             try{msg.setField(2, areaID);}catch(Exception ex){LOG.debug("Failed to set 'areaID': " + areaID);}
-            
+            SpatialReference sr = SpatialReference.create(4326);
             String tagName;
             NodeList nodeList;
             Element line;
@@ -715,7 +718,7 @@ public class CAPInboundAdapter extends InboundAdapterBase
             			
             		try
             		{
-            			SpatialReference sr = SpatialReference.create(4326);
+            			
             			com.esri.core.geometry.Polygon capPoly = new com.esri.core.geometry.Polygon();
             			Boolean first = true;
             			for(String pair: coords)
@@ -727,7 +730,9 @@ public class CAPInboundAdapter extends InboundAdapterBase
 								continue;
 							if (Double.isNaN(x) | x == 0)
 								continue;
-            				com.esri.core.geometry.Point p = GeometryEngine.project(x, y, sr);
+							Point p = new Point(x, y);
+							
+            				//com.esri.core.geometry.Point p = GeometryEngine.project(x, y, sr);
             				if(first)
             				{
             					capPoly.startPath(p);
@@ -739,11 +744,10 @@ public class CAPInboundAdapter extends InboundAdapterBase
             				}
             			}
             			capPoly.closeAllPaths();
-            			com.esri.core.geometry.Geometry simple = GeometryEngine.simplify(capPoly, sr);
-            			String json = GeometryEngine.geometryToJson(sr, simple);
-            			com.esri.ges.spatial.Geometry geo = spatial.fromJson(json);
+            			Geometry simple = GeometryEngine.simplify(capPoly, sr);
+            			MapGeometry mapGeo = new MapGeometry(simple, sr);
             			
-            			msg.setGeometry(geo);
+            			msg.setGeometry(mapGeo);
             			
             		}
             		catch(Exception ex)
@@ -782,8 +786,9 @@ public class CAPInboundAdapter extends InboundAdapterBase
             			//return null;
             			radius = 0.1;
             		}
-            		com.esri.ges.spatial.Polygon pointBuffer = buffer(x,y,radius);
-            		msg.setField(7, pointBuffer);
+            		Geometry pointBuffer = buffer(x,y,radius);
+            		MapGeometry mapGeo = new MapGeometry(pointBuffer, sr);
+            		msg.setField(7, mapGeo);
         			System.out.println("");
         			System.out.println("      Set a circle geometry for " + areaID + ".");
         			System.out.println("");
@@ -842,25 +847,11 @@ public class CAPInboundAdapter extends InboundAdapterBase
 		return "";
 	}
 	
-	public com.esri.ges.spatial.Polygon buffer(double x, double y, double distance) throws InstantiationException, IllegalAccessException
+	public Polygon buffer(double x, double y, double distance) throws InstantiationException, IllegalAccessException
     {		
-		com.esri.core.geometry.Point arcGisPoint = new com.esri.core.geometry.Point(x, x, 0);
-		com.esri.core.geometry.Polygon buffer = GeometryEngine.buffer(arcGisPoint, arcgisWGS, distance, arcgisKmUnit);
-		com.esri.ges.spatial.Polygon circleBuf = spatial.createPolygon();
-		Double lon = buffer.getPoint(0).getX();
-		Double lat = buffer.getPoint(0).getY();
-		circleBuf.setSpatialReference(gepWGS);        			 
-		circleBuf.startPath(lon, lat, 0);
-		for (int p = 1; p<buffer.getPointCount();p++)
-		{
-			lon = buffer.getPoint(p).getX();
-			lat = buffer.getPoint(p).getY();             			            			
-			circleBuf.lineTo(x, y, 0);      			
-		}
-		circleBuf.closeAllPaths();
-      			
-		return circleBuf;
-		//return null;
+		Point arcGisPoint = new Point(x, x, 0);
+		Polygon buffer = GeometryEngine.buffer(arcGisPoint, arcgisWGS, distance, arcgisKmUnit);
+		return buffer;
 
     }
 
@@ -882,7 +873,6 @@ public class CAPInboundAdapter extends InboundAdapterBase
 
 	@Override
 	protected GeoEvent adapt(ByteBuffer arg0, String arg1) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

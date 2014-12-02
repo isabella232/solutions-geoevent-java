@@ -1,4 +1,0 @@
-<adapter name="Geomessage" label="${com.esri.geoevent.solutions.adapter.geomessage.geomessage-adapter.OUTBOUND_ADAPTER_LABEL}" domain="com.esri.geoevent.solutions.adapter.geomessage.outbound" type="outbound">
-	<description>${com.esri.geoevent.solutions.adapter.geomessage.geomessage-adapter.OUTBOUND_ADAPTER_DESCRIPTION}</description>
-	<propertyDefinitions/>
-</adapter>
