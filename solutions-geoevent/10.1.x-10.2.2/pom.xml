@@ -14,23 +14,23 @@
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 </properties>
 	<modules>
-		<module>adapters/CAP-adapter</module>
-		<module>adapters/cot-adapter</module>
-		<module>adapters/esd-adapter</module>
-		<module>adapters/geomessage-adapter</module>
-		<module>processors/addxyz-processor</module>
-		<module>processors/bearing-processor</module>
-		<module>processors/buffer-processor</module>
-		<module>processors/ellipse-processor</module>
-		<module>processors/eventVolumeControl-processor</module>
-		<module>processors/fieldgrouper-processor</module>
-		<module>processors/query-report-processor</module>
-		<module>processors/rangefan-processor</module>
-		<module>processors/symbol-lookup-processor</module>
-		<module>processors/unitConversion-processor</module>
-		<module>processors/visibility-processor</module>
-		<module>transports/irc-transport</module>
-		<module>transports/tcpSquirt-transport</module>
+		<module>10.3.0/adapters/CAP-adapter</module>
+		<module>10.3.0/adapters/cot-adapter</module>
+		<module>10.3.0/adapters/esd-adapter</module>
+		<module>10.3.0/adapters/geomessage-adapter</module>
+		<module>10.3.0/processors/addxyz-processor</module>
+		<module>10.3.0/processors/bearing-processor</module>
+		<module>10.3.0/processors/buffer-processor</module>
+		<module>10.3.0/processors/ellipse-processor</module>
+		<module>10.3.0/processors/eventVolumeControl-processor</module>
+		<module>10.3.0/processors/fieldgrouper-processor</module>
+		<module>10.3.0/processors/query-report-processor</module>
+		<module>10.3.0/processors/rangefan-processor</module>
+		<module>10.3.0/processors/symbol-lookup-processor</module>
+		<module>10.3.0/processors/unitConversion-processor</module>
+		<module>10.3.0/processors/visibility-processor</module>
+		<module>10.3.0/transports/irc-transport</module>
+		<module>10.3.0/transports/tcpSquirt-transport</module>
 		<module>processors/updateOnly-processor</module>
 		<module>adapters/regexText-adapter</module>	
 	</modules>
