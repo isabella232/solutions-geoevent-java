@@ -15,7 +15,7 @@ Adapters
 * [regex Text Adapter](solutions-geoevent/adapters/regexText-adapter/README.md)
 
 Processors
-* [Add XYZ Processor](solutions-geoevent/processors/geometry-addxyz/README.md)
+* [Add XYZ Processor](solutions-geoevent/processors/addxyz-processor/README.md)
 * [Bearing Processor](solutions-geoevent/processors/bearing-processor/README.md)
 * [Buffer Processor](solutions-geoevent/processors/buffer-processor/README.md)
 * [Ellipse Processor](solutions-geoevent/processors/ellipse-processor/README.md)
