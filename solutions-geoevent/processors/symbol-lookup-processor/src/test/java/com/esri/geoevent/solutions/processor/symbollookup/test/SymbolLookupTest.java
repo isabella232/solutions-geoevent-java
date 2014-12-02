@@ -37,7 +37,6 @@ public class SymbolLookupTest {
 		// (SymbolLookup class takes several seconds to initialize)
 		if (symbolLookup == null) 
 		{
-			ArcGISRuntime.initialize();
 			
 			symbolLookup = new SymbolLookup();
 		}		
@@ -97,7 +96,7 @@ public class SymbolLookupTest {
 		System.out.println("testSymbolIdToName");
 		
 		String sic2Check = "GHMPOGL-----USG";   
-		String expectedName = "General Obstacle Line";
+		String expectedName = "General Obstacle Line H";
 		
 		String actualName = symbolLookup.symbolIdToName(sic2Check);
 		    		    

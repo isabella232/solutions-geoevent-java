@@ -20,6 +20,7 @@ import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
 import com.esri.ges.processor.GeoEventProcessor;
 import com.esri.ges.processor.GeoEventProcessorServiceBase;
+import com.esri.runtime.ArcGISRuntime;
 
 public class SymbolIdToNameProcessorService extends GeoEventProcessorServiceBase
 {
@@ -45,5 +46,6 @@ public class SymbolIdToNameProcessorService extends GeoEventProcessorServiceBase
 		
 	SymbolIdToNameProcessorDefinition sid2NameDef = (SymbolIdToNameProcessorDefinition)definition;
 	sid2NameDef.setManager(manager);
+
   }  
 }
