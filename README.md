@@ -7,12 +7,30 @@ The solutions-geoevent-java repository includes custom connectors for use with [
 
 ## Features
 
-* [Geomessage Adapter](solutions-geoevent/adapters/geomessage-adapter/README.md)
+Adapters
 * [Common Alert Protocol (CAP) Adapter](solutions-geoevent/adapters/CAP-adapter/README.md)
-* [Geometry Processor](solutions-geoevent/processors/geometry-processor/README.md)
 * [CoT Adapter](solutions-geoevent/adapters/cot-adapter/README.md)
+* [Exploitation Support Data (ESD) Adapter](solutions-geoevent/adapters/esd-adapter/README.md)
+* [Geomessage Adapter](solutions-geoevent/adapters/geomessage-adapter/README.md)
 * [regex Text Adapter](solutions-geoevent/adapters/regexText-adapter/README.md)
+
+Processors
+* [Add XYZ Processor](solutions-geoevent/processors/geometry-addxyz/README.md)
+* [Bearing Processor](solutions-geoevent/processors/bearing-processor/README.md)
+* [Buffer Processor](solutions-geoevent/processors/buffer-processor/README.md)
+* [Ellipse Processor](solutions-geoevent/processors/ellipse-processor/README.md)
+* [Event Volume Control Processor](solutions-geoevent/processors/eventVolumeControl-processor/README.md)
+* [Field Grouper Processor](solutions-geoevent/processors/fieldgrouper-processor/README.md)
+* [Query Report Processor](solutions-geoevent/processors/query-report-processor/README.md)
+* [Range Fan Processor](solutions-geoevent/processors/rangefan-processor/README.md)
+* [Symbol Lookup Processor](solutions-geoevent/processors/symbol-lookup-processor/README.md)
+* [unitConverter Processor](solutions-geoevent/processors/unitConversion-processor/README.md)
 * [Update Only Processor](solutions-geoevent/processors/updateOnly-processor/README.md)
+* [Visibility Processor](solutions-geoevent/processors/visibility-processor/README.md)
+
+Transports
+* [IRC Transport](solutions-geoevent/transports/irc-transport/README.md)
+* [TCP Squirt Transport](solutions-geoevent/transports/tcpSquirt-transport/README.md)
 
 ## Sections
 
