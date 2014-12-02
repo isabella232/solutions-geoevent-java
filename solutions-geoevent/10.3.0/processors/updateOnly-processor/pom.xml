@@ -15,7 +15,7 @@
 			<id>GEP</id>
 			<name>GeoEvent Processor embedded repository</name>
 			<layout>default</layout>
-			<url>file:///geoevent-10.3.0.4271/geoevent-10.3.0/System</url>
+			<url>file:///geoevent-10.3.0.4307/geoevent-10.3.0/System</url>
 		</repository>
 	</repositories>
 	<dependencies>

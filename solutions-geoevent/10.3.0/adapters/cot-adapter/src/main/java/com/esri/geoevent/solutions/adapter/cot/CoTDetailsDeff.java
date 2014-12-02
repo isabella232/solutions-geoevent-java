@@ -64,7 +64,7 @@ public class CoTDetailsDeff {
 	{
 		String name = n.getNodeName();
 		short type = n.getNodeType();
-		if (!(name.startsWith("#") || Node.CDATA_SECTION_NODE == type))
+		if (!(name.startsWith("__") || Node.CDATA_SECTION_NODE == type))
 		{
 			if( name.equals("xs:simpleType"))
 			{
@@ -104,7 +104,7 @@ public class CoTDetailsDeff {
 				fieldDef.addChild(fd);
 				fieldDef = fd;
 				
-				fd = new DefaultFieldDefinition( "#text", FieldType.String );
+				fd = new DefaultFieldDefinition( "__text", FieldType.String );
 				fd.setCardinality(FieldCardinality.One);
 				fd.setType(FieldType.String);
 				fieldDef.addChild(fd);

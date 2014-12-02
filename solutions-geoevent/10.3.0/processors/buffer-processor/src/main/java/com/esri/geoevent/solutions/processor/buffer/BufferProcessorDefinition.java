@@ -60,6 +60,14 @@ public class BufferProcessorDefinition extends GeoEventProcessorDefinitionBase {
 	private String descWKIDProc = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.DESC_WKID_BUFFER}";
 	private String lblWKIDOut = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.LBL_WKID_OUT}";
 	private String descWKIDOut = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.LBL_WKID_OUT}";
+	private String lblCenterSrc = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.LBL_CENTER_SRC}";
+	private String descCenterSrc = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.DESC_CENTER_SRC}";
+	private String centerSrcEvent = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.CENTER_SRC_EVENT_LBL}";
+	private String centerSrcCoords = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.CENTER_SRC_COORD_LBL}";
+	private String lblCenterX = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.LBL_CENTER_X}";
+	private String descCenterX = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.DESC_CENTER_X}";
+	private String lblCenterY = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.LBL_CENTER_Y}";
+	private String descCenterY = "${com.esri.geoevent.solutions.processor.buffer.buffer-processor.DESC_CENTER_Y}";
 	
 	public BufferProcessorDefinition() {
 
@@ -74,7 +82,26 @@ public class BufferProcessorDefinition extends GeoEventProcessorDefinitionBase {
 			unitsAllowedTypes.add("Feet");
 			unitsAllowedTypes.add("Miles");
 			unitsAllowedTypes.add("Nautical Miles");
-
+			
+			List<LabeledValue> allowedCenterSources = new ArrayList<LabeledValue>();
+			allowedCenterSources.add(new LabeledValue(centerSrcEvent,"Event"));
+			allowedCenterSources.add(new LabeledValue(centerSrcCoords,"Coordinates"));
+			PropertyDefinition procCenterSource = new PropertyDefinition(
+					"centerSrc", PropertyType.String, centerSrcEvent,
+					lblCenterSrc, descCenterSrc, true, false, allowedCenterSources);
+			propertyDefinitions.put(procCenterSource.getPropertyName(),
+					procCenterSource);
+			PropertyDefinition procX = new PropertyDefinition(
+					"centerX", PropertyType.String, "",
+					lblCenterX, descCenterX, false, false);
+			procX.setDependsOn("centerSrc=Coordinates");
+			propertyDefinitions.put(procX.getPropertyName(), procX);
+			
+			PropertyDefinition procY = new PropertyDefinition(
+					"centerY", PropertyType.String, "",
+					lblCenterY, descCenterY, false, false);
+			procY.setDependsOn("centerSrc=Coordinates");
+			propertyDefinitions.put(procY.getPropertyName(), procY);
 			
 			List<LabeledValue> allowedRadiusSources = new ArrayList<LabeledValue>();
 			allowedRadiusSources.add(new LabeledValue(radSrcConstant,"Constant"));

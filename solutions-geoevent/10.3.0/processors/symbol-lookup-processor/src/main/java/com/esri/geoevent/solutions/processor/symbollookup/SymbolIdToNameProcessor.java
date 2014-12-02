@@ -77,19 +77,19 @@ public class SymbolIdToNameProcessor extends GeoEventProcessorBase
 		if (fieldDefinitionSymbolId == null)
 		{
 			String SYMBOL_ID_EVENT_NAME = "symbolIdEvent";
-			String eventfld = properties.get(SYMBOL_ID_EVENT_NAME).getValue().toString();			
-			String[] arr = eventfld.split(":");
-			if (arr.length >= 2)			
-				symbolIdField = arr[1]; 
+			symbolIdField = properties.get("symbolIdEvent").getValue().toString();			
+			//String[] arr = eventfld.split(":");
+			//if (arr.length >= 2)			
+				//symbolIdField = arr[1]; 
 		}
 		
 		if (fieldDefinitionSymbolName == null)
 		{
 			String SYMBOL_NAME_EVENT_NAME = "symbolNameEvent";
-			String eventfld = properties.get(SYMBOL_NAME_EVENT_NAME).getValue().toString();
-			String[] arr = eventfld.split(":");
-			if (arr.length >= 2)
-				symbolNameField = arr[1]; 			
+			symbolNameField = properties.get("symbolNameEvent").getValue().toString();
+			//String[] arr = eventfld.split(":");
+			//if (arr.length >= 2)
+				//symbolNameField = arr[1]; 			
 		}
 
 		Object oSymbolId   = geoEvent.getField(symbolIdField);		

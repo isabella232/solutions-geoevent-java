@@ -36,13 +36,13 @@
 					<fieldDefinitions>
 						<fieldDefinition name="_flow-tags" type="Group">
 							<fieldDefinitions>
-								<fieldDefinition name="#text" type="String" />
+								<fieldDefinition name="__text" type="String" />
 								<fieldDefinition name="version" type="Double" />
 							</fieldDefinitions>
 						</fieldDefinition>
 						<fieldDefinition name="remarks" type="Group">
 							<fieldDefinitions>
-								<fieldDefinition name="#text" type="String" />
+								<fieldDefinition name="__text" type="String" />
 								<fieldDefinition name="source" type="String" />
 								<fieldDefinition name="time" type="Date" />
 								<fieldDefinition name="to" type="String" />
@@ -52,7 +52,7 @@
 						</fieldDefinition>
 						<fieldDefinition name="request" type="Group">
 							<fieldDefinitions>
-								<fieldDefinition name="#text" type="String" />
+								<fieldDefinition name="__text" type="String" />
 								<fieldDefinition name="notify" type="String" />
 								<fieldDefinition name="wilcoby" type="Date" />
 								<fieldDefinition name="priority" type="String" />
@@ -64,7 +64,7 @@
 						</fieldDefinition>
 						<fieldDefinition name="sensor" type="Group">
 							<fieldDefinitions>
-								<fieldDefinition name="#text" type="String" />
+								<fieldDefinition name="__text" type="String" />
 								<fieldDefinition name="azimuth" type="String" />
 								<fieldDefinition name="elevation" type="Date" />
 								<fieldDefinition name="roll" type="String" />
@@ -80,10 +80,10 @@
 						<fieldDefinition name="shape" type="Geometry" />
 						<fieldDefinition name="spatial" type="Group">
 							<fieldDefinitions>
-								<fieldDefinition name="#text" type="String" />
+								<fieldDefinition name="__text" type="String" />
 								<fieldDefinition name="attitude" type="Group">
 									<fieldDefinitions>
-										<fieldDefinition name="#text" type="String" />
+										<fieldDefinition name="__text" type="String" />
 										<fieldDefinition name="roll" type="String" />
 										<fieldDefinition name="pitch" type="String" />
 										<fieldDefinition name="yaw" type="String" />
@@ -94,7 +94,7 @@
 								</fieldDefinition>
 								<fieldDefinition name="spin" type="Group">
 									<fieldDefinitions>
-										<fieldDefinition name="#text" type="String" />
+										<fieldDefinition name="__text" type="String" />
 										<fieldDefinition name="roll" type="String" />
 										<fieldDefinition name="pitch" type="String" />
 										<fieldDefinition name="yaw" type="String" />
@@ -108,7 +108,7 @@
 						</fieldDefinition>
 						<fieldDefinition name="track" type="Group">
 							<fieldDefinitions>
-								<fieldDefinition name="#text" type="String" />
+								<fieldDefinition name="__text" type="String" />
 								<fieldDefinition name="course" type="String" />
 								<fieldDefinition name="speed" type="String" />
 								<fieldDefinition name="slope" type="String" />
@@ -120,7 +120,7 @@
 						</fieldDefinition>
 						<fieldDefinition name="uid" type="Group">
 							<fieldDefinitions>
-								<fieldDefinition name="#text" type="String" />
+								<fieldDefinition name="__text" type="String" />
 								<fieldDefinition name="version" type="Double" />
 							</fieldDefinitions>
 						</fieldDefinition>

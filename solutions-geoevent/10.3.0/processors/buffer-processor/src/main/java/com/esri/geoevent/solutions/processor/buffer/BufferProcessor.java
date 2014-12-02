@@ -47,7 +47,10 @@ public class BufferProcessor extends GeoEventProcessorBase {
 	private Integer bufferwkid;
 	private Integer outwkid;
 	private String units;
-	String bufferEventFld;
+	private String bufferEventFld;
+	private String centerSrc;
+	private String centroidX;
+	private String centroidY;
 
 	public BufferProcessor(GeoEventProcessorDefinition definition,
 			GeoEventDefinitionManager m) throws ComponentException {
@@ -60,6 +63,12 @@ public class BufferProcessor extends GeoEventProcessorBase {
 	@Override
 	public void afterPropertiesSet() {
 		// Initialization Phase ...
+		centerSrc= properties.get("centerSrc").getValueAsString();
+		if(centerSrc.equals("Coordinates"))
+		{
+			centroidX=properties.get("centerX").getValueAsString();
+			centroidY=properties.get("centerY").getValueAsString();
+		}
 		String radiusSource = properties.get("radiusSource").getValue()
 				.toString();
 		if (radiusSource.equals("Constant")) {
@@ -94,6 +103,7 @@ public class BufferProcessor extends GeoEventProcessorBase {
 	@Override
 	public GeoEvent process(GeoEvent ge) throws Exception {
 		// Operation phase...
+
 		if (radius == null) {
 			radius = (Double) ge.getField(bufferEventFld);
 			if (radius == null) {
@@ -101,15 +111,24 @@ public class BufferProcessor extends GeoEventProcessorBase {
 				throw (e);
 			}
 		}
+		Double x = null;
+		Double y = null;
 		MapGeometry mapGeo = ge.getGeometry();
-		Point eventGeo = (Point) mapGeo.getGeometry();
-		double x = eventGeo.getX();
-		double y = eventGeo.getY();
+		if (centerSrc.equals("Coordinates")) {
+			x = (Double)ge.getField(centroidX);
+			y = (Double)ge.getField(centroidY);
+		} else {
+
+			Point eventGeo = (Point) mapGeo.getGeometry();
+			x = eventGeo.getX();
+			y = eventGeo.getY();
+		}
 		int inwkid = mapGeo.getSpatialReference().getID();
-		//int inwkid = eventGeo.getSpatialReference().getWkid();
-		Geometry buffer = constructBuffer(x, y, radius,
-				units, inwkid, bufferwkid, outwkid);
-		
+
+		// int inwkid = eventGeo.getSpatialReference().getWkid();
+		Geometry buffer = constructBuffer(x, y, radius, units, inwkid,
+				bufferwkid, outwkid);
+
 		SpatialReference srOut = SpatialReference.create(outwkid);
 		MapGeometry outMapGeo = new MapGeometry(buffer, srOut);
 		ge.setGeometry(outMapGeo);

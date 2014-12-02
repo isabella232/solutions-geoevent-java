@@ -9,13 +9,13 @@
 		<repository>
 			<id>ages-sdk-repo</id>
 			<name>GeoEvent Processor SDK repository</name>
-			<url>file:///geoevent-10.3.0.4271/geoevent-10.3.0/sdk/repository</url>
+			<url>file:///geoevent-10.3.0.4298/geoevent-10.3.0/sdk/repository</url>
 		</repository>
 		<repository>
 			<id>GEP</id>
 			<name>GeoEvent Processor embedded repository</name>
 			<layout>default</layout>
-			<url>file:///geoevent-10.3.0.4271/geoevent-10.3.0/System</url>
+			<url>file:///geoevent-10.3.0.4307/geoevent-10.3.0/System</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -24,7 +24,7 @@
 			<artifactId>text-adapter</artifactId>
 			<version>${project.version}</version>
 			<scope>system</scope>
-			<systemPath>${env.AGSSERVER}/GeoEvent/system/com/esri/ges/framework/adapter/text-adapter/${project.version}/text-adapter-${project.version}.jar</systemPath>
+			<systemPath>C:\geoevent-10.3.0.4307\geoevent-10.3.0\system\com\esri\ges\framework\adapter\text-adapter\10.3.0\text-adapter-10.3.0.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.ges.sdk</groupId>
