@@ -25,7 +25,6 @@ import com.esri.ges.messaging.Messaging;
 import com.esri.ges.processor.GeoEventProcessorBase;
 import com.esri.ges.processor.GeoEventProcessorDefinition;
 
-
 public class AddXYZProcessor extends GeoEventProcessorBase {
 	
 	GeoEventDefinitionManager manager;
