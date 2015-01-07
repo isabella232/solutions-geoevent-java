@@ -59,6 +59,11 @@
 	</dependencyManagement>
 	<dependencies>
 		<dependency>
+			<groupId>com.esri.geoevent.solutions.util</groupId>
+			<artifactId>Utilities</artifactId>
+			<version>10.3.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.esri.ges.sdk</groupId>
 			<artifactId>ges-lib</artifactId>
 			<version>10.3.0</version>
