@@ -3,7 +3,7 @@
 	<reference id="messagingService" interface="com.esri.ges.messaging.Messaging" timeout="1000"/>
 	<reference id="geoDefManagerService"
 		interface="com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager" />
-	<bean id="trackIdleDetectorServiceBean" class="com.esri.geoevent.solutions.processor.trackidle.TrackIdleDetectorService" activation="eager">
+	<bean id="trackIdleDetectorServiceBean" class="com.esri.geoevent.solutions.processor.trackidle.TrackIdleProcessorService" activation="eager">
 		<property name="bundleContext" ref="blueprintBundleContext"/>
 		<property name="messaging" ref="messagingService"/>
 		<property name="manager" ref="geoDefManagerService" />
