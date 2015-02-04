@@ -211,24 +211,8 @@ public class DefenseInboundAdapter extends InboundAdapterBase
 						}
 						if (hasStartTime) {
 							if (geoEvent.getField("TIME_START") == null) {
-								DateTime dt = DateTime.now();
-								String time = ((Integer) dt.getMonthOfYear())
-										.toString()
-										+ "/"
-										+ ((Integer) dt.getDayOfMonth())
-												.toString()
-										+ "/"
-										+ ((Integer) dt.getYear()).toString()
-										+ " "
-										+ ((Integer) dt.getHourOfDay())
-												.toString()
-										+ ":"
-										+ ((Integer) dt.getMinuteOfHour())
-												.toString()
-										+ ":"
-										+ ((Integer) dt.getSecondOfMinute())
-												.toString();
-								
+								long currentTime = System.currentTimeMillis();
+								Date date = 
 								geoEvent.setField("TIME_START", DateUtil.convert(time));
 							}
 						}
