@@ -212,8 +212,8 @@ public class DefenseInboundAdapter extends InboundAdapterBase
 						if (hasStartTime) {
 							if (geoEvent.getField("TIME_START") == null) {
 								long currentTime = System.currentTimeMillis();
-								Date date = 
-								geoEvent.setField("TIME_START", DateUtil.convert(time));
+								Date time = new Date(currentTime);
+								geoEvent.setField("TIME_START", time);
 							}
 						}
 					}
