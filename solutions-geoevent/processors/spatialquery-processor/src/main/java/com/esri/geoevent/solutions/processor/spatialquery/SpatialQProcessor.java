@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -70,16 +71,16 @@ import com.esri.ges.processor.GeoEventProcessorBase;
 import com.esri.ges.processor.GeoEventProcessorDefinition;
 import com.esri.ges.util.Validator;
 
-public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEventProducer, EventUpdatable
-{
+public class SpatialQProcessor extends GeoEventProcessorBase implements
+		GeoEventProducer, EventUpdatable {
 	private static final Log LOG = LogFactory.getLog(SpatialQProcessor.class);
 	private Tokenizer tokenizer = new Tokenizer();
 	private Map<String, String> eventTokenMap = new HashMap<String, String>();
 	public GeoEventDefinitionManager manager;
 	public ArcGISServerConnectionManager connectionManager;
-	
+
 	private EventDestination destination;
-	
+
 	private SpatialReference srIn;
 	private SpatialReference srBuffer;
 	private SpatialReference srOut;
@@ -100,163 +101,173 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 	private Layer layer;
 	private String layerId;
 	private String field;
-	//Field[] fields;
+	// Field[] fields;
 	private Boolean calcDist;
 	private String wc;
 	private com.esri.core.geometry.Geometry inGeometry;
 	private String ownerId;
-  private static final BundleLogger LOGGER = BundleLoggerFactory.getLogger(SpatialQProcessor.class);
-  
-  private Messaging messaging;
-  private GeoEventCreator geoEventCreator;
-  private GeoEventProducer geoEventProducer;
-  
-	protected SpatialQProcessor(GeoEventProcessorDefinition definition) throws ComponentException
-	{
+	private static final BundleLogger LOGGER = BundleLoggerFactory
+			.getLogger(SpatialQProcessor.class);
+
+	private Messaging messaging;
+	private GeoEventCreator geoEventCreator;
+	private GeoEventProducer geoEventProducer;
+
+	protected SpatialQProcessor(GeoEventProcessorDefinition definition)
+			throws ComponentException {
 		super(definition);
 		LOGGER.info(toString());
 	}
-	
+
 	@Override
-  public void setId(String id)
-  {
-    super.setId(id);
-    geoEventProducer = messaging.createGeoEventProducer(new EventDestination(id + ":event"));
-  }
-	
+	public void setId(String id) {
+		super.setId(id);
+		geoEventProducer = messaging
+				.createGeoEventProducer(new EventDestination(id + ":event"));
+	}
+
 	@Override
-	public GeoEvent process(GeoEvent ge) throws Exception
-	{
-		try
-    {
-			  ownerId = ge.getGeoEventDefinition().getOwner();
-		  		List<FieldDefinition> fldDefs = ge.getGeoEventDefinition()
-		  				.getFieldDefinitions();
-		  		for (FieldDefinition fd : fldDefs) {
-		  			if (fd.getType() != FieldType.Geometry
-		  					&& fd.getType() != FieldType.Group) {
-		  				String n = fd.getName();
-		  				String tk = tokenizer.tokenize("geoevent." + n);
-		  				eventTokenMap.put(tk, n);
-		  			}
-
-		  		}
-		  		ArrayList<Object> queries = CreateQueries(ge);
-
-		  		MapGeometry geo = ge.getGeometry();
-		  		MapGeometry inGeo = null;
-		  		if (geoSrc.equals("Buffer")) {
-		  			inGeometry = constructGeometry(geo);
-		  			Unit u = queryUnit(units);
-		  			inGeo = constructBuffer(geo.getGeometry(), radius, u);
-		  		} else if (geoSrc.equals("Event_Definition")) {
-		  			String geostr = (String) ge.getField(eventfld);
-		  			MapGeometry g = constructGeometryFromString(geostr);
-		  			Geometry polyGeo = constructGeometry(g);
-		  			inGeometry = polyGeo;
-		  			com.esri.core.geometry.Geometry projGeo = GeometryEngine.project(
-		  					polyGeo, srBuffer, srOut);
-		  			inGeo = new MapGeometry(projGeo, srOut);
-		  		} else {
-
-		  			Geometry polyGeo = constructGeometry(geo);
-		  			inGeometry = polyGeo;
-		  			com.esri.core.geometry.Geometry projGeo = GeometryEngine.project(
-		  					polyGeo, srBuffer, srOut);
-		  			// String json = GeometryEngine.geometryToJson(srOut, projGeo);
-		  			inGeo = new MapGeometry(projGeo, srOut);
-		  		}
-		  		Geometry newGeo = inGeo.getGeometry();
-		  		String jsonGeo = GeometryEngine.geometryToJson(srOut.getID(), newGeo);
-		  		String geotype = GeometryUtility.parseGeometryType(newGeo.getType());
-		  		HashMap<String, Object> responseMap = ExecuteRestQueries(jsonGeo,
-		  				geotype, queries);
-		  		Set<String> keys = responseMap.keySet();
-				Iterator<String> it = keys.iterator();
-
-				String k = it.next();
-				@SuppressWarnings("unchecked")
-				HashMap<String, Object> response = (HashMap<String, Object>) responseMap
-						.get(k);
-				@SuppressWarnings("unchecked")
-				Map<String, Object> fset = (HashMap<String, Object>) response
-						.get("fset");
-				@SuppressWarnings("unchecked")
-				HashMap<String, Object> tokenmap = (HashMap<String, Object>) response
-						.get("tokenmap");
-				@SuppressWarnings("unchecked")
-				List<Object> fieldlist = (List<Object>) fset.get("fields");
-
-				@SuppressWarnings("unchecked")
-				List<HashMap<String, Object>> features = (ArrayList<HashMap<String, Object>>) fset
-						.get("features");
-				List<FieldDefinition> qflddefs = GenerateNewFieldDefs(fieldlist, tokenmap);
-				GeoEventDefinition geoDef = ge.getGeoEventDefinition();
-
-				GeoEventDefinition edOut;
-				//if ((edOut = manager.searchGeoEventDefinition(outDefName, getId())) == null) {
-				edOut = geoDef.augment(qflddefs);
-				if(edOut.getFieldDefinition("TRACK_ID")==null)
-				{
-					List<FieldDefinition> flddefs = new ArrayList<FieldDefinition>();
-					FieldDefinition trackdef = new DefaultFieldDefinition("trackid", FieldType.String, "TRACK_ID");
-					flddefs.add(trackdef);
-					edOut = edOut.augment(flddefs);
+	public GeoEvent process(GeoEvent ge) throws Exception {
+		try {
+			ownerId = ge.getGeoEventDefinition().getOwner();
+			List<FieldDefinition> fldDefs = ge.getGeoEventDefinition()
+					.getFieldDefinitions();
+			for (FieldDefinition fd : fldDefs) {
+				if (fd.getType() != FieldType.Geometry
+						&& fd.getType() != FieldType.Group) {
+					String n = fd.getName();
+					String tk = tokenizer.tokenize("geoevent." + n);
+					eventTokenMap.put(tk, n);
 				}
-				edOut.setOwner(definition.getUri().toString());
-				edOut.setName(outDefName);
-				manager.addGeoEventDefinition(edOut);
-				//}
-				//GeoEvent geOut = null;
-				try {
-					GeoEventDefinition ged = getEventDefinition(edOut);
-					//geOut = geoEventCreator.create(ged.getName(), ownerId);
-					
-					List<FieldGroup> featureFieldGroups = new ArrayList<FieldGroup>();
 
-					for (int i = 0; i < features.size(); ++i) {
-						HashMap<String, Object> f = features.get(i);
+			}
+			ArrayList<Object> queries = CreateQueries(ge);
 
-						if (f != null) {
-							//FieldGroup fieldGroup = geOut.createFieldGroup("Features");
-							GeoEvent featureGE = createFeatureGeoEvent(f, tokenmap,
-									edOut, ge, i+1);
-							
-							//for (int j = 0; j < featureGE.getAllFields().length; j++) {
-								//fieldGroup.setField(j, featureGE.getField(j));
-							//}
-							//featureFieldGroups.add(fieldGroup);
-							send(featureGE);
-							//notifyObservers(featureGE);
-						}
+			MapGeometry geo = ge.getGeometry();
+			MapGeometry inGeo = null;
+			if (geoSrc.equals("Buffer")) {
+				inGeometry = constructGeometry(geo);
+				Unit u = queryUnit(units);
+				inGeo = constructBuffer(geo.getGeometry(), radius, u);
+			} else if (geoSrc.equals("Event_Definition")) {
+				String geostr = (String) ge.getField(eventfld);
+				MapGeometry g = constructGeometryFromString(geostr);
+				Geometry polyGeo = constructGeometry(g);
+				inGeometry = polyGeo;
+				com.esri.core.geometry.Geometry projGeo = GeometryEngine
+						.project(polyGeo, srBuffer, srOut);
+				inGeo = new MapGeometry(projGeo, srOut);
+			} else {
+
+				Geometry polyGeo = constructGeometry(geo);
+				inGeometry = polyGeo;
+				com.esri.core.geometry.Geometry projGeo = GeometryEngine
+						.project(polyGeo, srBuffer, srOut);
+				// String json = GeometryEngine.geometryToJson(srOut, projGeo);
+				inGeo = new MapGeometry(projGeo, srOut);
+			}
+			Geometry newGeo = inGeo.getGeometry();
+			String jsonGeo = GeometryEngine.geometryToJson(srOut.getID(),
+					newGeo);
+			String geotype = GeometryUtility
+					.parseGeometryType(newGeo.getType());
+			HashMap<String, Object> responseMap = ExecuteRestQueries(jsonGeo,
+					geotype, queries);
+			Set<String> keys = responseMap.keySet();
+			Iterator<String> it = keys.iterator();
+
+			String k = it.next();
+			@SuppressWarnings("unchecked")
+			HashMap<String, Object> response = (HashMap<String, Object>) responseMap
+					.get(k);
+			@SuppressWarnings("unchecked")
+			Map<String, Object> fset = (HashMap<String, Object>) response
+					.get("fset");
+			@SuppressWarnings("unchecked")
+			HashMap<String, Object> tokenmap = (HashMap<String, Object>) response
+					.get("tokenmap");
+			@SuppressWarnings("unchecked")
+			List<Object> fieldlist = (List<Object>) fset.get("fields");
+
+			@SuppressWarnings("unchecked")
+			List<HashMap<String, Object>> features = (ArrayList<HashMap<String, Object>>) fset
+					.get("features");
+			List<FieldDefinition> qflddefs = GenerateNewFieldDefs(fieldlist,
+					tokenmap);
+			GeoEventDefinition geoDef = ge.getGeoEventDefinition();
+
+			GeoEventDefinition edOut;
+			// if ((edOut = manager.searchGeoEventDefinition(outDefName,
+			// getId())) == null) {
+			edOut = geoDef.augment(qflddefs);
+			if (edOut.getFieldDefinition("TRACK_ID") == null) {
+				List<FieldDefinition> flddefs = new ArrayList<FieldDefinition>();
+				FieldDefinition trackdef = new DefaultFieldDefinition(
+						"trackid", FieldType.String, "TRACK_ID");
+				flddefs.add(trackdef);
+				edOut = edOut.augment(flddefs);
+			}
+			edOut.setOwner(definition.getUri().toString());
+			edOut.setName(outDefName);
+			Collection<GeoEventDefinition>eventDefs = manager.searchGeoEventDefinitionByName(outDefName);
+			Iterator<GeoEventDefinition>eventDefIt = eventDefs.iterator();
+			while(eventDefIt.hasNext())
+			{
+				GeoEventDefinition currentDef = eventDefIt.next();
+				manager.deleteGeoEventDefinition(currentDef.getGuid());
+			}
+			manager.addGeoEventDefinition(edOut);
+			// }
+			// GeoEvent geOut = null;
+			try {
+				GeoEventDefinition ged = getEventDefinition(edOut);
+				// geOut = geoEventCreator.create(ged.getName(), ownerId);
+
+				List<FieldGroup> featureFieldGroups = new ArrayList<FieldGroup>();
+
+				for (int i = 0; i < features.size(); ++i) {
+					HashMap<String, Object> f = features.get(i);
+
+					if (f != null) {
+						// FieldGroup fieldGroup =
+						// geOut.createFieldGroup("Features");
+						GeoEvent featureGE = createFeatureGeoEvent(f, tokenmap,
+								edOut, ge, i + 1);
+
+						// for (int j = 0; j < featureGE.getAllFields().length;
+						// j++) {
+						// fieldGroup.setField(j, featureGE.getField(j));
+						// }
+						// featureFieldGroups.add(fieldGroup);
+						send(featureGE);
+						// notifyObservers(featureGE);
 					}
-					//geOut.setField("Features", featureFieldGroups);
-				} catch (ConfigurationException e) {
-					LOG.error(e);
-					return null;
-				} catch (GeoEventDefinitionManagerException e) {
-					LOG.error(e);
-					return null;
-				} catch (MessagingException e) {
-					LOG.error(e);
-					return null;
-				} catch (FieldException e) {
-					LOG.error(e);
-					return null;
 				}
-				//return geOut;
-			//send(createFeatureGeoEvent(ge));
-    }
-    catch (MessagingException e)
-    {
-      LOGGER.error("EVENT_SENT_FAILURE", e);
-    }
+				// geOut.setField("Features", featureFieldGroups);
+			} catch (ConfigurationException e) {
+				LOG.error(e);
+				return null;
+			} catch (GeoEventDefinitionManagerException e) {
+				LOG.error(e);
+				return null;
+			} catch (MessagingException e) {
+				LOG.error(e);
+				return null;
+			} catch (FieldException e) {
+				LOG.error(e);
+				return null;
+			}
+			// return geOut;
+			// send(createFeatureGeoEvent(ge));
+		} catch (MessagingException e) {
+			LOGGER.error("EVENT_SENT_FAILURE", e);
+		}
 		return null;
 	}
-	
+
 	private GeoEvent createFeatureGeoEvent(HashMap<String, Object> feature,
-			HashMap<String, Object> tokenmap, GeoEventDefinition ged, GeoEvent inEvent, Integer id) throws Exception
-  {
+			HashMap<String, Object> tokenmap, GeoEventDefinition ged,
+			GeoEvent inEvent, Integer id) throws Exception {
 		GeoEvent geoEvent = null;
 		if (geoEventCreator != null) {
 			try {
@@ -272,27 +283,44 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 							.get("geometry");
 
 					Set<String> fields = tokenmap.keySet();
-					geoEvent.setField("TRACK_ID", id.toString());
+					
 					for (FieldDefinition fd : geoEvent.getGeoEventDefinition()
 							.getFieldDefinitions()) {
 						String name = fd.getName();
 						String value = null;
-						String src;
+						String src = "event";
 						List<String> tags = fd.getTags();
 						if (tags.contains("TRACK_ID"))
-							continue;
-						if (fields.contains(name)) {
+						{
+							value = att.get(name).toString();
+							geoEvent.setField("TRACK_ID", value);
+						}
+						if(tags.contains("QUERY_ID"))
+						{
+							geoEvent.setField("QUERY_ID", id.toString());
+						}
+						if(tags.contains("QUERY_GEOMETRY"))
+						{
+							
+							MapGeometry mapGeo = null;
+							Geometry geo = generateGeoFromMap(objGeo);
+							SpatialReference sr = SpatialReference
+									.create(outwkid);
+							mapGeo = new MapGeometry(geo, sr);
+							geoEvent.setField("QUERY_GEOMETRY", mapGeo);
+						}
+						else if (fields.contains(name)) {
 							value = att.get(name).toString();
 							src = "feature";
 						} else {
 							Object val = inEvent.getField(name);
-							if(val == null)
-							{
+							if (val == null) {
 								continue;
 							}
 							geoEvent.setField(name, val);
-							src = "event";
+						
 						}
+						
 						if (src.equals("feature")) {
 							if (value == null) {
 								geoEvent.setField(name, null);
@@ -358,26 +386,23 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
+			} catch (Exception e) {
+				geoEvent = null;
+				LOG.error(e.getMessage());
 			}
-      catch (Exception e)
-      {
-        geoEvent = null;
-        LOG.error(e.getMessage());
-      }
-    }
-    return geoEvent;
-  }
-	
-	@Override
-	public void send(GeoEvent geoEvent) throws MessagingException
-	{
-		if (geoEventProducer != null && geoEvent != null)
-	    geoEventProducer.send(geoEvent);
+		}
+		return geoEvent;
 	}
+
 	@Override
-	public void afterPropertiesSet()
-	{
-		radius = (Double)properties.get("radius").getValue();
+	public void send(GeoEvent geoEvent) throws MessagingException {
+		if (geoEventProducer != null && geoEvent != null)
+			geoEventProducer.send(geoEvent);
+	}
+
+	@Override
+	public void afterPropertiesSet() {
+		radius = (Double) properties.get("radius").getValue();
 		units = properties.get("units").getValue().toString();
 		inwkid = (Integer) properties.get("wkidin").getValue();
 		outwkid = (Integer) properties.get("wkidout").getValue();
@@ -389,14 +414,12 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 		folder = properties.get("folder").getValueAsString();
 		service = properties.get("service").getValueAsString();
 		lyrName = properties.get("layer").getValueAsString();
-		try
-		{
+		try {
 			conn = connectionManager.getArcGISServerConnection(connName);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			LOG.error(e.getMessage());
-			ValidationException ve = new ValidationException("Unable to make connection to ArcGIS Server");
+			ValidationException ve = new ValidationException(
+					"Unable to make connection to ArcGIS Server");
 			LOG.error(ve.getMessage());
 			try {
 				throw ve;
@@ -405,129 +428,112 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 				e1.printStackTrace();
 			}
 		}
-		layer = conn.getLayer(folder, service, lyrName, ArcGISServerType.FeatureServer);
-		layerId = ((Integer)layer.getId()).toString();
+		layer = conn.getLayer(folder, service, lyrName,
+				ArcGISServerType.FeatureServer);
+		layerId = ((Integer) layer.getId()).toString();
 		field = properties.get("field").getValueAsString();
 		wc = properties.get("wc").getValueAsString();
 	}
-	public void validate() throws ValidationException
-	{
-		if(radius <= 0)
-		{
-			ValidationException ve = new ValidationException("Radius cannot be less than or equal to 0");
+
+	public void validate() throws ValidationException {
+		if (radius <= 0) {
+			ValidationException ve = new ValidationException(
+					"Radius cannot be less than or equal to 0");
 			LOG.error(ve.getMessage());
 			throw ve;
 		}
-		try
-		{
+		try {
 			srIn = SpatialReference.create(inwkid);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			LOG.error(e.getMessage());
 			ValidationException ve = new ValidationException("Invalid wkid");
 			LOG.error(ve.getMessage());
 			throw ve;
 		}
-		try
-		{
+		try {
 			srBuffer = SpatialReference.create(bufferwkid);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			LOG.error(e.getMessage());
 			ValidationException ve = new ValidationException("Invalid wkid");
 			LOG.error(ve.getMessage());
 			throw ve;
 		}
-		try
-		{
+		try {
 			srOut = SpatialReference.create(outwkid);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			LOG.error(e.getMessage());
 			ValidationException ve = new ValidationException("Invalid wkid");
 			LOG.error(ve.getMessage());
 			throw ve;
 		}
 	}
-	
+
 	@Override
-	public EventDestination getEventDestination()
-	{
-		return (geoEventProducer != null) ? geoEventProducer.getEventDestination() : null;
-	}
-	
-	@Override
-	public List<EventDestination> getEventDestinations()
-	{
-		return (geoEventProducer != null) ? Arrays.asList(geoEventProducer.getEventDestination()) : new ArrayList<EventDestination>();
+	public EventDestination getEventDestination() {
+		return (geoEventProducer != null) ? geoEventProducer
+				.getEventDestination() : null;
 	}
 
 	@Override
-	public void disconnect()
-	{
+	public List<EventDestination> getEventDestinations() {
+		return (geoEventProducer != null) ? Arrays.asList(geoEventProducer
+				.getEventDestination()) : new ArrayList<EventDestination>();
+	}
+
+	@Override
+	public void disconnect() {
 		if (geoEventProducer != null)
-      geoEventProducer.disconnect();
+			geoEventProducer.disconnect();
 	}
 
 	@Override
-	public boolean isConnected()
-	{
-		return (geoEventProducer != null) ? geoEventProducer.isConnected() : false;
+	public boolean isConnected() {
+		return (geoEventProducer != null) ? geoEventProducer.isConnected()
+				: false;
 	}
 
 	@Override
-	public String getStatusDetails()
-	{
-		return (geoEventProducer != null) ? geoEventProducer.getStatusDetails() : "";
+	public String getStatusDetails() {
+		return (geoEventProducer != null) ? geoEventProducer.getStatusDetails()
+				: "";
 	}
-	
+
 	@Override
-	public void setup() throws MessagingException
-	{
+	public void setup() throws MessagingException {
 		;
 	}
 
 	@Override
-	public void init() throws MessagingException
-	{
+	public void init() throws MessagingException {
 		;
 	}
-	
+
 	@Override
-	public void update(Observable o, Object arg)
-	{
+	public void update(Observable o, Object arg) {
 		;
 	}
-	
-	public void setMessaging(Messaging messaging)
-  {
-    this.messaging = messaging;
-    this.geoEventCreator = messaging.createGeoEventCreator();
-  }
-	
-	public void setManager(GeoEventDefinitionManager m)
-	{
+
+	public void setMessaging(Messaging messaging) {
+		this.messaging = messaging;
+		this.geoEventCreator = messaging.createGeoEventCreator();
+	}
+
+	public void setManager(GeoEventDefinitionManager m) {
 		manager = m;
 	}
-	
-	public void setConnectionManager(ArcGISServerConnectionManager cm)
-	{
+
+	public void setConnectionManager(ArcGISServerConnectionManager cm) {
 		connectionManager = cm;
 	}
-	
+
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(definition.getName());
 		sb.append("/");
 		sb.append(definition.getVersion());
 		sb.append("[");
-		for (Property p : getProperties())
-		{
+		for (Property p : getProperties()) {
 			sb.append(p.getDefinition().getPropertyName());
 			sb.append(":");
 			sb.append(p.getValue());
@@ -536,42 +542,40 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 		sb.append("]");
 		return sb.toString();
 	}
-	
-	public ArrayList<Object> CreateQueries(GeoEvent ge)
-	{
+
+	public ArrayList<Object> CreateQueries(GeoEvent ge) {
 		Set<String> eventTokens = eventTokenMap.keySet();
 		Iterator<String> eventIt = eventTokens.iterator();
 		while (eventIt.hasNext()) {
 			String et = eventIt.next();
 			String fn = eventTokenMap.get(et);
 			String val = null;
-			if(ge.getField(fn)!=null)
-			{
+			if (ge.getField(fn) != null) {
 				val = ge.getField(fn).toString();
 				wc = wc.replace(et, val);
 			}
 		}
 		ArrayList<Object> queries = new ArrayList<Object>();
 		URL url = conn.getUrl();
-		String baseUrl = url.getProtocol() +"://"+ url.getHost() + ":" + url.getPort()
-				+ url.getPath() + "rest/services/";
-		String curPath = baseUrl + "/" + folder + "/" + service + "/FeatureServer/" + layerId;
+		String baseUrl = url.getProtocol() + "://" + url.getHost() + ":"
+				+ url.getPort() + url.getPath() + "rest/services/";
+		String curPath = baseUrl + "/" + folder + "/" + service
+				+ "/FeatureServer/" + layerId;
 		String restpath = curPath + "/query?";
 		HashMap<String, Object> query = new HashMap<String, Object>();
 		HashMap<String, String> fieldMap = new HashMap<String, String>();
 
 		String fldsString = field;
 		String[] fieldArray = fldsString.split(",");
-		for(String f: fieldArray)
-		{
+		for (String f : fieldArray) {
 			String tk = tokenizer.tokenize(f);
 			fieldMap.put(f, tk);
 		}
-		
+
 		query.put("restpath", restpath);
 		query.put("path", curPath);
 		query.put("whereclause", wc);
-		query.put("fields", fldsString );
+		query.put("fields", fldsString);
 		query.put("tokenMap", fieldMap);
 		query.put("usingdist", calcDist);
 		query.put("layer", layer.getName());
@@ -580,65 +584,55 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 		queries.add(query);
 		return queries;
 	}
-	
-	private Geometry constructGeometry(MapGeometry geo) throws Exception
-	{
-		try{
-			
-			Geometry geoIn= geo.getGeometry();
+
+	private Geometry constructGeometry(MapGeometry geo) throws Exception {
+		try {
+
+			Geometry geoIn = geo.getGeometry();
 			return GeometryEngine.project(geoIn, srIn, srBuffer);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			LOG.error(e.getMessage());
 			LOG.error(e.getStackTrace());
-			throw(e);
+			throw (e);
 		}
 	}
-	
-	private Unit queryUnit(String units)
-	{
+
+	private Unit queryUnit(String units) {
 		UnitConverter uc = new UnitConverter();
 		String cn = uc.findConnonicalName(units);
 		int unitout = uc.findWkid(cn);
-		Unit  u = LinearUnit.create(unitout);
+		Unit u = LinearUnit.create(unitout);
 		return u;
 	}
-	
-	private MapGeometry constructBuffer(Geometry geo, double radius, Unit u) throws JsonParseException, IOException
-	{
+
+	private MapGeometry constructBuffer(Geometry geo, double radius, Unit u)
+			throws JsonParseException, IOException {
 		Polygon buffer = GeometryEngine.buffer(inGeometry, srBuffer, radius, u);
 		Geometry bufferout = GeometryEngine.project(buffer, srBuffer, srOut);
 		MapGeometry mapGeo = new MapGeometry(bufferout, srOut);
 		return mapGeo;
 	}
-	
-	private MapGeometry constructGeometryFromString(String geoString)
-	{
+
+	private MapGeometry constructGeometryFromString(String geoString) {
 		String[] pairs = geoString.split(" ");
-		
+
 		Polygon polygon = new Polygon();
 		Boolean firstit = true;
-		for(String coords: pairs)
-		{
-			
+		for (String coords : pairs) {
+
 			String[] tuple = coords.split(",");
 			Double x = Double.parseDouble(tuple[0]);
 			Double y = Double.parseDouble(tuple[1]);
-			Point p = new Point(x,y);
+			Point p = new Point(x, y);
 			Double z = Double.NaN;
-			if (tuple.length>2)
-			{
+			if (tuple.length > 2) {
 				z = Double.parseDouble(tuple[2]);
 				p.setZ(z);
 			}
-			if(firstit)
-			{
+			if (firstit) {
 				polygon.startPath(p);
-				firstit=false;
-			}
-			else
-			{
+				firstit = false;
+			} else {
 				polygon.lineTo(p);
 			}
 		}
@@ -646,12 +640,13 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 		MapGeometry mapgeo = new MapGeometry(polygon, srOut);
 		return mapgeo;
 	}
-	
-	private HashMap<String, Object> ExecuteRestQueries(String jsonGeometry, String geoType, ArrayList<Object> queries)
+
+	private HashMap<String, Object> ExecuteRestQueries(String jsonGeometry,
+			String geoType, ArrayList<Object> queries)
 			throws UnsupportedEncodingException {
 		String contentType = "application/json";
 		HttpClient httpclient = HttpClientBuilder.create().build();
-		HashMap<String, Object>responseMap = new HashMap<String, Object>();
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
 		for (int i = 0; i < queries.size(); ++i) {
 			@SuppressWarnings("unchecked")
 			HashMap<String, Object> query = (HashMap<String, Object>) queries
@@ -660,7 +655,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 			String wc = URLEncoder.encode((String) query.get("whereclause"),
 					"UTF-8");
 			String geo = URLEncoder.encode(jsonGeometry, "UTF-8");
-			
+
 			@SuppressWarnings("unchecked")
 			HashMap<String, String> tokenMap = (HashMap<String, String>) query
 					.get("tokenMap");
@@ -672,7 +667,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 					+ "&geometryType="
 					+ geoType
 					+ "&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*"
-					//+ fields
+					// + fields
 					+ "&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&gdbVersion=&returnDistinctValues=false&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&f=json";
 			String uri = path + args;
 			try {
@@ -693,16 +688,19 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 						}
 						Map<String, Object> map = new HashMap<String, Object>();
 						ObjectMapper mapper = new ObjectMapper();
-						map = mapper.readValue(output,  new TypeReference<HashMap<String, Object>>(){});
+						map = mapper.readValue(output,
+								new TypeReference<HashMap<String, Object>>() {
+								});
 						HashMap<String, Object> tuple = new HashMap<String, Object>();
-						String lyr = (String)query.get("layer");
-						String lyrheadercfg = (String)query.get("headerconfig");
-						Boolean calcdist = (Boolean)query.get("usingdist");
-						Boolean sortByDist = (Boolean)query.get("sortbydist");
-						String distToken = (String)query.get("disttoken");
-						String distUnits = (String)query.get("distunits");
+						String lyr = (String) query.get("layer");
+						String lyrheadercfg = (String) query
+								.get("headerconfig");
+						Boolean calcdist = (Boolean) query.get("usingdist");
+						Boolean sortByDist = (Boolean) query.get("sortbydist");
+						String distToken = (String) query.get("disttoken");
+						String distUnits = (String) query.get("distunits");
 						String id = query.get("id").toString();
-						tuple.put("fset",  map);
+						tuple.put("fset", map);
 						tuple.put("tokenmap", tokenMap);
 						tuple.put("config", itemConfig);
 						tuple.put("layer", lyr);
@@ -726,8 +724,8 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 						LOG.error(ex);
 						httppost.abort();
 						throw ex;
-					}catch(Exception ex){
-						
+					} catch (Exception ex) {
+
 						LOG.error(ex);
 						httppost.abort();
 						throw ex;
@@ -740,207 +738,178 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements GeoEvent
 						}
 					}
 				}
-				
 
 			} catch (Exception ex) {
 				LOG.error(ex);
 				ex.printStackTrace();
 			}
-			
+
 		}
 		return responseMap;
 	}
-	private List<FieldDefinition> GenerateNewFieldDefs(List<Object>fieldlist, HashMap<String, Object> tokenmap) throws ConfigurationException
-	{
+
+	private List<FieldDefinition> GenerateNewFieldDefs(List<Object> fieldlist,
+			HashMap<String, Object> tokenmap) throws ConfigurationException {
 		FieldType ft = null;
 		String type = null;
-		List<FieldDefinition>qflddefs = new ArrayList<FieldDefinition>();
+		List<FieldDefinition> qflddefs = new ArrayList<FieldDefinition>();
 
-		for (Object fldobj: fieldlist)
-		{
-			
+		for (Object fldobj : fieldlist) {
+
 			@SuppressWarnings("unchecked")
-			
-			
-			Map<String, Object> fldmap = (Map<String, Object>)fldobj;
+			Map<String, Object> fldmap = (Map<String, Object>) fldobj;
 			String name = fldmap.get("name").toString();
-			if(tokenmap.containsKey(name))
-			{
+			String tag=null;
+			if (tokenmap.containsKey(name)) {
 				type = fldmap.get("type").toString();
-				if(type.equals("esriFieldOID"))
-				{
+				if (type.equals("esriFieldOID")) {
 					continue;
-				}
-				else if(type.equals("esriFieldTypeString"))
-				{
+				} else if (type.equals("esriFieldTypeString")) {
 					ft = FieldType.String;
-				}
-				else if(type.equals("esriFieldTypeInteger"))
-				{
+				} else if (type.equals("esriFieldTypeInteger")) {
 					ft = FieldType.Integer;
-				}
-				else if (type.equals("esriFieldTypeDouble"))
-				{
+				} else if (type.equals("esriFieldTypeDouble")) {
 					ft = FieldType.Double;
-				}
-				else if(type.equals("esriFieldTypeDate"))
-				{
+				} else if (type.equals("esriFieldTypeDate")) {
 					ft = FieldType.Date;
-				}
-				else if(type.equals("esriFieldTypeBoolean"))
-				{
+				} else if (type.equals("esriFieldTypeBoolean")) {
 					ft = FieldType.Boolean;
-				}
-				else if(type.equals("esriFieldTypeGeometry"))
-				{
-					ft = FieldType.Geometry;
-				}
+				} 
 				FieldDefinition fd = new DefaultFieldDefinition(name, ft);
 				qflddefs.add(fd);
 			}
+			
 		}
+		if(tokenmap.containsKey("GEOMETRY"))
+		{
+			ft = FieldType.Geometry;
+			String name="QueriedGeometry";
+			String tag="QUERY_GEOMETRY";
+			FieldDefinition fd = new DefaultFieldDefinition(name, ft, tag);
+			qflddefs.add(fd);
+		}
+		ft = FieldType.String;
+		String name = "QueryId";
+		String tag = "QUERY_ID";
+		FieldDefinition fd = new DefaultFieldDefinition(name, ft, tag);
+		qflddefs.add(fd);
 		return qflddefs;
 	}
-	
-	private GeoEventDefinition getEventDefinition(GeoEventDefinition subdef) throws ConfigurationException, GeoEventDefinitionManagerException
-	{
-		GeoEventDefinition ged = geoEventCreator.getGeoEventDefinitionManager().searchGeoEventDefinition("spatial-query-features", ownerId);
-		if(ged != null)
-		{
+
+	private GeoEventDefinition getEventDefinition(GeoEventDefinition subdef)
+			throws ConfigurationException, GeoEventDefinitionManagerException {
+		GeoEventDefinition ged = geoEventCreator.getGeoEventDefinitionManager()
+				.searchGeoEventDefinition("spatial-query-features", ownerId);
+		if (ged != null) {
 			return ged;
 		}
 		ged = new DefaultGeoEventDefinition();
 		ged.setName("spatial-query-features");
 		ged.setOwner(ownerId);
-		
+
 		List<FieldDefinition> fieldDefinitions = new ArrayList<FieldDefinition>();
-		FieldDefinition featureFD = new DefaultFieldDefinition("Features", FieldType.Group);
-		List<FieldDefinition> featureFieldDefinitions = subdef.getFieldDefinitions();
-		for(FieldDefinition child: featureFieldDefinitions)
-		{
+		FieldDefinition featureFD = new DefaultFieldDefinition("Features",
+				FieldType.Group);
+		List<FieldDefinition> featureFieldDefinitions = subdef
+				.getFieldDefinitions();
+		for (FieldDefinition child : featureFieldDefinitions) {
 			featureFD.addChild(child);
 		}
 		featureFD.setCardinality(FieldCardinality.Many);
 		fieldDefinitions.add(featureFD);
 
-	    ged.setFieldDefinitions(fieldDefinitions);
-	    geoEventCreator.getGeoEventDefinitionManager().addGeoEventDefinition(ged);
+		ged.setFieldDefinitions(fieldDefinitions);
+		geoEventCreator.getGeoEventDefinitionManager().addGeoEventDefinition(
+				ged);
 		return ged;
 	}
-	
-	private Geometry generateGeoFromMap(Map<String, Object> objGeo)
-	{
+
+	private Geometry generateGeoFromMap(Map<String, Object> objGeo) {
 		Geometry geo = null;
-		if(objGeo.containsKey("rings"))
-		{
+		if (objGeo.containsKey("rings")) {
 			@SuppressWarnings("unchecked")
-			ArrayList<ArrayList<ArrayList<String>>> rings= (ArrayList<ArrayList<ArrayList<String>>>)objGeo.get("rings");
+			ArrayList<ArrayList<ArrayList<String>>> rings = (ArrayList<ArrayList<ArrayList<String>>>) objGeo
+					.get("rings");
 			geo = generatePolygon(rings);
-		}
-		else if(objGeo.containsKey("paths"))
-		{
+		} else if (objGeo.containsKey("paths")) {
 			@SuppressWarnings("unchecked")
-			ArrayList<ArrayList<ArrayList<String>>> paths= (ArrayList<ArrayList<ArrayList<String>>>)objGeo.get("paths");
+			ArrayList<ArrayList<ArrayList<String>>> paths = (ArrayList<ArrayList<ArrayList<String>>>) objGeo
+					.get("paths");
 			geo = generatePolyLine(paths);
-		}
-		else if(objGeo.containsKey("points"))
-		{
-			
-		}
-		else
-		{
+		} else if (objGeo.containsKey("points")) {
+
+		} else {
 			Double x = Double.valueOf(objGeo.get("x").toString());
 			Double y = Double.valueOf(objGeo.get("y").toString());
-			if(objGeo.size() > 2)
-			{
+			if (objGeo.size() > 2) {
 				Double z = Double.valueOf(objGeo.get("z").toString());
-				geo = generate3DPoint(x,y,z);
-			}
-			else
-			{
-				geo = generatePoint(x,y);
+				geo = generate3DPoint(x, y, z);
+			} else {
+				geo = generatePoint(x, y);
 			}
 		}
 		return geo;
 	}
-	
-	private Point generatePoint(Double x, Double y)
-	{
+
+	private Point generatePoint(Double x, Double y) {
 		Point p = new Point(x, y);
 		return p;
 	}
-	
-	private Point generate3DPoint(Double x, Double y, Double z)
-	{
+
+	private Point generate3DPoint(Double x, Double y, Double z) {
 		Point p = new Point(x, y, z);
 		return p;
 	}
-	
-	private Polyline generatePolyLine(ArrayList<ArrayList<ArrayList<String>>> paths)
-	{
+
+	private Polyline generatePolyLine(
+			ArrayList<ArrayList<ArrayList<String>>> paths) {
 		Polyline polyln = new Polyline();
-		for(ArrayList<ArrayList<String>> path: paths)
-		{
+		for (ArrayList<ArrayList<String>> path : paths) {
 			Boolean firstPt = true;
-			for(ArrayList<String> strPt: path)
-			{
+			for (ArrayList<String> strPt : path) {
 				Point p = null;
-				if(strPt.size() > 2)
-				{
+				if (strPt.size() > 2) {
 					Double x = Double.valueOf(strPt.get(0));
 					Double y = Double.valueOf(strPt.get(1));
 					Double z = Double.valueOf(strPt.get(2));
-					p = generate3DPoint(x,y,z);
-				}
-				else
-				{
+					p = generate3DPoint(x, y, z);
+				} else {
 					Double x = Double.valueOf(strPt.get(0));
 					Double y = Double.valueOf(strPt.get(1));
-					p = generatePoint(x,y);
+					p = generatePoint(x, y);
 				}
-				if(firstPt)
-				{
+				if (firstPt) {
 					polyln.startPath(p);
 					firstPt = false;
-				}
-				else
-				{
+				} else {
 					polyln.lineTo(p);
 				}
 			}
 		}
 		return polyln;
 	}
-	
-	private Polygon generatePolygon(ArrayList<ArrayList<ArrayList<String>>> paths)
-	{
+
+	private Polygon generatePolygon(
+			ArrayList<ArrayList<ArrayList<String>>> paths) {
 		Polygon polygon = new Polygon();
-		for(ArrayList<ArrayList<String>> path: paths)
-		{
+		for (ArrayList<ArrayList<String>> path : paths) {
 			Boolean firstPt = true;
-			for(ArrayList<String> strPt: path)
-			{
+			for (ArrayList<String> strPt : path) {
 				Point p = null;
-				if(strPt.size() > 2)
-				{
+				if (strPt.size() > 2) {
 					Double x = Double.valueOf(strPt.get(0));
 					Double y = Double.valueOf(strPt.get(1));
 					Double z = Double.valueOf(strPt.get(2));
-					p = generate3DPoint(x,y,z);
-				}
-				else
-				{
+					p = generate3DPoint(x, y, z);
+				} else {
 					Double x = Double.valueOf(strPt.get(0));
 					Double y = Double.valueOf(strPt.get(1));
-					p = generatePoint(x,y);
+					p = generatePoint(x, y);
 				}
-				if(firstPt)
-				{
+				if (firstPt) {
 					polygon.startPath(p);
 					firstPt = false;
-				}
-				else
-				{
+				} else {
 					polygon.lineTo(p);
 				}
 			}
