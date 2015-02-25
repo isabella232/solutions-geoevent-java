@@ -30,6 +30,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
+import com.esri.core.geometry.MapGeometry;
+import com.esri.core.geometry.Point;
+import com.esri.core.geometry.SpatialReference;
 import com.esri.ges.adapter.AdapterDefinition;
 import com.esri.ges.adapter.InboundAdapterBase;
 import com.esri.ges.core.component.ComponentException;
@@ -37,7 +40,6 @@ import com.esri.ges.core.geoevent.FieldDefinition;
 import com.esri.ges.core.geoevent.GeoEvent;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
 import com.esri.ges.messaging.MessagingException;
-import com.esri.ges.spatial.Point;
 import com.esri.ges.util.DateUtil;
 
 public class DefenseInboundAdapter extends InboundAdapterBase
@@ -182,9 +184,12 @@ public class DefenseInboundAdapter extends InboundAdapterBase
 							if (g.length > 2)
 								z = Double.parseDouble(g[2]);
 							int wkid = Integer.parseInt(fields.get("_wkid"));
-							Point point = spatial.createPoint(x, y, z, wkid);
-							int geometryID = geoEvent.getGeoEventDefinition().getGeometryId();
-							geoEvent.setField(geometryID, point.toJson());
+							//Point point = spatial.createPoint(x, y, z, wkid);
+							Point point = new Point(x, y, z);
+							SpatialReference sref = SpatialReference.create(wkid);
+							MapGeometry mapGeo = new MapGeometry(point, sref);
+							//int geometryID = geoEvent.getGeoEventDefinition().getGeometryId();
+							geoEvent.setGeometry(mapGeo);
 							break;
 						}
 					}
