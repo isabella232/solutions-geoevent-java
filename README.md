@@ -26,7 +26,6 @@ Processors
 * [Symbol Lookup Processor](solutions-geoevent/processors/symbol-lookup-processor/README.md)
 * [unitConverter Processor](solutions-geoevent/processors/unitConversion-processor/README.md)
 * [Update Only Processor](solutions-geoevent/processors/updateOnly-processor/README.md)
-* [Visibility Processor](solutions-geoevent/processors/visibility-processor/README.md)
 
 Transports
 * [IRC Transport](solutions-geoevent/transports/irc-transport/README.md)
