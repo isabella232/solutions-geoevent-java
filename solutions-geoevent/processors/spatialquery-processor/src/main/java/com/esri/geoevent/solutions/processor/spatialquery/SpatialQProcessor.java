@@ -292,8 +292,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 						List<String> tags = fd.getTags();
 						if (tags.contains("TRACK_ID"))
 						{
-							value = att.get(name).toString();
-							geoEvent.setField("TRACK_ID", value);
+							geoEvent.setField("TRACK_ID", inEvent.getField(name));
 						}
 						if(tags.contains("QUERY_ID"))
 						{
