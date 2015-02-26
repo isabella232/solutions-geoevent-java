@@ -15,7 +15,6 @@ Adapters
 * [regex Text Adapter](solutions-geoevent/adapters/regexText-adapter/README.md)
 
 Processors
-* [Add XYZ Processor](solutions-geoevent/processors/addxyz-processor/README.md)
 * [Bearing Processor](solutions-geoevent/processors/bearing-processor/README.md)
 * [Buffer Processor](solutions-geoevent/processors/buffer-processor/README.md)
 * [Ellipse Processor](solutions-geoevent/processors/ellipse-processor/README.md)
@@ -26,7 +25,6 @@ Processors
 * [Symbol Lookup Processor](solutions-geoevent/processors/symbol-lookup-processor/README.md)
 * [unitConverter Processor](solutions-geoevent/processors/unitConversion-processor/README.md)
 * [Update Only Processor](solutions-geoevent/processors/updateOnly-processor/README.md)
-* [Visibility Processor](solutions-geoevent/processors/visibility-processor/README.md)
 
 Transports
 * [IRC Transport](solutions-geoevent/transports/irc-transport/README.md)
