@@ -1,6 +1,6 @@
 
 
-package com.esri.geoevent.solutions.processor.line2pt;
+package com.esri.geoevent.solutions.processor.incrementalPoint;
 
 /*
  * #%L
@@ -25,8 +25,10 @@ package com.esri.geoevent.solutions.processor.line2pt;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
 
 import com.esri.core.geometry.Envelope;
 import com.esri.core.geometry.Geometry;
@@ -51,15 +53,38 @@ import com.esri.ges.framework.i18n.BundleLogger;
 import com.esri.ges.framework.i18n.BundleLoggerFactory;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManagerException;
+import com.esri.ges.messaging.EventDestination;
+import com.esri.ges.messaging.EventUpdatable;
 import com.esri.ges.messaging.GeoEventCreator;
+import com.esri.ges.messaging.GeoEventProducer;
 import com.esri.ges.messaging.Messaging;
 import com.esri.ges.messaging.MessagingException;
 import com.esri.ges.processor.GeoEventProcessorBase;
 import com.esri.ges.processor.GeoEventProcessorDefinition;
 
 
-public class Line2PtProcessor extends GeoEventProcessorBase {
-
+public class IncrementalPointProcessor extends GeoEventProcessorBase implements
+GeoEventProducer, EventUpdatable {
+	class IncrementPoint
+	{
+		private Point point;
+		Integer nextVertexIndex;
+		IncrementPoint(Point p, Integer i)
+		{
+			this.point = p;
+			this.nextVertexIndex=i;
+		}
+		
+		public Point getPoint()
+		{
+			return this.point;
+		}
+		
+		public Integer getNextVertexIndex()
+		{
+			return this.nextVertexIndex;
+		}
+	}
 	private String pointType;
 	private int processWkid;
 	private String outDef;
@@ -69,27 +94,48 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 	private GeoEventCreator geoEventCreator;
 	private GeoEventDefinitionManager manager;
 	private Messaging messaging;
+	private GeoEventProducer geoEventProducer;
+	private SpatialReference outSr;
+	private String intervalType;
+	private Double distInterval;
+	private long timeInterval;
+	private Boolean usingTime;
 	private static final BundleLogger LOGGER = BundleLoggerFactory
-			.getLogger(Line2PtProcessor.class);
-	public Line2PtProcessor(GeoEventProcessorDefinition definition) throws ComponentException {
+			.getLogger(IncrementalPointProcessor.class);
+	public IncrementalPointProcessor(GeoEventProcessorDefinition definition) throws ComponentException {
 		super(definition);
 		//spatial = s;
 		geoEventMutator = true;
 	}
-
+	@Override
+	public void send(GeoEvent geoEvent) throws MessagingException {
+		if (geoEventProducer != null && geoEvent != null)
+			geoEventProducer.send(geoEvent);
+	}
+	@Override
+	public void setId(String id) {
+		super.setId(id);
+		geoEventProducer = messaging
+				.createGeoEventProducer(new EventDestination(id + ":event"));
+	}
 	@Override
 	public void afterPropertiesSet() {
-		pointType = properties.get("pointType").getValueAsString();
+		intervalType = properties.get("intervalType").getValueAsString();
+		if(intervalType.equals("time"))
+		{
+			timeInterval = (long)properties.get("timeinterval").getValue();
+			usingTime = true;
+		}
+		else if(intervalType.equals("distance"))
+		{
+			distInterval = (Double)properties.get("distanceinterval").getValue();
+			usingTime = false;
+		}
 		processWkid = (Integer)properties.get("wkid").getValue();
 		outDef = properties.get("outdefname").getValueAsString();
 		fds = new ArrayList<FieldDefinition>();
 		try {
-			//fds.add(new DefaultFieldDefinition("trackId", FieldType.String,
-					//"TRACK_ID"));
 			fds.add(new DefaultFieldDefinition("LocationTimeStamp", FieldType.Date, "TIMESTAMP"));
-			
-			//fds.add(new DefaultFieldDefinition("geometry", FieldType.Geometry));
-
 			if ((ged = manager.searchGeoEventDefinition(outDef, definition.getUri().toString())) == null)
 			{
 				createDef = true;
@@ -113,6 +159,7 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 	public GeoEvent process(GeoEvent ge) throws Exception {
 		
 		
+		
 		if (createDef) {
 			createGeoEventDefinition(ge);
 			createDef=false;
@@ -129,31 +176,46 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 		if(geo.getType()!=Geometry.Type.Polyline)
 			return null;
 		Polyline polyln = (Polyline)geo;
+		
+		Point startPt = polyln.getPoint(0);
+		Date startTime = ge.getStartTime();
+		//Date endTime = ge.getEndTime();
 		Geometry outGeo = null;
 		Date ts = null;
-		if(pointType.equals("start"))
+		Unit unit = LinearUnit.create(9001);
+		LinearUnit lu = (LinearUnit) unit;
+		double distTotal = GeometryEngine.geodesicLength(polyln, outSr, lu);
+		int numHops = 0;
+		if(usingTime)
 		{
-			ts = (Date)ge.getField("TIME_START");
-			outGeo = getStartPoint(polyln);
+			distInterval = distTotal/((timeStart.getTime() - timeEnd.getTime())/timeInterval);
+			numHops = (int) Math.floor(distTotal/distInterval);
 		}
-		else if(pointType.equals("end"))
+		else
 		{
-			ts = (Date)ge.getField("TIME_END");
-			outGeo = getEndPoint(polyln);
+			numHops = (int) Math.floor(distTotal/distInterval);
+			timeInterval = (timeStart.getTime() - timeEnd.getTime())/numHops;
 		}
-		else if(pointType.equals("mid"))
+		
+		Integer ptIndex = 0;
+		GeoEvent msg = null;
+		for(int i = 0; i < numHops; ++i)
 		{
-			outGeo = getMiddlePoint(mapGeo);
-			long midTime = timeStart.getTime() + ((timeEnd.getTime() - timeStart.getTime())/2);
-			ts = new Date(midTime);
+			IncrementPoint ip = this.getNextPoint(polyln, startPt, ptIndex, distInterval);
+			outGeo = ip.getPoint();
+			MapGeometry outMapGeo = new MapGeometry(outGeo, mapGeo.getSpatialReference());
+			long incrementTime = startTime.getTime() + (timeInterval * i);
+			ts = new Date(incrementTime);
+			msg = createIncrementalPointGeoevent(ge, outMapGeo, ts);
+			send(msg);
+			startPt = (Point)outGeo;
+			ptIndex = ip.getNextVertexIndex();
 		}
-		MapGeometry outMapGeo = new MapGeometry(outGeo, mapGeo.getSpatialReference());
-		GeoEvent msg = createLine2PtGeoevent(ge, outMapGeo, ts);
 		
 		return msg;
 	}
 	
-	private GeoEvent createLine2PtGeoevent(GeoEvent event, MapGeometry outGeo, Date ts) throws MessagingException, FieldException
+	private GeoEvent createIncrementalPointGeoevent(GeoEvent event, MapGeometry outGeo, Date ts) throws MessagingException, FieldException
 	{
 		GeoEventCreator creator = messaging.createGeoEventCreator();
 		GeoEvent msg = creator.create(outDef, definition.getUri().toString());
@@ -202,6 +264,51 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 		return true;
 	}
 	
+	@Override
+	public EventDestination getEventDestination() {
+		return (geoEventProducer != null) ? geoEventProducer
+				.getEventDestination() : null;
+	}
+
+	@Override
+	public List<EventDestination> getEventDestinations() {
+		return (geoEventProducer != null) ? Arrays.asList(geoEventProducer
+				.getEventDestination()) : new ArrayList<EventDestination>();
+	}
+
+	@Override
+	public void disconnect() {
+		if (geoEventProducer != null)
+			geoEventProducer.disconnect();
+	}
+
+	@Override
+	public boolean isConnected() {
+		return (geoEventProducer != null) ? geoEventProducer.isConnected()
+				: false;
+	}
+
+	@Override
+	public String getStatusDetails() {
+		return (geoEventProducer != null) ? geoEventProducer.getStatusDetails()
+				: "";
+	}
+
+	@Override
+	public void setup() throws MessagingException {
+		;
+	}
+
+	@Override
+	public void init() throws MessagingException {
+		;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		;
+	}
+	
 	public void onServiceStart() {
 		// Service Start Phase
 	}
@@ -209,83 +316,38 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 	public void onServiceStop() {
 		// Service Stop Phase
 	}
-
-	private Point getStartPoint(Polyline polyln)
-	{
-		int startIndex = polyln.getPathStart(0);
-		return polyln.getPoint(startIndex);
-	}
 	
-	private Point getEndPoint(Polyline polyln)
+	private IncrementPoint getNextPoint(Polyline polyln, Point startPt, Integer i, Double dist)
 	{
-		try {
-			int pathCount = polyln.getPathCount();
-			int endIndex = polyln.getPathEnd(pathCount - 1);
-			return polyln.getPoint(endIndex-1);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-			throw (e);
+		Point startVertex = polyln.getPoint(i);
+		Double currentDist = GeometryEngine.distance(startPt, startVertex, outSr);
+		Point segStart = null;
+		Point segEnd = null;
+		Boolean multipleVertices = true;
+		if(currentDist > dist)
+		{
+			segStart = startPt;
+			segEnd = startVertex;
+			multipleVertices = false;
 		}
-	}
-	
-	private Geometry getMiddlePoint(MapGeometry mg) {
-		try {
-			Unit unit = LinearUnit.create(9001);
-			LinearUnit lu = (LinearUnit) unit;
-			MapGeometry mapgeo = null;
-			Boolean inputProjected = true;
-			SpatialReference outSr = null;
-			SpatialReference inSr = mg.getSpatialReference();
-			if (processWkid != mg.getSpatialReference().getID()) {
-				outSr = SpatialReference.create(processWkid);
-				Geometry g = GeometryEngine.project(mg.getGeometry(), inSr,
-						outSr);
-				mapgeo = new MapGeometry(g, outSr);
-				inputProjected = false;
-			} else {
-				mapgeo = mg;
-				outSr = mapgeo.getSpatialReference();
-			}
-			Double midptLen = GeometryEngine.geodesicLength(
-					mapgeo.getGeometry(), mapgeo.getSpatialReference(), lu) / 2;
-			Point midPt = null;
-			Polyline polyln = (Polyline) mapgeo.getGeometry();
-			int pathCount = polyln.getPathCount();
-			Double currentLen = 0.0;
-			for (int i = 0; i < pathCount; ++i) {
-				int start = polyln.getPathStart(i);
-				int end = polyln.getPathEnd(i);
-				int hops = end - start;
-				for (int j = start + 1; j < start + hops; ++j) {
-					Point startPt = polyln.getPoint(j - 1);
-					Point endPt = polyln.getPoint(j);
-					Double distance = GeometryEngine.distance(startPt, endPt,
-							outSr);
-					// currentLn + distance
-					if (currentLen + distance >= midptLen) {
-						currentLen += distance;
-						Double distanceOnSeg = midptLen-(currentLen-distance);
-						midPt = findPtOnSegment(startPt, endPt, distanceOnSeg);
-						Geometry outGeo = null;
-						if (!inputProjected) {
-							outGeo = GeometryEngine.project(midPt, outSr, inSr);
-						} else {
-							outGeo = midPt;
-						}
-						return outGeo;
-
-					} else {
-						currentLen += distance;
-					}
-				}
-				
-			}
-			return null;
-		} catch (Exception e) {
-			LOGGER.error(e.getStackTrace().toString());
-			LOGGER.error(e.getMessage());
-			throw (e);
+		while(currentDist > dist)
+		{
+			Point start = polyln.getPoint(i);
+			Point end = polyln.getPoint(i+1);
+			currentDist += GeometryEngine.distance(start, end, outSr);
+			++i;
 		}
+		if(multipleVertices)
+		{
+			segStart = polyln.getPoint(i-1);
+			segEnd = polyln.getPoint(i);
+		}
+		Double segLen = GeometryEngine.distance(segStart, segEnd, outSr);
+		Double distOver = currentDist - dist;
+		Double distOnSeg = segLen - distOver;
+		Point p = findPtOnSegment(segStart, segEnd, distOnSeg);
+		IncrementPoint ip = new IncrementPoint(p, i);
+		return ip;
 	}
 	
 	private Point findPtOnSegment(Point segStart, Point segEnd, Double d)
@@ -305,74 +367,6 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 		pt = new Point(x,y);
 		return pt;
 	}
-
-	private Point findPtOnSegment(Point segStart, Point segEnd, Double h, Double h2)
-	{
-		Point pt = null;
-		Double x1, y1, x2, y2;
-		x1 = segStart.getX();
-		y1 = segStart.getY();
-		x2 = segEnd.getX();
-		y2 = segEnd.getY();
-		Double a = null;
-		Double o = null;
-		Double cosTheta = null;
-		Double sinTheta = null;
-		Double xMultiplier = null;
-		Double yMultiplier = null;
-		Double xlen = null;
-		Double ylen = null;
-		if(x1 > x2 && y1 > y2)
-		{
-			xMultiplier = 1.0;
-			yMultiplier = -1.0;
-			a = Math.abs(y2 - y1);
-			o = Math.abs(x2 - x1);
-			cosTheta = a/h;
-			sinTheta = o/h;
-			xlen = h2*sinTheta*xMultiplier;
-			ylen=h2*cosTheta*yMultiplier;
-		}
-		else if(x1 < x2 && y1 < y2)
-		{
-			xMultiplier = -1.0;
-			yMultiplier = 1.0;
-			a = Math.abs(x2 - x1);
-			o = Math.abs(y2 - y1);
-			cosTheta = a/h;
-			sinTheta = o/h;
-			xlen = h2*cosTheta*xMultiplier;
-			ylen=h2*sinTheta*yMultiplier;
-			
-		}
-		else if(x1 < x2 && y1 > y2)
-		{
-			xMultiplier = 1.0;
-			yMultiplier = -1.0;
-			a = Math.abs(y2 - y1);
-			o = Math.abs(x2 - x1);
-			cosTheta = a/h;
-			sinTheta = o/h;
-			xlen = h2*sinTheta*xMultiplier;
-			ylen=h2*cosTheta*yMultiplier;
-		}
-		else if(x1 > x2 && y1 < y2)
-		{
-			xMultiplier = -1.0;
-			yMultiplier = 1.0;
-			a = Math.abs(x2 - x1);
-			o = Math.abs(y2 - y1);
-			cosTheta = a/h;
-			sinTheta = o/h;
-			xlen = h2*cosTheta*xMultiplier;
-			ylen=h2*sinTheta*yMultiplier;
-			
-		}
-		Double newX= segStart.getX() + xlen;
-		Double newY =  segStart.getY() + ylen;
-		pt = new Point(newX, newY);
-		return pt;
-	}
 	
 	public void setManager(GeoEventDefinitionManager manager)
 	{
@@ -385,3 +379,5 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 	}
 	
 }
+
+
