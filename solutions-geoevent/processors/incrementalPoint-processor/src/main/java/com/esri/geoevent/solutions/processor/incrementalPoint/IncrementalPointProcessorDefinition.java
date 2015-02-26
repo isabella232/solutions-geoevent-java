@@ -61,7 +61,7 @@ public class IncrementalPointProcessorDefinition extends GeoEventProcessorDefini
 		pdTimeInterval.setDependsOn("intervalType=time");
 		propertyDefinitions.put(pdTimeInterval.getPropertyName(),pdTimeInterval);
 		PropertyDefinition pdDistInterval = new PropertyDefinition("distanceinterval", PropertyType.Double, 0.0, "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.LBL_DISTANCE_INTERVAL}", "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.DESC_DISTANCE_INTERVAL}", false, false);
-		pdTimeInterval.setDependsOn("intervalType=distance");
+		pdDistInterval.setDependsOn("intervalType=distance");
 		propertyDefinitions.put(pdDistInterval.getPropertyName(),pdDistInterval);
 		PropertyDefinition pdwkid = new PropertyDefinition("wkid", PropertyType.Integer, "", "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.LBL_PROCESS_WKID}", "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.DESC_PROCESS_WKID}",true, false);
 		propertyDefinitions.put(pdwkid.getPropertyName(), pdwkid);
@@ -74,7 +74,7 @@ public class IncrementalPointProcessorDefinition extends GeoEventProcessorDefini
 
 	@Override
 	public String getName() {
-		return "SegmentLineProcessor";
+		return "IncrementalPointProcessor";
 	}
 
 	@Override

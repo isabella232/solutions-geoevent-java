@@ -20,7 +20,7 @@
 	<reference id="geoDefManagerService"
 		interface="com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager" />
     <bean id="incrementalPointProcessorServiceBean"
-		class="com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPointProcessorService">
+		class="com.esri.geoevent.solutions.processor.incrementalPoint.IncrementalPointProcessorService">
 		<property name="bundleContext" ref="blueprintBundleContext" />
 		<property name="messaging" ref="messagingService"/>
 		<property name="manager" ref="geoDefManagerService" />
