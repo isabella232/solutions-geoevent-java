@@ -57,7 +57,7 @@ public class IncrementalPointProcessorDefinition extends GeoEventProcessorDefini
 		
 		PropertyDefinition pdInterval= new PropertyDefinition("intervalType", PropertyType.String, "", "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.LBL_INTERVAL_TYPE}", "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.DESC_INTERVAL_TYPE}",true, false, allowedIn);
 		propertyDefinitions.put(pdInterval.getPropertyName(), pdInterval);
-		PropertyDefinition pdTimeInterval = new PropertyDefinition("timeinterval", PropertyType.Integer, 600000, "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.LBL_TIME_INTERVAL}", "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.DESC_TIME_INTERVAL}", false, false);
+		PropertyDefinition pdTimeInterval = new PropertyDefinition("timeinterval", PropertyType.Long, 600000, "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.LBL_TIME_INTERVAL}", "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.DESC_TIME_INTERVAL}", false, false);
 		pdTimeInterval.setDependsOn("intervalType=time");
 		propertyDefinitions.put(pdTimeInterval.getPropertyName(),pdTimeInterval);
 		PropertyDefinition pdDistInterval = new PropertyDefinition("distanceinterval", PropertyType.Double, 0.0, "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.LBL_DISTANCE_INTERVAL}", "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.DESC_DISTANCE_INTERVAL}", false, false);

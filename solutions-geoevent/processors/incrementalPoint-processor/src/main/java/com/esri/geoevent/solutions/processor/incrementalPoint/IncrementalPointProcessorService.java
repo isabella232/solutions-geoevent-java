@@ -52,12 +52,12 @@ public class IncrementalPointProcessorService extends GeoEventProcessorServiceBa
 			return processor;
 			
 		} catch (ComponentException e) {
-			LOG.error("Line2Pt processor");
+			LOG.error("IncrtementalPoint processor");
 			LOG.error(e.getMessage());
 			LOG.error(e.getStackTrace());
 			return null;
 		} catch (Exception e) {
-			LOG.error("Line2Pt  processor");
+			LOG.error("IncrtementalPoint  processor");
 			LOG.error(e.getMessage());
 			LOG.error(e.getStackTrace());
 			return null;

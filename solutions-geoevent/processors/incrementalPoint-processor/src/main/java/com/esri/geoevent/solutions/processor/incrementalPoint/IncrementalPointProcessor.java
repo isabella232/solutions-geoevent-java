@@ -26,11 +26,11 @@ package com.esri.geoevent.solutions.processor.incrementalPoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
-
-import com.esri.core.geometry.Envelope;
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.LinearUnit;
@@ -42,12 +42,12 @@ import com.esri.core.geometry.Unit;
 import com.esri.ges.core.ConfigurationException;
 import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.DefaultFieldDefinition;
-import com.esri.ges.core.geoevent.DefaultGeoEventDefinition;
 import com.esri.ges.core.geoevent.FieldDefinition;
 import com.esri.ges.core.geoevent.FieldException;
 import com.esri.ges.core.geoevent.FieldType;
 import com.esri.ges.core.geoevent.GeoEvent;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
+import com.esri.ges.core.geoevent.GeoEventPropertyName;
 import com.esri.ges.core.validation.ValidationException;
 import com.esri.ges.framework.i18n.BundleLogger;
 import com.esri.ges.framework.i18n.BundleLoggerFactory;
@@ -85,7 +85,7 @@ GeoEventProducer, EventUpdatable {
 			return this.nextVertexIndex;
 		}
 	}
-	private String pointType;
+	
 	private int processWkid;
 	private String outDef;
 	private List<FieldDefinition> fds;
@@ -134,15 +134,25 @@ GeoEventProducer, EventUpdatable {
 		processWkid = (Integer)properties.get("wkid").getValue();
 		outDef = properties.get("outdefname").getValueAsString();
 		fds = new ArrayList<FieldDefinition>();
+		outSr = SpatialReference.create(processWkid);
 		try {
 			fds.add(new DefaultFieldDefinition("LocationTimeStamp", FieldType.Date, "TIMESTAMP"));
-			if ((ged = manager.searchGeoEventDefinition(outDef, definition.getUri().toString())) == null)
+			fds.add(new DefaultFieldDefinition("TimeFromStart", FieldType.Double, "TIME_FROM_START"));
+			fds.add(new DefaultFieldDefinition("DistanceOnLine", FieldType.Double, "DISTANCE_ON_LINE"));
+			Collection<GeoEventDefinition>eventDefs = manager.searchGeoEventDefinitionByName(outDef);
+			Iterator<GeoEventDefinition>eventDefIt = eventDefs.iterator();
+			while(eventDefIt.hasNext())
 			{
-				createDef = true;
+				GeoEventDefinition currentDef = eventDefIt.next();
+				manager.deleteGeoEventDefinition(currentDef.getGuid());
 			}
+			createDef = true;
 		}
+		
 		catch(ConfigurationException e)
 		{
+			LOGGER.error(e.getMessage());
+		} catch (GeoEventDefinitionManagerException e) {
 			LOGGER.error(e.getMessage());
 		}
 		
@@ -157,9 +167,8 @@ GeoEventProducer, EventUpdatable {
 
 	@Override
 	public GeoEvent process(GeoEvent ge) throws Exception {
-		
-		
-		
+		if(ge.getGeometry().getGeometry().getType()!=Geometry.Type.Polyline)
+			return null;
 		if (createDef) {
 			createGeoEventDefinition(ge);
 			createDef=false;
@@ -170,31 +179,44 @@ GeoEventProducer, EventUpdatable {
 			return null;
 		if(timeEnd==null)
 			return null;
-		
-		MapGeometry mapGeo = ge.getGeometry();
-		Geometry geo = mapGeo.getGeometry();
-		if(geo.getType()!=Geometry.Type.Polyline)
+		long start = timeStart.getTime();
+		long end = timeEnd.getTime();
+		if(start >= end)
 			return null;
-		Polyline polyln = (Polyline)geo;
-		
-		Point startPt = polyln.getPoint(0);
-		Date startTime = ge.getStartTime();
-		//Date endTime = ge.getEndTime();
+		MapGeometry mg = ge.getGeometry();
+
 		Geometry outGeo = null;
 		Date ts = null;
+		MapGeometry mapGeo = null;
+		SpatialReference inSr = mg.getSpatialReference();
+		if (processWkid != mg.getSpatialReference().getID()) {
+			outSr = SpatialReference.create(processWkid);
+			Geometry g = GeometryEngine.project(mg.getGeometry(), inSr,
+					outSr);
+			mapGeo = new MapGeometry(g, outSr);
+		} else {
+			mapGeo = mg;
+			outSr = mapGeo.getSpatialReference();
+		}
+		
+		Geometry geo = mapGeo.getGeometry();
+		Polyline polyln = (Polyline)geo;
+		Point startPt = polyln.getPoint(0);
 		Unit unit = LinearUnit.create(9001);
 		LinearUnit lu = (LinearUnit) unit;
 		double distTotal = GeometryEngine.geodesicLength(polyln, outSr, lu);
 		int numHops = 0;
+		long timeTotal = end - start;
 		if(usingTime)
 		{
-			distInterval = distTotal/((timeStart.getTime() - timeEnd.getTime())/timeInterval);
+			
+			distInterval = distTotal/(timeTotal/timeInterval);
 			numHops = (int) Math.floor(distTotal/distInterval);
 		}
 		else
 		{
 			numHops = (int) Math.floor(distTotal/distInterval);
-			timeInterval = (timeStart.getTime() - timeEnd.getTime())/numHops;
+			timeInterval = timeTotal/numHops;
 		}
 		
 		Integer ptIndex = 0;
@@ -203,35 +225,49 @@ GeoEventProducer, EventUpdatable {
 		{
 			IncrementPoint ip = this.getNextPoint(polyln, startPt, ptIndex, distInterval);
 			outGeo = ip.getPoint();
+			
 			MapGeometry outMapGeo = new MapGeometry(outGeo, mapGeo.getSpatialReference());
-			long incrementTime = startTime.getTime() + (timeInterval * i);
-			ts = new Date(incrementTime);
-			msg = createIncrementalPointGeoevent(ge, outMapGeo, ts);
+			msg = createIncrementalPointGeoevent(ge, outMapGeo, timeStart, i);
 			send(msg);
 			startPt = (Point)outGeo;
 			ptIndex = ip.getNextVertexIndex();
 		}
 		
-		return msg;
+		return null;
 	}
 	
-	private GeoEvent createIncrementalPointGeoevent(GeoEvent event, MapGeometry outGeo, Date ts) throws MessagingException, FieldException
+	private GeoEvent createIncrementalPointGeoevent(GeoEvent event, MapGeometry outGeo, Date timestart, Integer increment) throws MessagingException, FieldException
 	{
-		GeoEventCreator creator = messaging.createGeoEventCreator();
-		GeoEvent msg = creator.create(outDef, definition.getUri().toString());
+		long multiplier = increment+1;
+		long timeFromStart = timeInterval*multiplier;
+		long incrementTime = timestart.getTime() + (timeFromStart);
+		Double distOnLine = distInterval*multiplier;
+		Date ts = new Date(incrementTime);
+		GeoEvent msg = geoEventCreator.create(outDef, definition.getUri().toString());
 		for(FieldDefinition fd: event.getGeoEventDefinition().getFieldDefinitions())
 		{
+			
 			if(fd.getTags().contains("GEOMETRY"))
 			{
 				msg.setGeometry(outGeo);
+			}
+			else if(fd.getTags().contains("TRACK_ID"))
+			{
+				String trackid = event.getTrackId() + "_" + increment.toString();
+				msg.setField("TRACK_ID", trackid);
 			}
 			else
 			{
 				msg.setField(fd.getName(), event.getField(fd.getName()));
 			}
-			msg.setField("TIMESTAMP", ts);
-	
 		}
+		msg.setField("TIMESTAMP", ts);
+		msg.setField("DISTANCE_ON_LINE", distOnLine);
+		msg.setField("TIME_FROM_START", timeFromStart);
+		msg.setProperty(GeoEventPropertyName.TYPE, "event");
+		msg.setProperty(GeoEventPropertyName.OWNER_ID, getId());
+		msg.setProperty(GeoEventPropertyName.OWNER_URI,
+				definition.getUri());
 		return msg;
 	}
 	
@@ -330,7 +366,7 @@ GeoEventProducer, EventUpdatable {
 			segEnd = startVertex;
 			multipleVertices = false;
 		}
-		while(currentDist > dist)
+		while(currentDist < dist)
 		{
 			Point start = polyln.getPoint(i);
 			Point end = polyln.getPoint(i+1);
@@ -376,6 +412,7 @@ GeoEventProducer, EventUpdatable {
 	public void setMessaging(Messaging messaging)
 	{
 		this.messaging = messaging;
+		this.geoEventCreator = messaging.createGeoEventCreator();
 	}
 	
 }
