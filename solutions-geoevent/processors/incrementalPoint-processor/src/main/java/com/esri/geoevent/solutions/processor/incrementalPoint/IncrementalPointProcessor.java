@@ -186,7 +186,6 @@ GeoEventProducer, EventUpdatable {
 		MapGeometry mg = ge.getGeometry();
 
 		Geometry outGeo = null;
-		Date ts = null;
 		MapGeometry mapGeo = null;
 		SpatialReference inSr = mg.getSpatialReference();
 		if (processWkid != mg.getSpatialReference().getID()) {
@@ -241,6 +240,7 @@ GeoEventProducer, EventUpdatable {
 		long multiplier = increment+1;
 		long timeFromStart = timeInterval*multiplier;
 		long incrementTime = timestart.getTime() + (timeFromStart);
+		double timeFromStartMinutes = timeFromStart/60000.0;
 		Double distOnLine = distInterval*multiplier;
 		Date ts = new Date(incrementTime);
 		GeoEvent msg = geoEventCreator.create(outDef, definition.getUri().toString());
@@ -262,8 +262,7 @@ GeoEventProducer, EventUpdatable {
 			}
 		}
 		msg.setField("TIMESTAMP", ts);
-		msg.setField("DISTANCE_ON_LINE", distOnLine);
-		msg.setField("TIME_FROM_START", timeFromStart);
+		msg.setField("TIME_FROM_START", timeFromStartMinutes);
 		msg.setProperty(GeoEventPropertyName.TYPE, "event");
 		msg.setProperty(GeoEventPropertyName.OWNER_ID, getId());
 		msg.setProperty(GeoEventPropertyName.OWNER_URI,
