@@ -129,6 +129,12 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 	@Override
 	public GeoEvent process(GeoEvent ge) throws Exception {
 		try {
+			if(!ge.getGeoEventDefinition().getTagNames().contains("GEOMETRY"))
+			{
+				return null;
+			}
+			srIn = ge.getGeometry().getSpatialReference();
+			inwkid=srIn.getID();
 			ownerId = ge.getGeoEventDefinition().getOwner();
 			List<FieldDefinition> fldDefs = ge.getGeoEventDefinition()
 					.getFieldDefinitions();
@@ -403,7 +409,6 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 	public void afterPropertiesSet() {
 		radius = (Double) properties.get("radius").getValue();
 		units = properties.get("units").getValue().toString();
-		inwkid = (Integer) properties.get("wkidin").getValue();
 		outwkid = (Integer) properties.get("wkidout").getValue();
 		bufferwkid = (Integer) properties.get("wkidbuffer").getValue();
 		geoSrc = properties.get("geosrc").getValueAsString();
@@ -438,14 +443,6 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		if (radius <= 0) {
 			ValidationException ve = new ValidationException(
 					"Radius cannot be less than or equal to 0");
-			LOG.error(ve.getMessage());
-			throw ve;
-		}
-		try {
-			srIn = SpatialReference.create(inwkid);
-		} catch (Exception e) {
-			LOG.error(e.getMessage());
-			ValidationException ve = new ValidationException("Invalid wkid");
 			LOG.error(ve.getMessage());
 			throw ve;
 		}
