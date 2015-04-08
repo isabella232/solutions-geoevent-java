@@ -9,10 +9,9 @@ import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
 import com.esri.ges.messaging.Messaging;
 import com.esri.ges.processor.GeoEventProcessor;
 import com.esri.ges.processor.GeoEventProcessorServiceBase;
-import com.esri.ges.spatial.Spatial;
 
 public class AddXYZProcessorService extends GeoEventProcessorServiceBase {
-	Spatial spatial;
+
 	GeoEventDefinitionManager manager;
 	Messaging messaging;
 	private static final Log LOG = LogFactory
@@ -23,13 +22,9 @@ public class AddXYZProcessorService extends GeoEventProcessorServiceBase {
 
 	public GeoEventProcessor create() throws ComponentException {
 		// TODO Auto-generated method stub
-		return new AddXYZProcessor(definition, spatial, manager, messaging);
+		return new AddXYZProcessor(definition, manager, messaging);
 	}
 	
-	public void setSpatial(Spatial s)
-	{
-		spatial=s;
-	}
 	
 	public void setManager(GeoEventDefinitionManager m)
 	{

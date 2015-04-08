@@ -1,4 +1,4 @@
-package com.esri.geoevent.solutions.processor.fg;
+package com.esri.geoevent.solutions.processor.eventjoiner;
 
 /*
  * #%L
@@ -34,30 +34,32 @@ import com.esri.ges.core.property.PropertyType;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
 import com.esri.ges.processor.GeoEventProcessorDefinitionBase;
 
-public class FieldGrouperProcessorDefinition extends
+public class EventJoinerProcessorDefinition extends
 		GeoEventProcessorDefinitionBase {
 	//GeoEventDefinitionManager manager;
-	private static final Log LOG = LogFactory.getLog(FieldGrouperProcessor.class);
-	private String lblNumEvents = "${com.esri.geoevent.solutions.processor.fg.fieldgrouper.LBL_NUMBER_EVENTS}";
-	private String descNumEvents = "${com.esri.geoevent.solutions.processor.fg.fieldgrouper.DESC_NUMBER_EVENTS}";
-	private String lblGroupField = "${com.esri.geoevent.solutions.processor.fg.fieldgrouper.LBL_GROUP_FIELD}";
-	private String descGroupField = "${com.esri.geoevent.solutions.processor.fg.fieldgrouper.DESC_GROUP_FIELD}";
-	
-	public FieldGrouperProcessorDefinition() throws PropertyException{
-		PropertyDefinition pdNumInputs = new PropertyDefinition(
-				"num-inputs",
-				PropertyType.Integer,
-				2, lblNumEvents, 
-				descNumEvents,
+	private static final Log LOG = LogFactory.getLog(EventJoinerProcessor.class);
+	private String lblJoinField = "${com.esri.geoevent.solutions.processor.eventjoiner.eventjoiner.LBL_JOIN_FIELD}";
+	private String descJoinField = "${com.esri.geoevent.solutions.processor.eventjoiner.eventjoiner.DESC_JOIN_FIELD}";
+	private String lblOutDef = "${com.esri.geoevent.solutions.processor.eventjoiner.eventjoiner.LBL_OUT_DEF}";
+	private String descOutDef = "${com.esri.geoevent.solutions.processor.eventjoiner.eventjoiner.DESC_OUT_DEF}";
+	private String lblInDefs = "${com.esri.geoevent.solutions.processor.eventjoiner.eventjoiner.LBL_IN_DEFS}";
+	private String descInDefs = "${com.esri.geoevent.solutions.processor.eventjoiner.eventjoiner.DESC_IN_DEFS}";
+	public EventJoinerProcessorDefinition() throws PropertyException{
+		PropertyDefinition pdJoin = new PropertyDefinition("join", PropertyType.String, "TRACK_ID", lblJoinField, descJoinField, true, false);
+		propertyDefinitions.put(pdJoin.getPropertyName(), pdJoin);
+		PropertyDefinition pdInDefs = new PropertyDefinition(
+				"indefs",
+				PropertyType.String,
+				2, lblInDefs, 
+				descInDefs,
 				true, false);
-		propertyDefinitions.put(pdNumInputs.getPropertyName(), pdNumInputs);
+		propertyDefinitions.put(pdInDefs.getPropertyName(), pdInDefs);
 
-		PropertyDefinition pdGroupFieldName = new PropertyDefinition(
-				"group-field", PropertyType.String, "", lblGroupField,
-				descGroupField, true, false);
-		//SetGeoEventAllowedFields(pdGroupFieldName);
-		propertyDefinitions.put(pdGroupFieldName.getPropertyName(),
-				pdGroupFieldName);
+		PropertyDefinition pdOutDef = new PropertyDefinition(
+				"outdef", PropertyType.String, "", lblOutDef,
+				descOutDef, true, false);
+		propertyDefinitions.put(pdOutDef.getPropertyName(),
+				pdOutDef);
 	}
 	
 	public String getName()
@@ -80,13 +82,13 @@ public class FieldGrouperProcessorDefinition extends
 	@Override
 	public String getLabel()
 	{
-		return "${com.esri.geoevent.solutions.processor.fg.fieldgrouper.PROCESSOR_LABEL}";
+		return "${com.esri.geoevent.solutions.processor.eventjoiner.eventjoiner.PROCESSOR_LABEL}";
 	}
 
 	@Override
 	public String getDescription()
 	{
-		return "${com.esri.geoevent.solutions.processor.fg.fieldgrouper.PROCESSOR_DESCRIPTION}";
+		return "${com.esri.geoevent.solutions.processor.eventjoiner.eventjoiner.PROCESSOR_DESCRIPTION}";
 	}
 
 	@Override
