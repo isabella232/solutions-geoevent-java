@@ -5,12 +5,12 @@
 	<reference id="geoDefManagerService"
 		interface="com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager" />
 	<reference id="messagingService" interface="com.esri.ges.messaging.Messaging" />
-	<bean id="fieldGrouperProcessorServiceBean"
-		class="com.esri.geoevent.solutions.processor.fg.FieldGrouperProcessorService">
+	<bean id="eventJoinerProcessorServiceBean"
+		class="com.esri.geoevent.solutions.processor.eventjoiner.EventJoinerProcessorService">
 		<property name="bundleContext" ref="blueprintBundleContext" />
 		<property name="manager" ref="geoDefManagerService" />
 		<property name="messaging" ref="messagingService" />
 	</bean>
-	<service id="fieldGrouperProcessorService" ref="fieldGrouperProcessorServiceBean"
+	<service id="eventJoinerProcessorService" ref="eventJoinerProcessorServiceBean"
 		interface="com.esri.ges.processor.GeoEventProcessorService" />
 </blueprint>

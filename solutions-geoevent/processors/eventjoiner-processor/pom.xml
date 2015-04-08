@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.esri.geoevent.solutions.processor.fg</groupId>
-	<artifactId>fieldgrouper</artifactId>
+	<groupId>com.esri.geoevent.solutions.processor.eventjoiner</groupId>
+	<artifactId>eventjoiner</artifactId>
 	<version>10.3.0</version>
 	<packaging>bundle</packaging>
 
-	<name>fieldgrouper</name>
+	<name>EventJoiner</name>
 	<url>http://maven.apache.org</url>
 
 		<properties>
@@ -134,7 +134,7 @@
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<AGES-Domain>com.esri.geoevent.solutions.processor</AGES-Domain>
 						<Export-Package />
-						<Private-Package>com.esri.geoevent.solutions.processor.fg</Private-Package>
+						<Private-Package>com.esri.geoevent.solutions.processor.eventjoiner</Private-Package>
 					</instructions>
 				</configuration>
 			</plugin>

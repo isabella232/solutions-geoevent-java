@@ -1,4 +1,4 @@
-package com.esri.geoevent.solutions.processor.fg;
+package com.esri.geoevent.solutions.processor.eventjoiner;
 
 /*
  * #%L
@@ -35,17 +35,17 @@ import com.esri.ges.messaging.Messaging;
 import com.esri.ges.processor.GeoEventProcessor;
 import com.esri.ges.processor.GeoEventProcessorServiceBase;
 
-public class FieldGrouperProcessorService extends GeoEventProcessorServiceBase {
+public class EventJoinerProcessorService extends GeoEventProcessorServiceBase {
 	private Messaging messaging;
 	private GeoEventDefinitionManager manager;
-	private static final Log LOG = LogFactory.getLog(FieldGrouperProcessorService.class);
-	public FieldGrouperProcessorService() throws PropertyException {
-		definition = new FieldGrouperProcessorDefinition();
+	private static final Log LOG = LogFactory.getLog(EventJoinerProcessorService.class);
+	public EventJoinerProcessorService() throws PropertyException {
+		definition = new EventJoinerProcessorDefinition();
 	}
 
 	public GeoEventProcessor create() throws ComponentException {
 
-		FieldGrouperProcessor p = new FieldGrouperProcessor(definition);
+		EventJoinerProcessor p = new EventJoinerProcessor(definition);
 		p.setMessaging(messaging);
 		p.setGeoEventDefinitionManager(manager);
 		return p;
