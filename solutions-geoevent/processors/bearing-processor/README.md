@@ -2,7 +2,7 @@
 
 The Geometry Processors demonstrate how to extend GeoEvent Processor to build custom processors that perform actions and processing on the geometries of a GeoEvent Service.  
 
-![Image of Bearing Processor]bearingProcessor.png
+![Image of Bearing Processor](bearingProcessor.png)
 
 ## Features 
 
