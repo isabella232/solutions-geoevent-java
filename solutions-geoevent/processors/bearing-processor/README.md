@@ -1,14 +1,8 @@
 # Bearing Processor
 
-The Geometry Processors demonstrate how to extend GeoEvent Processor to build custom processors that perform actions and processing on the geometries of a GeoEvent Service.  
+Bearing Processor - Calculates a bearing in degrees between 2 point geometries or 2 sets of (x,y) coordinates.  
 
 ![Image of Bearing Processor](bearingProcessor.png)
-
-## Features 
-
-
-* Bearing Processor - Calculates a bearing in degrees between 2 point geometries or 2 sets of (x,y) coordinates.
-
 
 ## Sections
 
@@ -69,7 +63,7 @@ The test service configuration will be deployed to your instance of GeoEvent.
 
 #### Testing the Component
 
-The Introduction to GeoEvent tutorial has a simple TCP-Console application that will be used for most of the tests. It can be found [here](http://www.arcgis.com/home/item.html?id=b6a35042effd44ceab3976941d36efcf)
+The Introduction to GeoEvent tutorial has a simple TCP-Console application that will be used for most of the tests. It can be found [here](http://www.arcgis.com/home/item.html?id=b6a35042effd44ceab3976941d36efcf).
 
 You will use the Bearing-Test service from the Solutions Test Configuration to test the functionality of the bearing processor.
 * Open the Bearing-Test service in GEE Manager. 
@@ -83,7 +77,10 @@ You will use the Bearing-Test service from the Solutions Test Configuration to t
 * Browse to the ./solutions-geoevent-java/data/simulation-files/ directory.
 * Select bearing.csv and click 'Open'
 * Click the 'Load' button. In the Preview Edits window you will see 1 record.
-* Next open the 
+* Browse to the directory of the TCP-Console application (if you downloaded it from the tutorial it will be at ./IntroductionToGeoEvent/utilities/tcp-server-app).
+* Double click TCPServerApp.bat (the application will not start if no services are listening on port 5570 - if you have deployed the test configuration an output service has been configured to listen on this port. Check that the Output tcp-out-5570 has been deployed and started).
+* In the GeoEvent Simulator click the 'Step' button.
+* In the TCP-console you will see that the Received Event (Event Definition name) is calculate-bearing with a comma separated list of values.
 
 
 ## Licensing
