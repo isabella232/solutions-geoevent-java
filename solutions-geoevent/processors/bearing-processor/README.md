@@ -25,7 +25,7 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 
 ## Building 
 
-* See the [solutions-geoevent-java instructions](../../../../README.md#instructions) for general instructions on 
+* See the [solutions-geoevent-java instructions](../../../README.md#instructions) for general instructions on 
     * verifying your Maven installation
     * setting the location of GeoEvent Processor and GeoEvent Processor SDK repositories
     * and any other common required steps
@@ -48,7 +48,18 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 
 ### Testing with Simulated Test Data
 
+In GeoEvent Extension Manager 
 
+* Go to the Site >> Configuration Store Tab. 
+* Click the 'Import Configuration' button. 
+* Select 'Choose File'
+* Browse to the ./solutions-geoevent-java/data/configurations/ directory 
+* Select the SolutionsComponentTestConfig.xml 
+* Click 'Open' in the dialog. 
+* Click 'Next'. 
+* When prompted choose 'Import Configuration'. 
+
+The test service configuration will be downloaded to your instance of GeoEvent. 
 
 ## Licensing
 
