@@ -3,21 +3,21 @@
     <geoEventServices>
         <geoEventService name="00ee6730-8d62-4a6d-8c5d-a0eae4dbd2fc" label="Bearing-Test" description="Service to test the bearing calculator" lineStyle="Diagonal" runningState="STARTED" statusDetails="">
             <inputs>
-                <input ref="99ddd7e4-b36c-4a3c-8abc-dc64b624322c" label="bearing-tcp-txt-in" left="190" top="198" width="110.39999997615814" height="40.39999997615814"/>
+                <input ref="99ddd7e4-b36c-4a3c-8abc-dc64b624322c" label="bearing-tcp-txt-in" left="191" top="198" width="106.39999997615814" height="38.39999997615814"/>
             </inputs>
             <outputs>
-                <output ref="0050b469-6651-4508-8bc7-160df3ee7039" label="tcp-out-5570" left="612" top="200" width="85.39999997615814" height="39.39999997615814"/>
+                <output ref="0050b469-6651-4508-8bc7-160df3ee7039" label="tcp-out-5570" left="612" top="200" width="82.39999997615814" height="39.39999997615814"/>
             </outputs>
             <nodes>
-                <node name="4f13aab5-4281-48b9-8f2f-942db27d2467" label="Calculate Bearing" left="393" top="198" width="107.39999997615814" height="40.39999997615814">
+                <node name="4f13aab5-4281-48b9-8f2f-942db27d2467" label="Calculate Bearing" left="393" top="198" width="104.79999995231628" height="36.799999952316284">
                     <processor uri="com.esri.geoevent.solutions.processor.bearing/BearingProcessor/10.3.0">
                         <properties>
-                            <property name="osrc" type="String">coord</property>
+                            <property name="osrc" type="String">geo</property>
                             <property name="dxFld" type="String">x1</property>
                             <property name="newdef" type="String">calculate-bearing</property>
-                            <property name="generateGeo" type="Boolean">true</property>
+                            <property name="generateGeo" type="Boolean">false</property>
                             <property name="oxFld" type="String">x0</property>
-                            <property name="oGeoFld" type="String"></property>
+                            <property name="oGeoFld" type="String">GEOMETRY</property>
                             <property name="dsrc" type="String">coord</property>
                             <property name="wkidout" type="Integer">4326</property>
                             <property name="dyFld" type="String">y1</property>
@@ -248,13 +248,13 @@
         </geoEventService>
         <geoEventService name="aec48a77-d9f4-4463-8eec-3ab62d5efe82" label="AddXYZ-Test" description="Service to test the Add XYZ processor" lineStyle="Diagonal" runningState="STARTED" statusDetails="">
             <inputs>
-                <input ref="4997bba9-fc7e-4cfa-8662-2c66cf93ca49" label="addxyz-tcp-text-in" left="67" top="181" width="116.39999997615814" height="39.39999997615814"/>
+                <input ref="4997bba9-fc7e-4cfa-8662-2c66cf93ca49" label="addxyz-tcp-text-in" left="67" top="181" width="115.39999997615814" height="39.39999997615814"/>
             </inputs>
             <outputs>
-                <output ref="0050b469-6651-4508-8bc7-160df3ee7039" label="tcp-out-5570" left="513" top="174" width="85.39999997615814" height="40.39999997615814"/>
+                <output ref="0050b469-6651-4508-8bc7-160df3ee7039" label="tcp-out-5570" left="513" top="174" width="84.39999997615814" height="39.39999997615814"/>
             </outputs>
             <nodes>
-                <node name="cde1e90f-009a-458c-86d0-79e4ad8a80d3" label="AddXYZ" left="399" top="177" width="59.39999997615814" height="39.39999997615814">
+                <node name="cde1e90f-009a-458c-86d0-79e4ad8a80d3" label="AddXYZ" left="399" top="177" width="58.799999952316284" height="39.799999952316284">
                     <processor uri="com.esri.geoevent.solutions.processor.addxyz/AddXYZProcessor/10.2.0">
                         <properties>
                             <property name="yfield" type="String">y</property>
@@ -265,7 +265,7 @@
                         </properties>
                     </processor>
                 </node>
-                <node name="ed30746c-2fa2-439d-84dd-7d1192116565" label="Remove Fields" left="259" top="178" width="91.39999997615814" height="40.39999997615814">
+                <node name="ed30746c-2fa2-439d-84dd-7d1192116565" label="Remove Fields" left="259" top="178" width="90.39999997615814" height="39.39999997615814">
                     <processor uri="com.esri.ges.processor/FieldReducer/10.3.1">
                         <properties>
                             <property name="eventDefinitionName" type="String">reduce-coord-fields</property>
@@ -275,11 +275,11 @@
                 </node>
             </nodes>
             <flow>
-                <from ref="4997bba9-fc7e-4cfa-8662-2c66cf93ca49" label="addxyz-tcp-text-in">
-                    <to ref="ed30746c-2fa2-439d-84dd-7d1192116565" label="Remove Fields"/>
-                </from>
                 <from ref="cde1e90f-009a-458c-86d0-79e4ad8a80d3" label="AddXYZ">
                     <to ref="0050b469-6651-4508-8bc7-160df3ee7039" label="tcp-out-5570"/>
+                </from>
+                <from ref="4997bba9-fc7e-4cfa-8662-2c66cf93ca49" label="addxyz-tcp-text-in">
+                    <to ref="ed30746c-2fa2-439d-84dd-7d1192116565" label="Remove Fields"/>
                 </from>
                 <from ref="ed30746c-2fa2-439d-84dd-7d1192116565" label="Remove Fields">
                     <to ref="cde1e90f-009a-458c-86d0-79e4ad8a80d3" label="AddXYZ"/>
@@ -290,21 +290,21 @@
         </geoEventService>
         <geoEventService name="1b75fdc7-fd74-4107-8765-7b07d1206f7a" label="Extract-Point-From-Line-Test" description="Service to test the extract point from line processor" lineStyle="Diagonal" runningState="STARTED" statusDetails="">
             <inputs>
-                <input ref="99ddd7e4-b36c-4a3c-8abc-dc64b624322c" label="bearing-tcp-txt-in" left="190" top="198" width="110.39999997615814" height="38.39999997615814"/>
+                <input ref="7cab1b9b-6ca7-4834-8c0e-1ce63fe8c659" label="l2p-tcp-txt-in" left="224" top="198" width="85.39999997615814" height="40.39999997615814"/>
             </inputs>
             <outputs>
-                <output ref="0050b469-6651-4508-8bc7-160df3ee7039" label="tcp-out-5570" left="805" top="195" width="83.39999997615814" height="38.39999997615814"/>
+                <output ref="0050b469-6651-4508-8bc7-160df3ee7039" label="tcp-out-5570" left="800" top="195" width="81.79999995231628" height="37.799999952316284"/>
             </outputs>
             <nodes>
-                <node name="4f13aab5-4281-48b9-8f2f-942db27d2467" label="Calculate Bearing" left="393" top="198" width="105.79999995231628" height="38.799999952316284">
+                <node name="4f13aab5-4281-48b9-8f2f-942db27d2467" label="Calculate Bearing" left="393" top="198" width="104.39999997615814" height="38.39999997615814">
                     <processor uri="com.esri.geoevent.solutions.processor.bearing/BearingProcessor/10.3.0">
                         <properties>
-                            <property name="osrc" type="String">coord</property>
+                            <property name="osrc" type="String">geo</property>
                             <property name="dxFld" type="String">x1</property>
                             <property name="newdef" type="String">calculate-bearing</property>
                             <property name="generateGeo" type="Boolean">true</property>
                             <property name="oxFld" type="String">x0</property>
-                            <property name="oGeoFld" type="String"></property>
+                            <property name="oGeoFld" type="String">GEOMETRY</property>
                             <property name="dsrc" type="String">coord</property>
                             <property name="wkidout" type="Integer">4326</property>
                             <property name="dyFld" type="String">y1</property>
@@ -314,7 +314,7 @@
                         </properties>
                     </processor>
                 </node>
-                <node name="ec47ce4b-fb28-4c03-8c30-119a81b9def1" label="Generate Point from Line" left="552" top="195" width="199.39999997615814" height="40.39999997615814">
+                <node name="ec47ce4b-fb28-4c03-8c30-119a81b9def1" label="Generate Point from Line" left="551" top="195" width="198.39999997615814" height="38.39999997615814">
                     <processor uri="com.esri.geoevent.solutions.processor.line2pt/Line2PtProcessor/10.3.0">
                         <properties>
                             <property name="pointType" type="String">start</property>
@@ -328,7 +328,7 @@
                 <from ref="4f13aab5-4281-48b9-8f2f-942db27d2467" label="Calculate Bearing">
                     <to ref="ec47ce4b-fb28-4c03-8c30-119a81b9def1" label="Generate Point from Line"/>
                 </from>
-                <from ref="99ddd7e4-b36c-4a3c-8abc-dc64b624322c" label="bearing-tcp-txt-in">
+                <from ref="7cab1b9b-6ca7-4834-8c0e-1ce63fe8c659" label="l2p-tcp-txt-in">
                     <to ref="4f13aab5-4281-48b9-8f2f-942db27d2467" label="Calculate Bearing"/>
                 </from>
                 <from ref="ec47ce4b-fb28-4c03-8c30-119a81b9def1" label="Generate Point from Line">
@@ -484,13 +484,13 @@
         </geoEventService>
         <geoEventService name="aa458088-2373-4fbf-8c42-6dd8ba1cba94" label="RangeFan-Test" description="Service for testing the Range Fan Calculator" lineStyle="Diagonal" runningState="STARTED" statusDetails="">
             <inputs>
-                <input ref="bcc35e18-8bdc-4994-8476-12c8752e5483" label="rangefan-tcp-text-in" left="152" top="242" width="126.39999997615814" height="40.39999997615814"/>
+                <input ref="bcc35e18-8bdc-4994-8476-12c8752e5483" label="rangefan-tcp-text-in" left="152" top="242" width="126.39999997615814" height="39.39999997615814"/>
             </inputs>
             <outputs>
-                <output ref="0050b469-6651-4508-8bc7-160df3ee7039" label="tcp-out-5570" left="565" top="240" width="85.39999997615814" height="39.39999997615814"/>
+                <output ref="0050b469-6651-4508-8bc7-160df3ee7039" label="tcp-out-5570" left="565" top="240" width="84.39999997615814" height="39.39999997615814"/>
             </outputs>
             <nodes>
-                <node name="b746c126-ef5d-43ee-8a61-39925d88346f" label="Calculate Range Fan" left="362" top="241" width="125.39999997615814" height="39.39999997615814">
+                <node name="b746c126-ef5d-43ee-8a61-39925d88346f" label="Calculate Range Fan" left="362" top="241" width="124.79999995231628" height="39.799999952316284">
                     <processor uri="com.esri.geoevent.solutions.processor.geometry/RangeFanProcessor/10.3.0">
                         <properties>
                             <property name="bearingSource" type="String">Event</property>
@@ -504,7 +504,7 @@
                             <property name="traversalSource" type="String">Event</property>
                             <property name="wkidout" type="Integer">4326</property>
                             <property name="geoeventfld" type="String">Geometry</property>
-                            <property name="rangeEvent" type="String">range</property>
+                            <property name="rangeEvent" type="String">distance</property>
                             <property name="rangeSource" type="String">Event</property>
                             <property name="wkidbuffer" type="Integer">3857</property>
                             <property name="xfield" type="String">longitude</property>
@@ -903,7 +903,9 @@
                     <property name="AttributeSeparator" type="String">,</property>
                 </properties>
             </adapter>
-            <geoEventDefinitionHistory/>
+            <geoEventDefinitionHistory>
+                <guid>dc0672bc-2a37-4ccf-aa9a-86b74c207471</guid>
+            </geoEventDefinitionHistory>
             <geoEventsRateRange max="0.0" min="0.0"/>
             <supportedGeoEventDefinitions/>
             <transport uri="com.esri.ges.transport.inbound/TCP/10.3.1">
@@ -1110,6 +1112,41 @@
                 </properties>
             </transport>
         </input>
+        <input clusterCommand="START" connector="esri-in-tcp-text-generictext" connectorLabel="Receive Text from a TCP Socket" label="l2p-tcp-txt-in" name="7cab1b9b-6ca7-4834-8c0e-1ce63fe8c659" runningState="STARTED" statusDetails="NULL" supportsAllGeoEventDefinitions="true">
+            <adapter uri="com.esri.ges.adapter.inbound/Text/10.3.1">
+                <properties>
+                    <property name="XGeometryField" type="String">x0</property>
+                    <property name="CustomDateFormat" type="String"></property>
+                    <property name="LocaleForNumberFormatter" type="String"></property>
+                    <property name="NewFixedGeoEventDefinitionName" type="String"></property>
+                    <property name="CreateFixedGeoEventDefinitions" type="Boolean">false</property>
+                    <property name="YGeometryField" type="String">y0</property>
+                    <property name="WKIDGeometryField" type="String"></property>
+                    <property name="WKTextGeometryField" type="String"></property>
+                    <property name="MessageSeparator" type="String">\n</property>
+                    <property name="BuildGeometryFromFields" type="Boolean">true</property>
+                    <property name="IncomingDataContainsGeoEventDefinition" type="Boolean">false</property>
+                    <property name="ExistingFixedGeoEventDefinitionName" type="GeoEventDefinition">bearing-in</property>
+                    <property name="ZGeometryField" type="String"></property>
+                    <property name="CreateUnrecognizedGeoEventDefinitions" type="Boolean">true</property>
+                    <property name="AttributeSeparator" type="String">,</property>
+                </properties>
+            </adapter>
+            <geoEventDefinitionHistory>
+                <guid>a32df01d-70e0-49d7-89bd-a48fbd49e8cd</guid>
+            </geoEventDefinitionHistory>
+            <geoEventsRateRange max="0.0" min="0.0"/>
+            <supportedGeoEventDefinitions/>
+            <transport uri="com.esri.ges.transport.inbound/TCP/10.3.1">
+                <properties>
+                    <property name="port" type="Integer">5611</property>
+                    <property name="handshake" type="String"></property>
+                    <property name="mode" type="String">SERVER</property>
+                    <property name="host" type="String">localhost</property>
+                    <property name="clientConnectionTimeout" type="Integer">60</property>
+                </properties>
+            </transport>
+        </input>
         <input clusterCommand="START" connector="esri-in-tcp-text-generictext" connectorLabel="Receive Text from a TCP Socket" label="symbolnametoid-tcp-text-in" name="b34e3e51-978e-43dc-8458-6863d782c1f6" runningState="STARTED" statusDetails="NULL" supportsAllGeoEventDefinitions="true">
             <adapter uri="com.esri.ges.adapter.inbound/Text/10.3.1">
                 <properties>
@@ -1196,7 +1233,9 @@
                     <property name="AttributeSeparator" type="String">,</property>
                 </properties>
             </adapter>
-            <geoEventDefinitionHistory/>
+            <geoEventDefinitionHistory>
+                <guid>64f422b5-baff-4705-8c7f-3315cfad9fea</guid>
+            </geoEventDefinitionHistory>
             <geoEventsRateRange max="0.0" min="0.0"/>
             <supportedGeoEventDefinitions/>
             <transport uri="com.esri.ges.transport.inbound/TCP/10.3.1">
@@ -1281,13 +1320,16 @@
                     <property name="CustomDateFormat" type="String"></property>
                     <property name="LocaleForNumberFormatter" type="String"></property>
                     <property name="mimeType" type="String">text/plain</property>
-                    <property name="CustomDateFormatType" type="String"></property>
+                    <property name="CustomDateFormatType" type="String">ISO 8601 Format</property>
                     <property name="MessageSeparator" type="String">\n</property>
                     <property name="AttributeSeparator" type="String">,</property>
                 </properties>
             </adapter>
             <geoEventDefinitionHistory>
-                <guid>82c91768-c32b-40b2-b3f7-543012def36b</guid>
+                <guid>64f422b5-baff-4705-8c7f-3315cfad9fea</guid>
+                <guid>7c8693d5-4727-47c4-a8f2-d260bc63b231</guid>
+                <guid>74c1c7e3-ec5e-4323-bbd0-afc26b0fcfe3</guid>
+                <guid>dc0672bc-2a37-4ccf-aa9a-86b74c207471</guid>
             </geoEventDefinitionHistory>
             <geoEventsRateRange max="0.0" min="0.0"/>
             <supportedGeoEventDefinitions/>
@@ -1310,9 +1352,7 @@
                     <property name="updateInterval" type="String">1</property>
                 </properties>
             </adapter>
-            <geoEventDefinitionHistory>
-                <guid>82c91768-c32b-40b2-b3f7-543012def36b</guid>
-            </geoEventDefinitionHistory>
+            <geoEventDefinitionHistory/>
             <geoEventsRateRange max="0.0" min="0.0"/>
             <supportedGeoEventDefinitions/>
             <transport uri="com.esri.ges.transport.outbound/FeatureService/10.3.1">
@@ -1333,6 +1373,31 @@
         </output>
     </outputs>
     <geoEventDefinitions>
+        <geoEventDefinition guid="a9ed119a-7694-4c42-a98c-37a522da5a6f" name="AddXYZDef" owner="Remove Fields" accessType="editable">
+            <fieldDefinitions>
+                <fieldDefinition name="id" type="String" cardinality="One">
+                    <fieldDefinitionTag>
+                        <name>TRACK_ID</name>
+                    </fieldDefinitionTag>
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="geometry" type="Geometry" cardinality="One">
+                    <fieldDefinitionTag>
+                        <name>GEOMETRY</name>
+                    </fieldDefinitionTag>
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="x" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="y" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="z" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+            </fieldDefinitions>
+        </geoEventDefinition>
         <geoEventDefinition guid="cd069cfa-f425-4e64-b7c3-3408d15401d4" name="AddXY" owner="bc9c376d-f675-4576-8829-1caadb6c9af6:d00d8695-14b9-4abe-86bb-13d9ac0d8245" accessType="editable">
             <fieldDefinitions>
                 <fieldDefinition name="identifier" type="String" cardinality="One">
@@ -2765,7 +2830,44 @@
                 <fieldDefinition name="x1" type="Double" cardinality="One">
                     <fieldDefinitions/>
                 </fieldDefinition>
-                <fieldDefinition name="y2" type="String" cardinality="One">
+                <fieldDefinition name="y1" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="geometry" type="Geometry" cardinality="One">
+                    <fieldDefinitionTag>
+                        <name>GEOMETRY</name>
+                    </fieldDefinitionTag>
+                    <fieldDefinitions/>
+                </fieldDefinition>
+            </fieldDefinitions>
+        </geoEventDefinition>
+        <geoEventDefinition guid="7c8693d5-4727-47c4-a8f2-d260bc63b231" name="calculate-bearing" owner="patr5136" accessType="editable">
+            <fieldDefinitions>
+                <fieldDefinition name="trackid" type="String" cardinality="One">
+                    <fieldDefinitionTag>
+                        <name>TRACK_ID</name>
+                    </fieldDefinitionTag>
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="x0" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="y0" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="x1" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="y1" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="geometry" type="Geometry" cardinality="One">
+                    <fieldDefinitionTag>
+                        <name>GEOMETRY</name>
+                    </fieldDefinitionTag>
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="bearing" type="Double" cardinality="One">
                     <fieldDefinitions/>
                 </fieldDefinition>
             </fieldDefinitions>
@@ -2851,6 +2953,43 @@
                     <fieldDefinitions/>
                 </fieldDefinition>
                 <fieldDefinition name="frequency" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+            </fieldDefinitions>
+        </geoEventDefinition>
+        <geoEventDefinition guid="74c1c7e3-ec5e-4323-bbd0-afc26b0fcfe3" name="l2p" owner="com.esri.geoevent.solutions.processor.line2pt/Line2PtProcessor/10.3.0" accessType="editable">
+            <fieldDefinitions>
+                <fieldDefinition name="trackid" type="String" cardinality="One">
+                    <fieldDefinitionTag>
+                        <name>TRACK_ID</name>
+                    </fieldDefinitionTag>
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="x0" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="y0" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="x1" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="y1" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="geometry" type="Geometry" cardinality="One">
+                    <fieldDefinitionTag>
+                        <name>GEOMETRY</name>
+                    </fieldDefinitionTag>
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="bearing" type="Double" cardinality="One">
+                    <fieldDefinitions/>
+                </fieldDefinition>
+                <fieldDefinition name="LocationTimeStamp" type="Date" cardinality="One">
+                    <fieldDefinitionTag>
+                        <name>TIMESTAMP</name>
+                    </fieldDefinitionTag>
                     <fieldDefinitions/>
                 </fieldDefinition>
             </fieldDefinitions>
@@ -3212,29 +3351,6 @@
             </properties>
             <transport uri="com.esri.ges.transport.inbound/File/10.3.1"/>
         </connector>
-        <connector accessType="editable" label="Publish Text to a TCP Socket" name="esri-out-text-tcp-client-copy" type="outbound">
-            <adapter uri="com.esri.ges.adapter.outbound/Text/10.3.1"/>
-            <defaultName>tcp-out-copy</defaultName>
-            <description>Publishes GeoEvents as text to a TCP socket for display in a client application.</description>
-            <properties>
-                <advanced>
-                    <property default="5570" label="Server Port" name="port" source="transport"/>
-                    <property default="\n" label="Message Separator" name="MessageSeparator" source="adapter"/>
-                    <property default="," label="Attribute Separator" name="AttributeSeparator" source="adapter"/>
-                    <property default="ISO 8601 Format" label="Output Date Format" name="CustomDateFormatType" source="adapter"/>
-                    <property label="Custom Date Format" name="CustomDateFormat" source="adapter"/>
-                </advanced>
-                <hidden>
-                    <property default="text/plain" label="MIME Type" name="mimeType" source="adapter"/>
-                    <property label="Language for Number Formatting" name="LocaleForNumberFormatter" source="adapter"/>
-                    <property default="localhost" label="Host (Client Mode)" name="host" source="transport"/>
-                    <property default="60" label="Connection Timeout (Client Mode)" name="clientConnectionTimeout" source="transport"/>
-                    <property default="SERVER" label="Mode" name="mode" source="transport"/>
-                </hidden>
-                <shown/>
-            </properties>
-            <transport uri="com.esri.ges.transport.outbound/TCP/10.3.1"/>
-        </connector>
         <connector accessType="editable" label="Send Tweet" name="twitter-out" type="outbound">
             <adapter uri="com.esri.ges.adapter.outbound/MessageFormatter/10.3.1"/>
             <defaultName>twitter-out</defaultName>
@@ -3382,6 +3498,29 @@
             </properties>
             <transport uri="com.esri.ges.transport.inbound/TCP/10.3.1"/>
         </connector>
+        <connector accessType="editable" label="Publish text to TCP" name="esri-out-text-tcp-generictext" type="outbound">
+            <adapter uri="com.esri.ges.adapter.outbound/Text/10.3.1"/>
+            <defaultName>tcp-txt-out</defaultName>
+            <description>Publish GeoEvents as text to a TCP socket for display in a client application.</description>
+            <properties>
+                <advanced>
+                    <property default="5570" label="Server Port" name="port" source="transport"/>
+                    <property default="ISO 8601 Format" label="Output Date Format" name="CustomDateFormatType" source="adapter"/>
+                    <property label="Custom Date Format" name="CustomDateFormat" source="adapter"/>
+                    <property default="," label="Attribute Separator" name="AttributeSeparator" source="adapter"/>
+                    <property default="\n" label="Message Separator" name="MessageSeparator" source="adapter"/>
+                </advanced>
+                <hidden>
+                    <property default="text/plain" label="MIME Type" name="mimeType" source="adapter"/>
+                    <property label="Language for Number Formatting" name="LocaleForNumberFormatter" source="adapter"/>
+                    <property default="SERVER" label="Mode" name="mode" source="transport"/>
+                    <property default="localhost" label="Host (Client Mode)" name="host" source="transport"/>
+                    <property default="60" label="Connection Timeout (Client Mode)" name="clientConnectionTimeout" source="transport"/>
+                </hidden>
+                <shown/>
+            </properties>
+            <transport uri="com.esri.ges.transport.outbound/TCP/10.3.1"/>
+        </connector>
         <connector accessType="editable" label="Send Cursor on Target message" name="cot-out" type="outbound">
             <adapter uri="com.esri.geoevent.solutions.adapter.cot.outbound/CursorOnTargetOut/10.3.0"/>
             <defaultName>CoT-out</defaultName>
@@ -3491,7 +3630,7 @@
         </connector>
     </connectors>
     <arcgisServerConnections>
-        <arcgisServerConnection accessType="editable" connectionType="SERVER" label="default" name="default" referer="https://HILLDEMO.esri.com:6143/geoevent/admin/datastores/agsconnection/default" tokenConfigured="false" updateIntervalSec="60" url="http://localhost:6080/arcgis/"/>
+        <arcgisServerConnection accessType="nonDeletable" connectionType="SERVER" label="${com.esri.ges.manager.internal-agsconnectionmanager.DEFAULT_AGS_CONNECTION_LABEL}" name="default" referer="https://HILLDEMO.esri.com:6143/geoevent/admin/datastores/agsconnection/default" tokenConfigured="false" updateIntervalSec="60" url="http://localhost:6080/arcgis/"/>
     </arcgisServerConnections>
     <folderDataStores>
         <folderDataStore accessType="editable" canRead="true" canWrite="true" exists="true" label="CAPData" name="08555668-dff6-4601-81fe-77278cc1f67c" path="C:\GEE\CAP">
