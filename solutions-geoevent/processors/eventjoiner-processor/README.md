@@ -2,7 +2,7 @@
 
 The Event Joiner Processor joins 2 or more GeoEvents with different GeoEvent Definitions based on a common attribute. Events are generated on a first come first serve basis. The processor caches incoming events until one event from each incoming event definition is received. Attributes with identical names will be grouped in the geoevent output with the exception of the join field which will be made into the trackid of the output event.
 
-![Image of Event Joiner Processor(eventjoiner.png)
+![Image of Event Joiner Processor](eventjoiner.png)
 
 
 
