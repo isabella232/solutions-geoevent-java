@@ -1,12 +1,7 @@
-# Geometry Processors
+# Query Report Processor
 
-The Geometry Processors demonstrate how to extend GeoEvent Processor to build custom processors that perform actions and processing on the geometries of a GeoEvent Service.  
 
-![Image of geomessage-adapter](doc/report.png)
-
-## Features 
-
-* Query Report Processor - Executes a spatial query on feature services registered in GeoEvent Processor's data store.  The author of the service can then configures a report based on returned features.
+Query Report Processor - Executes a spatial query on feature services registered in GeoEvent Processor's data store.  The author of the service can then configures a report based on returned features.
 
 ## Sections
 
@@ -35,6 +30,39 @@ The Geometry Processors demonstrate how to extend GeoEvent Processor to build cu
 * Install the Geometry Processors.
     * Browse to `solutions-geoevent-java/geoevent-solutions/processors/10.3.0/query-report-processor/target` (this directory is created when you execute mvn install).
     * Copy the .jar file and paste it into the deploy folder in the GeoEvent Processor install directory ([GeoEvent Processor install location]\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy).
+
+## Testing
+
+### Validating the Installation
+ 
+* See the [solutions-geoevent-java validation instructions](../../../README.md#validating-install).
+    * Ensure the Spatial Query Processor exists.
+
+### Testing with Simulated Test Data
+
+#### Deploying the Test Configuration
+
+If you have already deployed the test configuration you may move on to Testing the Component
+
+In GeoEvent Extension Manager 
+
+* Go to the Site >> Configuration Store Tab. 
+* Click the 'Import Configuration' button. 
+* Select 'Choose File'
+* Browse to the ./solutions-geoevent-java/data/configurations/ directory 
+* Select the SolutionsComponentTestConfig.xml 
+* Click 'Open' in the dialog. 
+* Click 'Next'. 
+* When prompted choose 'Import Configuration'. 
+
+The test service configuration will be deployed to your instance of GeoEvent.
+
+#### Testing the Component
+
+The Introduction to GeoEvent tutorial has a simple TCP-Console application that will be used for most of the tests. It can be found [here](http://www.arcgis.com/home/item.html?id=b6a35042effd44ceab3976941d36efcf).
+
+#### Configuring the Query Report Processor
+
 Use the following illustration as a guide to the configurable properties supported in the Query Report Processor
 
 ![Image Properties](doc/properties.png)
