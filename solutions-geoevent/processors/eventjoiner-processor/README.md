@@ -87,7 +87,7 @@ You will use the EventJoiner-Test service from the Solutions Test Configuration 
 * In 2nd GeoEvent Simulator click the 'Step' button.
 * In the TCP-console you will see that the Received Event (Event Definition name) is join-events with a comma separated list of values. Note that the url values are represented in brackets indicating a joined attribute.
 * Try stepping the 1st simulator multiple times. Note that no event is produced in the console.
-* Next step the 2nd simulator. Notice that the console outputs an event, demonstrating the cacheing behavior. Step an equal number of times in the 2nd simulator as inm the first simulator in the previous step. Note that an event is created for each.
+* Next step the 2nd simulator. Notice that the console outputs an event, demonstrating the cacheing behavior. Step an equal number of times in the 2nd simulator as in the first simulator in the previous step. Note that an event is created for each.
 
 
 ## Licensing
