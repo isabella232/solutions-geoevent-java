@@ -15,17 +15,19 @@ Adapters
 * [regex Text Adapter](solutions-geoevent/adapters/regexText-adapter/README.md)
 
 Processors
+* [Add XYZ Processor](solutions-geoevent/processors/addxyz-processor/README.md)
 * [Bearing Processor](solutions-geoevent/processors/bearing-processor/README.md)
 * [Buffer Processor](solutions-geoevent/processors/buffer-processor/README.md)
 * [Ellipse Processor](solutions-geoevent/processors/ellipse-processor/README.md)
 * [Event Volume Control Processor](solutions-geoevent/processors/eventVolumeControl-processor/README.md)
 * [Event Joiner Processor](solutions-geoevent/processors/eventjoiner-processor/README.md)
+* [Extract Point from Line](solutions-geoevent/processors/reduceLineToPoint-processor/README.md)
 * [Query Report Processor](solutions-geoevent/processors/query-report-processor/README.md)
 * [Range Fan Processor](solutions-geoevent/processors/rangefan-processor/README.md)
-* [Extract Point from Line](solutions-geoevent/processors/reduceLineToPoint-processor/README.md)
 * [Symbol Lookup Processor](solutions-geoevent/processors/symbol-lookup-processor/README.md)
 * [unitConverter Processor](solutions-geoevent/processors/unitConversion-processor/README.md)
 * [Update Only Processor](solutions-geoevent/processors/updateOnly-processor/README.md)
+* [Visibility Processor](solutions-geoevent/processors/visibility-processor/README.md)
 
 Transports
 * [IRC Transport](solutions-geoevent/transports/irc-transport/README.md)
@@ -114,5 +116,5 @@ limitations under the License.
 A copy of the license is available in the repository's
 [license.txt](license.txt) file.
 
-[](Esri Tags: ArcGIS GeoEvent Processor for Server Defense and Intelligence Military Adapter Processor ArcGISSolutions)
+[](Esri Tags: ArcGIS GeoEvent Processor for Server Defense and Intelligence Military Adapter Processor)
 [](Esri Language: Java)
