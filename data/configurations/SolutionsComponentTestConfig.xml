@@ -152,7 +152,7 @@
         </geoEventService>
         <geoEventService name="29f38e56-99d4-45c5-8ca2-5e17c3ee090c" label="SpatialQuery-Test" description="Service for testing the Spatial Query Processor" lineStyle="Diagonal" runningState="STARTED" statusDetails="">
             <inputs>
-                <input ref="0e0151c1-5001-4cca-8a48-6cf8f0f26f16" label="spatial-query-tcp-text-in" left="194" top="266" width="199.39999997615814" height="40.39999997615814"/>
+                <input ref="0e0151c1-5001-4cca-8a48-6cf8f0f26f16" label="spatial-query-tcp-text-in" left="194" top="266" width="198.39999997615814" height="39.39999997615814"/>
             </inputs>
             <outputs>
                 <output ref="0050b469-6651-4508-8bc7-160df3ee7039" label="tcp-out-5570" left="605" top="269" width="82.39999997615814" height="39.39999997615814"/>
@@ -171,7 +171,7 @@
                             <property name="radius" type="Double">150000.0</property>
                             <property name="wkidout" type="Integer">4326</property>
                             <property name="setgeo" type="Boolean">false</property>
-                            <property name="gedname" type="String">QueryReportTest</property>
+                            <property name="gedname" type="String">sqtest</property>
                             <property name="layer" type="ArcGISLayer">4</property>
                             <property name="wkidbuffer" type="Integer">3857</property>
                             <property name="folder" type="ArcGISFolder">EM</property>
