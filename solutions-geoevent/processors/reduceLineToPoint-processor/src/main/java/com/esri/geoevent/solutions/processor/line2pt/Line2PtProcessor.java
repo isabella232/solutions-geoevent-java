@@ -69,6 +69,7 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 	private GeoEventCreator geoEventCreator;
 	private GeoEventDefinitionManager manager;
 	private Messaging messaging;
+	Boolean usingTime = true;
 	private static final BundleLogger LOGGER = BundleLoggerFactory
 			.getLogger(Line2PtProcessor.class);
 	public Line2PtProcessor(GeoEventProcessorDefinition definition) throws ComponentException {
@@ -117,12 +118,13 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 			createGeoEventDefinition(ge);
 			createDef=false;
 		}
+		
 		Date timeStart = (Date)ge.getField("TIME_START");
 		Date timeEnd = (Date)ge.getField("TIME_END");
 		if(timeStart== null)
-			return null;
+			usingTime=false;
 		if(timeEnd==null)
-			return null;
+			usingTime=false;
 		
 		MapGeometry mapGeo = ge.getGeometry();
 		Geometry geo = mapGeo.getGeometry();
@@ -133,19 +135,44 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 		Date ts = null;
 		if(pointType.equals("start"))
 		{
-			ts = (Date)ge.getField("TIME_START");
+			if(usingTime)
+			{
+				ts = (Date)ge.getField("TIME_START");
+			}
+			else
+			{
+				long now = System.currentTimeMillis();
+				ts = new Date(now);
+			}
 			outGeo = getStartPoint(polyln);
 		}
 		else if(pointType.equals("end"))
 		{
-			ts = (Date)ge.getField("TIME_END");
+			if(usingTime)
+			{
+				ts = (Date)ge.getField("TIME_END");
+				
+			}
+			else
+			{
+				long now = System.currentTimeMillis();
+				ts = new Date(now);
+			}
 			outGeo = getEndPoint(polyln);
 		}
 		else if(pointType.equals("mid"))
 		{
 			outGeo = getMiddlePoint(mapGeo);
-			long midTime = timeStart.getTime() + (timeEnd.getTime() - timeStart.getTime());
-			ts = new Date(midTime);
+			if(usingTime)
+			{
+				long midTime = timeStart.getTime() + (timeEnd.getTime() - timeStart.getTime());
+				ts = new Date(midTime);
+			}
+			else
+			{
+				long now = System.currentTimeMillis();
+				ts = new Date(now);
+			}
 		}
 		MapGeometry outMapGeo = new MapGeometry(outGeo, mapGeo.getSpatialReference());
 		GeoEvent msg = createLine2PtGeoevent(ge, outMapGeo, ts);
@@ -167,6 +194,7 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 			{
 				msg.setField(fd.getName(), event.getField(fd.getName()));
 			}
+			
 			msg.setField("TIMESTAMP", ts);
 	
 		}

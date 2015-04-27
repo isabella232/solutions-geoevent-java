@@ -23,6 +23,7 @@ Processors
 * [Event Joiner Processor](solutions-geoevent/processors/eventjoiner-processor/README.md)
 * [Query Report Processor](solutions-geoevent/processors/query-report-processor/README.md)
 * [Range Fan Processor](solutions-geoevent/processors/rangefan-processor/README.md)
+* [Extract Point from Line](solutions-geoevent/processors/reduceLineToPoint-processor/README.md)
 * [Symbol Lookup Processor](solutions-geoevent/processors/symbol-lookup-processor/README.md)
 * [unitConverter Processor](solutions-geoevent/processors/unitConversion-processor/README.md)
 * [Update Only Processor](solutions-geoevent/processors/updateOnly-processor/README.md)
