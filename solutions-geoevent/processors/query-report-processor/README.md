@@ -72,7 +72,7 @@ Use the following illustration as a guide to the configurable properties support
 ![Image of token format](doc/token-format.png)
 
 You will use the QueryReport-Test service from the Solutions Test Configuration to test the functionality of the Query Report Processor.
-* This simulation requires the refugee_camps service be published to your default datastore. Make adjustments as needed to query another service or if the refugee_cams service is published to a different ArcGIS Server instance. A map package containing the layers for this service can be found [here](https://github.com/Esri/solutions-geoevent-java/blob/master/data/packages/refugee_camps.mpk?raw=true)
+* This simulation requires the refugee_camps service be published to your default datastore. Make adjustments as needed to query another service or if the refugee_cams service is published to a different ArcGIS Server instance. A map package containing the layers for this service can be found [here](../../../../../blob/master/data/packages/refugee_camps.mpk?raw=true)
 * Open the QueryReport-Test service in GEE Manager. 
 * Click on the query-report-tcp-txt-in Input and expand the 'Advanced' tab. Note that the input uses TCP port 5605.
 * Open the ArcGIS GeoEvent Simulator (this is installed with GeoEvent Extension and can be found at the GeoEvent Extension install location).

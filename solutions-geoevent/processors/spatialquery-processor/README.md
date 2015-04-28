@@ -66,7 +66,7 @@ The test service configuration will be deployed to your instance of GeoEvent.
 The Introduction to GeoEvent tutorial has a simple TCP-Console application that will be used for most of the tests. It can be found [here](http://www.arcgis.com/home/item.html?id=b6a35042effd44ceab3976941d36efcf).
 
 You will use the SpatialQuery-Test service from the Solutions Test Configuration to test the functionality of the Spatial Query Processor.
-* This simulation requires the refugee_camps service be published to your default datastore. Make adjustments as needed to query another service or if the refugee_cams service is published to a different ArcGIS Server instance. A map package containing the layers for this service can be found [here](../../../blob/master/data/packages/refugee_camps.mpk?raw=true)
+* This simulation requires the refugee_camps service be published to your default datastore. Make adjustments as needed to query another service or if the refugee_cams service is published to a different ArcGIS Server instance. A map package containing the layers for this service can be found [here](../../../../../blob/master/data/packages/refugee_camps.mpk?raw=true)
 * Open the SpatialQuery-Test service in GEE Manager. 
 * Click on the spatial-query-tcp-txt-in Input and expand the 'Advanced' tab. Note that the input uses TCP port 5612.
 * Open the ArcGIS GeoEvent Simulator (this is installed with GeoEvent Extension and can be found at the GeoEvent Extension install location).
