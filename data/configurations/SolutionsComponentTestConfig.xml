@@ -891,9 +891,7 @@
                     <property name="AttributeSeparator" type="String">,</property>
                 </properties>
             </adapter>
-            <geoEventDefinitionHistory>
-                <guid>dc0672bc-2a37-4ccf-aa9a-86b74c207471</guid>
-            </geoEventDefinitionHistory>
+            <geoEventDefinitionHistory/>
             <geoEventsRateRange max="0.0" min="0.0"/>
             <supportedGeoEventDefinitions/>
             <transport uri="com.esri.ges.transport.inbound/TCP/10.3.1">
@@ -988,9 +986,7 @@
                     <property name="AttributeSeparator" type="String">,</property>
                 </properties>
             </adapter>
-            <geoEventDefinitionHistory>
-                <guid>d936d189-5364-4bc8-8ad2-d0a61fbeb876</guid>
-            </geoEventDefinitionHistory>
+            <geoEventDefinitionHistory/>
             <geoEventsRateRange max="0.0" min="0.0"/>
             <supportedGeoEventDefinitions/>
             <transport uri="com.esri.ges.transport.inbound/TCP/10.3.1">
@@ -1155,9 +1151,7 @@
                     <property name="AttributeSeparator" type="String">,</property>
                 </properties>
             </adapter>
-            <geoEventDefinitionHistory>
-                <guid>a32df01d-70e0-49d7-89bd-a48fbd49e8cd</guid>
-            </geoEventDefinitionHistory>
+            <geoEventDefinitionHistory/>
             <geoEventsRateRange max="0.0" min="0.0"/>
             <supportedGeoEventDefinitions/>
             <transport uri="com.esri.ges.transport.inbound/TCP/10.3.1">
@@ -1256,9 +1250,7 @@
                     <property name="AttributeSeparator" type="String">,</property>
                 </properties>
             </adapter>
-            <geoEventDefinitionHistory>
-                <guid>64f422b5-baff-4705-8c7f-3315cfad9fea</guid>
-            </geoEventDefinitionHistory>
+            <geoEventDefinitionHistory/>
             <geoEventsRateRange max="0.0" min="0.0"/>
             <supportedGeoEventDefinitions/>
             <transport uri="com.esri.ges.transport.inbound/TCP/10.3.1">
@@ -1348,15 +1340,7 @@
                     <property name="AttributeSeparator" type="String">,</property>
                 </properties>
             </adapter>
-            <geoEventDefinitionHistory>
-                <guid>64f422b5-baff-4705-8c7f-3315cfad9fea</guid>
-                <guid>7c8693d5-4727-47c4-a8f2-d260bc63b231</guid>
-                <guid>74c1c7e3-ec5e-4323-bbd0-afc26b0fcfe3</guid>
-                <guid>dc0672bc-2a37-4ccf-aa9a-86b74c207471</guid>
-                <guid>5963dc0e-3dfc-4eb7-a256-42f11c46049f</guid>
-                <guid>7d397a8e-09e7-4015-9a15-cc13a79abd42</guid>
-                <guid>72549b1f-b1ef-4608-9da2-b343838877bf</guid>
-            </geoEventDefinitionHistory>
+            <geoEventDefinitionHistory/>
             <geoEventsRateRange max="0.0" min="0.0"/>
             <supportedGeoEventDefinitions/>
             <transport uri="com.esri.ges.transport.outbound/TCP/10.3.1">
@@ -2521,113 +2505,36 @@
                 </fieldDefinition>
             </fieldDefinitions>
         </geoEventDefinition>
-        <geoEventDefinition guid="cde5e481-ef70-4204-a54d-4a7846e33823" name="NMEAGPGGA" owner="com.esri.geoevent.adapter.inbound/NMEA/10.3.0" accessType="editable">
+        <geoEventDefinition guid="84d99a61-ccd7-4367-8f44-7838371beb99" name="QueryReportTest" owner="020b3e61-1f1e-4679-8374-aad11c67d080:1bea42ab-0cfa-4982-871a-3bed4cbd3acd" accessType="editable">
             <fieldDefinitions>
-                <fieldDefinition name="DeviceId" type="String" cardinality="One">
+                <fieldDefinition name="trackid" type="String" cardinality="One">
                     <fieldDefinitionTag>
                         <name>TRACK_ID</name>
                     </fieldDefinitionTag>
                     <fieldDefinitions/>
                 </fieldDefinition>
-                <fieldDefinition name="TimeStamp" type="Date" cardinality="One">
-                    <fieldDefinitionTag>
-                        <name>TIME_START</name>
-                    </fieldDefinitionTag>
+                <fieldDefinition name="lon" type="Double" cardinality="One">
                     <fieldDefinitions/>
                 </fieldDefinition>
-                <fieldDefinition name="Shape" type="Geometry" cardinality="One">
-                    <fieldDefinitionTag>
-                        <name>GEOMETRY</name>
-                    </fieldDefinitionTag>
+                <fieldDefinition name="lat" type="Double" cardinality="One">
                     <fieldDefinitions/>
                 </fieldDefinition>
-                <fieldDefinition name="GPSQuality" type="Short" cardinality="One">
+                <fieldDefinition name="deapth" type="Double" cardinality="One">
                     <fieldDefinitions/>
                 </fieldDefinition>
-                <fieldDefinition name="Satellites" type="Short" cardinality="One">
+                <fieldDefinition name="wkid" type="Integer" cardinality="One">
                     <fieldDefinitions/>
                 </fieldDefinition>
-                <fieldDefinition name="HDOP" type="Double" cardinality="One">
+                <fieldDefinition name="magnitude" type="Double" cardinality="One">
                     <fieldDefinitions/>
                 </fieldDefinition>
-                <fieldDefinition name="Altitude" type="Double" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="AltitudeUnits" type="String" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="Height" type="Double" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="HeightUnits" type="String" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="Update" type="String" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="StationId" type="String" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-            </fieldDefinitions>
-        </geoEventDefinition>
-        <geoEventDefinition guid="84f60b9d-23ae-4ec6-b006-eef603c21936" name="NMEAGPGLL" owner="com.esri.geoevent.adapter.inbound/NMEA/10.3.0" accessType="editable">
-            <fieldDefinitions>
-                <fieldDefinition name="DeviceId" type="String" cardinality="One">
-                    <fieldDefinitionTag>
-                        <name>TRACK_ID</name>
-                    </fieldDefinitionTag>
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="TimeStamp" type="Date" cardinality="One">
-                    <fieldDefinitionTag>
-                        <name>TIME_START</name>
-                    </fieldDefinitionTag>
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="Shape" type="Geometry" cardinality="One">
+                <fieldDefinition name="geometry" type="Geometry" cardinality="One">
                     <fieldDefinitionTag>
                         <name>GEOMETRY</name>
                     </fieldDefinitionTag>
                     <fieldDefinitions/>
                 </fieldDefinition>
-                <fieldDefinition name="Validity" type="String" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-            </fieldDefinitions>
-        </geoEventDefinition>
-        <geoEventDefinition guid="67e3bde2-5966-42a4-964f-e0d93bd0bc79" name="NMEAGPRMC" owner="com.esri.geoevent.adapter.inbound/NMEA/10.3.0" accessType="editable">
-            <fieldDefinitions>
-                <fieldDefinition name="DeviceId" type="String" cardinality="One">
-                    <fieldDefinitionTag>
-                        <name>TRACK_ID</name>
-                    </fieldDefinitionTag>
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="TimeStamp" type="Date" cardinality="One">
-                    <fieldDefinitionTag>
-                        <name>TIME_START</name>
-                    </fieldDefinitionTag>
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="Shape" type="Geometry" cardinality="One">
-                    <fieldDefinitionTag>
-                        <name>GEOMETRY</name>
-                    </fieldDefinitionTag>
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="Validity" type="String" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="Speed" type="Double" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="Course" type="Double" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="Variation" type="Double" cardinality="One">
-                    <fieldDefinitions/>
-                </fieldDefinition>
-                <fieldDefinition name="EastWest" type="String" cardinality="One">
+                <fieldDefinition name="url" type="String" cardinality="One">
                     <fieldDefinitions/>
                 </fieldDefinition>
             </fieldDefinitions>
@@ -3458,50 +3365,6 @@
             </properties>
             <transport uri="com.esri.ges.transport.inbound/File/10.3.1"/>
         </connector>
-        <connector accessType="editable" label="Send Tweet" name="twitter-out" type="outbound">
-            <adapter uri="com.esri.ges.adapter.outbound/MessageFormatter/10.3.1"/>
-            <defaultName>twitter-out</defaultName>
-            <description>Send a tweet to Twitter using the public Twitter API.</description>
-            <properties>
-                <advanced>
-                    <property default="https://api.twitter.com/1.1/statuses/update.json" label="URL" name="clientURL" source="transport"/>
-                </advanced>
-                <hidden>
-                    <property default="false" label="Use URL Proxy" name="useClientURLProxy" source="transport"/>
-                    <property label="URL Proxy" name="clientURLProxy" source="transport"/>
-                    <property label="Parameters" name="clientParameters" source="transport"/>
-                    <property default="POST" label="HTTP Method" name="httpMethod" source="transport"/>
-                    <property default="application/x-www-form-urlencoded" label="Acceptable MIME Types (Client Mode)" name="acceptableMimeTypesClientMode" source="transport"/>
-                    <property default="application/x-www-form-urlencoded" label="Post body MIME Type" name="postContentType" source="transport"/>
-                </hidden>
-                <shown>
-                    <property label="Consumer Key" name="consumerKey" source="transport"/>
-                    <property label="Consumer Secret" name="consumerSecret" source="transport"/>
-                    <property label="Access Token" name="accessToken" source="transport"/>
-                    <property label="Access Token Secret" name="accessTokenSecret" source="transport"/>
-                    <property default="My Tweet ${TRACK_ID} ${START_TIME}" label="Message" name="textMessage" source="adapter"/>
-                </shown>
-            </properties>
-            <transport uri="com.esri.geoevent.transport.outbound/Twitter/10.3.0"/>
-        </connector>
-        <connector accessType="editable" label="Receive NMEA from a TCP Socket" name="esri-in-tcp-nmea" type="inbound">
-            <adapter uri="com.esri.geoevent.adapter.inbound/NMEA/10.3.0"/>
-            <defaultName>nmea-tcp-in</defaultName>
-            <description>Receive NMEA sentences on a TCP Socket. The NMEA sentences supported include NMEAGPGGA, NMEAGPGLL, and NMEAGPRMC.</description>
-            <properties>
-                <advanced/>
-                <hidden>
-                    <property default="SERVER" label="Mode" name="mode" source="transport"/>
-                    <property default="" label="Host (Client Mode)" name="host" source="transport"/>
-                    <property default="60" label="Connection Timeout (Client Mode)" name="clientConnectionTimeout" source="transport"/>
-                    <property default="" label="Handshake Text" name="handshake" source="transport"/>
-                </hidden>
-                <shown>
-                    <property default="5565" label="Server Port" name="port" source="transport"/>
-                </shown>
-            </properties>
-            <transport uri="com.esri.ges.transport.inbound/TCP/10.3.1"/>
-        </connector>
         <connector accessType="editable" label="Receive delimited text via HTTP" name="esri-in-http-text-regex" type="inbound">
             <adapter uri="com.esri.geoevent.solutions.adapter/regexText-adapter/10.3.0"/>
             <defaultName>esri-in-http-text-regex</defaultName>
@@ -3548,41 +3411,6 @@
                 </shown>
             </properties>
             <transport uri="com.esri.ges.transport.inbound/HTTP/10.3.1"/>
-        </connector>
-        <connector accessType="editable" label="Receive Tweets" name="twitter-in" type="inbound">
-            <adapter uri="com.esri.geoevent.adapter.inbound/Twitter/10.3.0"/>
-            <defaultName>twitter-in</defaultName>
-            <description>Receive tweets from twitter profiles or based on term(s) of interest using the public Twitter API.</description>
-            <properties>
-                <advanced>
-                    <property default="0" label="Count" name="count" source="transport"/>
-                </advanced>
-                <hidden>
-                    <property default="CLIENT" label="Mode" name="mode" source="transport"/>
-                    <property default="true" label="Use Long Polling" name="useLongPolling" source="transport"/>
-                    <property default="true" label="Receive New Data Only" name="honorLastModified" source="transport"/>
-                    <property default="5" label="Frequency (in seconds)" name="frequency" source="transport"/>
-                    <property default="application/x-www-form-urlencoded" label="Post body MIME Type" name="postContentType" source="transport"/>
-                    <property default="application/x-www-form-urlencoded" label="Acceptable MIME Types (Client Mode)" name="acceptableMimeTypesClientMode" source="transport"/>
-                    <property default="POST" label="HTTP Method" name="httpMethod" source="transport"/>
-                    <property label="Content Body" name="clientPostBody" source="transport"/>
-                    <property label="Parameters" name="clientParameters" source="transport"/>
-                    <property label="URL Proxy" name="clientURLProxy" source="transport"/>
-                    <property default="false" label="Use URL Proxy" name="useClientURLProxy" source="transport"/>
-                    <property label="Acceptable MIME Types (Server Mode)" name="acceptableMimeTypesServerMode" source="transport"/>
-                    <property default="https://stream.twitter.com/1.1/statuses/filter.json" label="URL" name="clientURL" source="transport"/>
-                </hidden>
-                <shown>
-                    <property label="Consumer Key" name="consumerKey" source="transport"/>
-                    <property label="Consumer Secret" name="consumerSecret" source="transport"/>
-                    <property label="Access Token" name="accessToken" source="transport"/>
-                    <property label="Access Token Secret" name="accessTokenSecret" source="transport"/>
-                    <property label="Follow" name="follow" source="transport"/>
-                    <property label="Track" name="track" source="transport"/>
-                    <property label="Locations" name="locations" source="transport"/>
-                </shown>
-            </properties>
-            <transport uri="com.esri.geoevent.transport.inbound/Twitter/10.3.0"/>
         </connector>
         <connector accessType="editable" label="Receive Cursor on Target Over TCP Socket" name="cot-tcp-in" type="inbound">
             <adapter uri="com.esri.geoevent.solutions.adapter.cot.inbound/CursorOnTargetIn/10.3.0"/>
@@ -3644,46 +3472,6 @@
                 </shown>
             </properties>
             <transport uri="com.esri.geoevent.solutions.transport.tcpsquirt.outbound/TCPSquirt/10.3.0"/>
-        </connector>
-        <connector accessType="editable" label="Receive Instagram feed" name="receive-instagram-connector" type="inbound">
-            <adapter uri="com.esri.ges.adapter.inbound/Generic-JSON/10.3.1"/>
-            <defaultName>instagram-in</defaultName>
-            <description>Connects to the public Instagram API and receives photo feeds.</description>
-            <properties>
-                <advanced/>
-                <hidden>
-                    <property default="" label="Well Known Text Geometry Field" name="WKTextGeometryField" source="adapter"/>
-                    <property default="" label="wkid Geometry Field" name="WKIDGeometryField" source="adapter"/>
-                    <property label="Acceptable MIME Types (Server Mode)" name="acceptableMimeTypesServerMode" source="transport"/>
-                    <property default="false" label="Use URL Proxy" name="useClientURLProxy" source="transport"/>
-                    <property label="URL Proxy" name="clientURLProxy" source="transport"/>
-                    <property label="Content Body" name="clientPostBody" source="transport"/>
-                    <property default="GET" label="HTTP Method" name="httpMethod" source="transport"/>
-                    <property label="Post body MIME Type" name="postContentType" source="transport"/>
-                    <property default="false" label="Use Long Polling" name="useLongPolling" source="transport"/>
-                    <property default="location.longitude" label="X Geometry Field" name="XGeometryField" source="adapter"/>
-                    <property default="location.latitude" label="Y Geometry Field" name="YGeometryField" source="adapter"/>
-                    <property default="" label="Z Geometry Field" name="ZGeometryField" source="adapter"/>
-                    <property default="true" label="Construct Geometry From Fields" name="BuildGeometryFromFields" source="adapter"/>
-                    <property default="data" label="JSON Object Name" name="JsonObjectName" source="adapter"/>
-                    <property default="InstagramDef" label="GeoEvent Definition Name (New)" name="NewGeoEventDefinitionName" source="adapter"/>
-                    <property default="false" label="Create GeoEvent Definition" name="CreateGeoEventDefinition" source="adapter"/>
-                    <property default="CLIENT" label="Mode" name="mode" source="transport"/>
-                    <property default="" label="Expected Date Format" name="CustomDateFormat" source="adapter"/>
-                    <property default="application/json" label="Acceptable MIME Types (Client Mode)" name="acceptableMimeTypesClientMode" source="transport"/>
-                    <property default="" label="Parameters" name="clientParameters" source="transport"/>
-                    <property default="true" label="Receive New Data Only" name="honorLastModified" source="transport"/>
-                    <property default="https://api.instagram.com/v1" label="URL" name="clientURL" source="transport"/>
-                    <property default="Instagram" label="GeoEvent Definition Name" name="ExistingGeoEventDefinitionName" source="adapter"/>
-                </hidden>
-                <shown>
-                    <property label="Access Token" name="access_token" source="transport"/>
-                    <property label="Media Type" name="mediatype" source="transport"/>
-                    <property label="Tag" name="tag" source="transport"/>
-                    <property default="5" label="Frequency (in seconds)" name="frequency" source="transport"/>
-                </shown>
-            </properties>
-            <transport uri="com.esri.geoevent.transport.inbound/Instagram/10.3.0"/>
         </connector>
         <connector accessType="editable" label="Receive Cursor on Target" name="cot-in" type="inbound">
             <adapter uri="com.esri.geoevent.solutions.adapter.cot.inbound/CursorOnTargetIn/10.3.0"/>
