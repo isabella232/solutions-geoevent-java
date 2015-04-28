@@ -22,6 +22,7 @@ Processors
 * [Event Volume Control Processor](solutions-geoevent/processors/eventVolumeControl-processor/README.md)
 * [Event Joiner Processor](solutions-geoevent/processors/eventjoiner-processor/README.md)
 * [Extract Point from Line](solutions-geoevent/processors/reduceLineToPoint-processor/README.md)
+* [Extract Point from Polygon](solutions-geoevent/processors/reducePolygonToPoint-processor/README.md)
 * [Query Report Processor](solutions-geoevent/processors/query-report-processor/README.md)
 * [Range Fan Calculator](solution-geoevent/processors/rangefan-processor/README.md)
 * [Spatial Query Processor](solutions-geoevent/processors/spatialquery-processor/README.md)
