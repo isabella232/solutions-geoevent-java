@@ -65,7 +65,7 @@ The test service configuration will be deployed to your instance of GeoEvent.
 The Introduction to GeoEvent tutorial has a simple TCP-Console application that will be used for most of the tests. It can be found [here](http://www.arcgis.com/home/item.html?id=b6a35042effd44ceab3976941d36efcf).
 
 You will use the Visibility-Test service from the Solutions Test Configuration to test the functionality of the Visibility processor.
-* This simulation requires the GEPViewshed GeoProcessing service to be published to your default datastore. Make adjustments as needed to query another service or if the refugee_cams service is published to a different ArcGIS Server instance. A map package containing the layers for this service can be found [here](/visibility-processor/geoprocessing/visibility/GESViewshed.gpk?raw=true)
+* This simulation requires the GEPViewshed GeoProcessing service to be published to your default datastore. Make adjustments as needed to query another service or if the refugee_cams service is published to a different ArcGIS Server instance. A map package containing the layers for this service can be found [here](../../../blob/master/solutions-geoevent/processors/visibility-processor/geoprocessing/visibility/GESViewshed.gpk?raw=true)
 * A valid elevation service (image service) over the area for which the viewshed will be generated is required for this simulation.
 * Open the Visibility-Test service in GEE Manager. 
 * Click on the visibility-tcp-txt-in Input and expand the 'Advanced' tab. Note that the input uses TCP port 5614.
