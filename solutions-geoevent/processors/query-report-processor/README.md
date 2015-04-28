@@ -36,7 +36,7 @@ Query Report Processor - Executes a spatial query on feature services registered
 ### Validating the Installation
  
 * See the [solutions-geoevent-java validation instructions](../../../README.md#validating-install).
-    * Ensure the Spatial Query Processor exists.
+    * Ensure the Query Report Processor exists.
 
 ### Testing with Simulated Test Data
 
