@@ -24,7 +24,7 @@ Processors
 * [Extract Point from Line](solutions-geoevent/processors/reduceLineToPoint-processor/README.md)
 * [Extract Point from Polygon](solutions-geoevent/processors/reducePolygonToPoint-processor/README.md)
 * [Query Report Processor](solutions-geoevent/processors/query-report-processor/README.md)
-* [Range Fan Calculator](solution-geoevent/processors/rangefan-processor/README.md)
+* [Range Fan Calculator](solutions-geoevent/processors/rangefan-processor/README.md)
 * [Spatial Query Processor](solutions-geoevent/processors/spatialquery-processor/README.md)
 * [Symbol Lookup Processor](solutions-geoevent/processors/symbol-lookup-processor/README.md)
 * [Unit Converter Processor](solutions-geoevent/processors/unitConversion-processor/README.md)
