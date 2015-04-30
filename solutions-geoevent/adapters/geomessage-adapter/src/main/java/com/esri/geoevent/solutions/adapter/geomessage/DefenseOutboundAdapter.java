@@ -62,6 +62,17 @@ public class DefenseOutboundAdapter extends OutboundAdapterBase
     {
       String attributeName = fieldDefinition.getName();
       Object value = geoEvent.getField(attributeName);
+      if(attributeName.equals("type"))
+      {
+    	  if(value.equals("null"))
+    	  {
+    		  value=definition.getName();
+    	  }
+      }
+      if(value==null || value.equals("null"))
+      {
+    	  continue;
+      }
       stringBuffer.append("<" + attributeName + ">");
       FieldType t = fieldDefinition.getType();
       switch (t)
