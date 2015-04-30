@@ -66,7 +66,6 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 	private List<FieldDefinition> fds;
 	private Boolean createDef = false;
 	private GeoEventDefinition ged;
-	private GeoEventCreator geoEventCreator;
 	private GeoEventDefinitionManager manager;
 	private Messaging messaging;
 	Boolean usingTime = true;
