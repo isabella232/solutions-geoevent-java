@@ -19,7 +19,7 @@
     <reference id="messagingService" interface="com.esri.ges.messaging.Messaging" timeout="1000"/>
 	<reference id="geoDefManagerService"
 		interface="com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager" />
-    <bean id="incrementalPointProcessorServiceBean"
+    <bean id="timeWindowSortProcessorServiceBean"
 		class="com.esri.geoevent.solutions.processor.timewindowsort.TimeWindowSortProcessorService">
 		<property name="bundleContext" ref="blueprintBundleContext" />
 		<property name="messaging" ref="messagingService"/>
