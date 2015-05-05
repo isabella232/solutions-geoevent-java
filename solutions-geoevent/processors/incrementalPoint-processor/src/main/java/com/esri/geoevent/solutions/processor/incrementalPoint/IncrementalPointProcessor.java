@@ -343,11 +343,11 @@ GeoEventProducer, EventUpdatable {
 	public void update(Observable o, Object arg) {
 		;
 	}
-	
+	@Override
 	public void onServiceStart() {
 		// Service Start Phase
 	}
-	
+	@Override
 	public void onServiceStop() {
 		// Service Stop Phase
 	}
