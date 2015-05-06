@@ -24,7 +24,7 @@ Processors
 * [Extract Point from Line](solutions-geoevent/processors/reduceLineToPoint-processor/README.md)
 * [Extract Point from Polygon](solutions-geoevent/processors/reducePolygonToPoint-processor/README.md)
 * [Query Report Processor](solutions-geoevent/processors/query-report-processor/README.md)
-* [Range Fan Calculator](solution-geoevent/processors/rangefan-processor/README.md)
+* [Range Fan Calculator](solutions-geoevent/processors/rangefan-processor/README.md)
 * [Spatial Query Processor](solutions-geoevent/processors/spatialquery-processor/README.md)
 * [Symbol Lookup Processor](solutions-geoevent/processors/symbol-lookup-processor/README.md)
 * [Unit Converter Processor](solutions-geoevent/processors/unitConversion-processor/README.md)
@@ -64,8 +64,8 @@ Transports
  
 * Verify that Maven is installed and working correctly
     * From a command prompt, type `mvn -version` and verify that it returns the version correctly
-    * If the Maven version is not returned correctly, consult the GEP SDK Developer Guide for more information on how to set up Maven. 
-* Make any necessary changes to the pom.xml files to reflect the location of the GEP Server and GEP SDK repositories
+    * If the Maven version is not returned correctly, consult the GeoEvent Extension SDK Developer Guide for more information on how to set up Maven. 
+* Make any necessary changes to the pom.xml files to reflect the location of the GeoEvent Extension and GeoEvent Extension SDK repositories
     * If necessary, change the locations for the repository entries in the pom.xml 
     * The current settings assume these will be located at 
         * /Program Files/ArcGIS/Server/GeoEventExtension/sdk/repository
@@ -75,11 +75,12 @@ Transports
 * Type `mvn install` at the prompt and hit return
 * Each installed module will now have a target folder (see each module's Readme.md for the exact path)
 * Browse to each target directory 
-* Copy the .jar file from the target folder and paste it into the deploy directory on your GEP installation (ex. <Extension location>\deploy\ -- Default GeoEvent Extension location is C:\Program Files\ArcGIS\Server\GeoEventExtension\)
+* Copy the .jar file from the target folder and paste it into the deploy directory on your GEP installation (ex. <GeoEvent Extension install location>\deploy\ -- default location is C:\Program Files\ArcGIS\Server\GeoEventProcessor\deploy)
  
 ### Validating Install
  
-* Open the GeoEvent Extension Manager 
+* Open the GeoEvent Manager 
+>>>>>>> origin/master
 * Navigate to 'Site' > 'Components' >  'Adapters'
     *  You should see each newly installed adapter as one of the available adapters
 * Navigate to 'Site' > 'Components' >  'Processors' 
@@ -87,8 +88,9 @@ Transports
 
 ## Resources
 
-* Learn more about Esri's [GeoEvent Extension](http://server.arcgis.com/en/geoevent-extension/)
+* Learn more about Esri's [GeoEvent Extension](http://links.esri.com/geoevent
 * Learn more about [Extending ArcGIS GeoEvent Extension](http://server.arcgis.com/en/geoevent-extension/latest/administer/extending-the-geoevent-extension.htm)
+
 * Learn more about Esri's [ArcGIS for the Military](http://solutions.arcgis.com/military/)
 
 ## Issues
