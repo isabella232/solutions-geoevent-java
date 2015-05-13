@@ -2,23 +2,21 @@ package com.esri.geoevent.solutions.processor.timewindowsort;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.FieldDefinition;
-import com.esri.ges.core.geoevent.FieldException;
 import com.esri.ges.core.geoevent.FieldType;
 import com.esri.ges.core.geoevent.GeoEvent;
-import com.esri.ges.core.geoevent.GeoEventCache;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
+import com.esri.ges.core.geoevent.GeoEventPropertyName;
 import com.esri.ges.core.validation.ValidationException;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
 import com.esri.ges.messaging.EventDestination;
@@ -27,24 +25,27 @@ import com.esri.ges.messaging.GeoEventCreator;
 import com.esri.ges.messaging.GeoEventProducer;
 import com.esri.ges.messaging.Messaging;
 import com.esri.ges.messaging.MessagingException;
-import com.esri.ges.processor.CacheEnabledGeoEventProcessor;
 import com.esri.ges.processor.GeoEventProcessorBase;
 import com.esri.ges.processor.GeoEventProcessorDefinition;
 
 public class TimeWindowSortProcessor extends GeoEventProcessorBase implements
 		Runnable, GeoEventProducer, EventUpdatable {
+	private static final Log LOG = LogFactory
+			.getLog(TimeWindowSortProcessor.class);
 	private boolean monitoring = false;
 	private boolean running = false;
 	private Integer interval;
 	private String sortfield;
-	private SortedMap<Object, ArrayList<GeoEvent>> sorted = new TreeMap<Object, ArrayList<GeoEvent>>();
+	//private SortedMap<Object, ArrayList<GeoEvent>> sorted = new TreeMap<Object, ArrayList<GeoEvent>>();
+	@SuppressWarnings("rawtypes")
+	private HashMap cache;
 	private GeoEventCreator geoEventCreator;
 	private GeoEventDefinitionManager manager;
 	private Messaging messaging;
 	private GeoEventProducer geoEventProducer;
 	private long timestamp;
 	private Thread t;
-
+	private FieldType sortedFieldType;
 	public TimeWindowSortProcessor(GeoEventProcessorDefinition definition)
 			throws ComponentException {
 		super(definition);
@@ -68,10 +69,47 @@ public class TimeWindowSortProcessor extends GeoEventProcessorBase implements
 		interval = (Integer) properties.get("interval").getValue();
 		sortfield = properties.get("orderby").getValueAsString();
 		timestamp = System.currentTimeMillis();
+		String type = properties.get("expectedType").getValueAsString();
+		if(type.equals("string"))
+		{
+			cache = new HashMap<String, ArrayList<GeoEvent>>();
+			sortedFieldType = FieldType.String;
+		}
+		if(type.equals("int"))
+		{
+			cache = new HashMap<Integer, ArrayList<GeoEvent>>();
+			sortedFieldType = FieldType.Integer;
+		}
+		if(type.equals("long"))
+		{
+			cache = new HashMap<Long, ArrayList<GeoEvent>>();
+			sortedFieldType = FieldType.Long;
+		}
+		if(type.equals("short"))
+		{
+			cache = new HashMap<Short, ArrayList<GeoEvent>>();
+			sortedFieldType = FieldType.Short;
+		}
+		if(type.equals("double"))
+		{
+			cache = new HashMap<Double, ArrayList<GeoEvent>>();
+			sortedFieldType = FieldType.Double;
+		}
+		if(type.equals("Float"))
+		{
+			cache = new HashMap<Float, ArrayList<GeoEvent>>();
+			sortedFieldType = FieldType.Float;
+		}
+		if(type.equals("date"))
+		{
+			cache = new HashMap<Long, ArrayList<GeoEvent>>();
+			sortedFieldType = FieldType.Date;
+		}
 		this.running = true;
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public GeoEvent process(GeoEvent evt) throws Exception {
 
 			GeoEventDefinition ged = evt.getGeoEventDefinition();
@@ -80,7 +118,11 @@ public class TimeWindowSortProcessor extends GeoEventProcessorBase implements
 				return null;
 			Object val = null;
 			FieldType type = fd.getType();
-			if(type == FieldType.Date)
+			if(type != sortedFieldType)
+			{
+				return null;
+			}
+			if(sortedFieldType == FieldType.Date)
 			{
 				Date d = (Date)evt.getField(sortfield);
 				val = (Long)d.getTime();
@@ -89,14 +131,14 @@ public class TimeWindowSortProcessor extends GeoEventProcessorBase implements
 			{
 				val = evt.getField(sortfield);
 			}
-			if (sorted.containsKey(val)) {
-				ArrayList<GeoEvent> evtList = sorted.get(val);
+			if (cache.containsKey(val)) {
+				ArrayList<GeoEvent> evtList = (ArrayList<GeoEvent>) cache.get(val);
 				evtList.add(evt);
-				sorted.put(val, evtList);
+				cache.put(val, evtList);
 			} else {
 				ArrayList<GeoEvent> evtList = new ArrayList<GeoEvent>();
 				evtList.add(evt);
-				sorted.put(val, evtList);
+				cache.put(val, evtList);
 			}
 
 		return null;
@@ -123,7 +165,7 @@ public class TimeWindowSortProcessor extends GeoEventProcessorBase implements
 
 	@Override
 	public void shutdown() {
-		sorted.clear();
+		cache.clear();
 		super.shutdown();
 	}
 
@@ -199,7 +241,7 @@ public class TimeWindowSortProcessor extends GeoEventProcessorBase implements
 	private void stopMonitoring()
 	{
 		this.monitoring=false;
-		sorted.clear();
+		cache.clear();
 		t.interrupt();
 
 	}
@@ -223,18 +265,76 @@ public class TimeWindowSortProcessor extends GeoEventProcessorBase implements
 		}
 
 	}
-	
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void flush() throws MessagingException
 	{
-		Set<Object> keys = sorted.keySet();
-		Iterator<Object> it = keys.iterator();
-		while (it.hasNext()) {
-			Object k = it.next();
-			List<GeoEvent> list = sorted.remove(k);
+		HashMap cacheCopy = null;
+
+		ArrayList sorted = null;
+		if(sortedFieldType==FieldType.String)
+		{
+			HashMap<String, ArrayList<GeoEvent>> tmpCache = cache;
+			cacheCopy = tmpCache;
+			cache = new HashMap<String, ArrayList<GeoEvent>>();
+			sorted = new ArrayList<String>(cacheCopy.keySet());
+		}
+		else if(sortedFieldType==FieldType.Integer)
+		{
+			HashMap<Integer, ArrayList<GeoEvent>> tmpCache = cache;
+			cacheCopy = tmpCache;
+			cache = new HashMap<Integer, ArrayList<GeoEvent>>();
+			sorted = new ArrayList<Integer>(cacheCopy.keySet());
+		}
+		else if(sortedFieldType==FieldType.Long)
+		{
+			HashMap<Long, ArrayList<GeoEvent>> tmpCache = cache;
+			cacheCopy = tmpCache;
+			cache = new HashMap<Long, ArrayList<GeoEvent>>();
+			sorted = new ArrayList<Long>(cacheCopy.keySet());
+		}
+		else if(sortedFieldType==FieldType.Short)
+		{
+			HashMap<Long, ArrayList<GeoEvent>> tmpCache = cache;
+			cacheCopy = tmpCache;
+			cache = new HashMap<Short, ArrayList<GeoEvent>>();
+			sorted = new ArrayList<Short>(cacheCopy.keySet());
+		}
+		else if(sortedFieldType==FieldType.Double)
+		{
+			HashMap<Double, ArrayList<GeoEvent>> tmpCache = cache;
+			cacheCopy = tmpCache;
+			cache = new HashMap<Double, ArrayList<GeoEvent>>();
+			sorted = new ArrayList<Double>(cacheCopy.keySet());
+		}
+		else if(sortedFieldType==FieldType.Float)
+		{
+			HashMap<Float, ArrayList<GeoEvent>> tmpCache = cache;
+			cacheCopy = tmpCache;
+			cache = new HashMap<Float, ArrayList<GeoEvent>>();
+			sorted = new ArrayList<Float>(cacheCopy.keySet());
+		}
+		else if(sortedFieldType==FieldType.Date)
+		{
+			HashMap<Long, ArrayList<GeoEvent>> tmpCache = cache;
+			cacheCopy = tmpCache;
+			cache = new HashMap<Long, ArrayList<GeoEvent>>();
+			sorted = new ArrayList<Long>(cacheCopy.keySet());
+		}
+		Collections.sort(sorted);
+		for(Object k: sorted)
+		{
+			List<GeoEvent> list = (List<GeoEvent>) cacheCopy.get(k);
 			for (GeoEvent msg : list) {
+				msg.setProperty(GeoEventPropertyName.TYPE, "event");
+				msg.setProperty(GeoEventPropertyName.OWNER_ID, getId());
+				msg.setProperty(GeoEventPropertyName.OWNER_URI,
+						definition.getUri());
 				send(msg);
 			}
 		}
+		cacheCopy.clear();
+		cacheCopy = null;
 	}
 
 }

@@ -95,6 +95,7 @@ GeoEventProducer, EventUpdatable {
 	private GeoEventDefinitionManager manager;
 	private Messaging messaging;
 	private GeoEventProducer geoEventProducer;
+	private SpatialReference processSr;
 	private SpatialReference outSr;
 	private String intervalType;
 	private Double distInterval;
@@ -134,11 +135,11 @@ GeoEventProducer, EventUpdatable {
 		processWkid = (Integer)properties.get("wkid").getValue();
 		outDef = properties.get("outdefname").getValueAsString();
 		fds = new ArrayList<FieldDefinition>();
-		outSr = SpatialReference.create(processWkid);
+		processSr = SpatialReference.create(processWkid);
 		try {
-			fds.add(new DefaultFieldDefinition("LocationTimeStamp", FieldType.Date, "TIMESTAMP"));
-			fds.add(new DefaultFieldDefinition("TimeFromStart", FieldType.Double, "TIME_FROM_START"));
-			fds.add(new DefaultFieldDefinition("DistanceOnLine", FieldType.Double, "DISTANCE_ON_LINE"));
+			fds.add(new DefaultFieldDefinition("locationtimestamp", FieldType.Date, "TIMESTAMP"));
+			fds.add(new DefaultFieldDefinition("timefromstart", FieldType.Double, "TIME_FROM_START"));
+			fds.add(new DefaultFieldDefinition("distanceonline", FieldType.Double, "DISTANCE_ON_LINE"));
 			Collection<GeoEventDefinition>eventDefs = manager.searchGeoEventDefinitionByName(outDef);
 			Iterator<GeoEventDefinition>eventDefIt = eventDefs.iterator();
 			while(eventDefIt.hasNext())
@@ -185,14 +186,17 @@ GeoEventProducer, EventUpdatable {
 			return null;
 		MapGeometry mg = ge.getGeometry();
 
-		Geometry outGeo = null;
+		
 		MapGeometry mapGeo = null;
+		Boolean projected=false;
 		SpatialReference inSr = mg.getSpatialReference();
 		if (processWkid != mg.getSpatialReference().getID()) {
-			outSr = SpatialReference.create(processWkid);
+			projected=true;
+			processSr = SpatialReference.create(processWkid);
 			Geometry g = GeometryEngine.project(mg.getGeometry(), inSr,
-					outSr);
-			mapGeo = new MapGeometry(g, outSr);
+					processSr);
+			mapGeo = new MapGeometry(g, processSr);
+			outSr = inSr;
 		} else {
 			mapGeo = mg;
 			outSr = mapGeo.getSpatialReference();
@@ -203,12 +207,11 @@ GeoEventProducer, EventUpdatable {
 		Point startPt = polyln.getPoint(0);
 		Unit unit = LinearUnit.create(9001);
 		LinearUnit lu = (LinearUnit) unit;
-		double distTotal = GeometryEngine.geodesicLength(polyln, outSr, lu);
+		double distTotal = GeometryEngine.geodesicLength(polyln, processSr, lu);
 		int numHops = 0;
 		long timeTotal = end - start;
 		if(usingTime)
 		{
-			
 			distInterval = distTotal/(timeTotal/timeInterval);
 			numHops = (int) Math.floor(distTotal/distInterval);
 		}
@@ -220,15 +223,25 @@ GeoEventProducer, EventUpdatable {
 		
 		Integer ptIndex = 0;
 		GeoEvent msg = null;
+		//Geometry outGeo = null;
+		//Geometry projGeo = null;
 		for(int i = 0; i < numHops; ++i)
 		{
 			IncrementPoint ip = this.getNextPoint(polyln, startPt, ptIndex, distInterval);
-			outGeo = ip.getPoint();
-			
+			Geometry outGeo = null;
+			Geometry projGeo = ip.getPoint();
+			if(projected)
+			{
+				outGeo = GeometryEngine.project(projGeo, processSr, outSr);
+			}
+			else
+			{
+				outGeo=projGeo;
+			}
 			MapGeometry outMapGeo = new MapGeometry(outGeo, mapGeo.getSpatialReference());
 			msg = createIncrementalPointGeoevent(ge, outMapGeo, timeStart, i);
 			send(msg);
-			startPt = (Point)outGeo;
+			startPt = (Point)projGeo;
 			ptIndex = ip.getNextVertexIndex();
 		}
 		
@@ -263,6 +276,7 @@ GeoEventProducer, EventUpdatable {
 		}
 		msg.setField("TIMESTAMP", ts);
 		msg.setField("TIME_FROM_START", timeFromStartMinutes);
+		msg.setField("DISTANCE_ON_LINE", distOnLine);
 		msg.setProperty(GeoEventPropertyName.TYPE, "event");
 		msg.setProperty(GeoEventPropertyName.OWNER_ID, getId());
 		msg.setProperty(GeoEventPropertyName.OWNER_URI,
@@ -355,7 +369,7 @@ GeoEventProducer, EventUpdatable {
 	private IncrementPoint getNextPoint(Polyline polyln, Point startPt, Integer i, Double dist)
 	{
 		Point startVertex = polyln.getPoint(i);
-		Double currentDist = GeometryEngine.distance(startPt, startVertex, outSr);
+		Double currentDist = GeometryEngine.distance(startPt, startVertex, processSr);
 		Point segStart = null;
 		Point segEnd = null;
 		Boolean multipleVertices = true;
@@ -369,7 +383,7 @@ GeoEventProducer, EventUpdatable {
 		{
 			Point start = polyln.getPoint(i);
 			Point end = polyln.getPoint(i+1);
-			currentDist += GeometryEngine.distance(start, end, outSr);
+			currentDist += GeometryEngine.distance(start, end, processSr);
 			++i;
 		}
 		if(multipleVertices)
@@ -377,7 +391,7 @@ GeoEventProducer, EventUpdatable {
 			segStart = polyln.getPoint(i-1);
 			segEnd = polyln.getPoint(i);
 		}
-		Double segLen = GeometryEngine.distance(segStart, segEnd, outSr);
+		Double segLen = GeometryEngine.distance(segStart, segEnd, processSr);
 		Double distOver = currentDist - dist;
 		Double distOnSeg = segLen - distOver;
 		Point p = findPtOnSegment(segStart, segEnd, distOnSeg);
