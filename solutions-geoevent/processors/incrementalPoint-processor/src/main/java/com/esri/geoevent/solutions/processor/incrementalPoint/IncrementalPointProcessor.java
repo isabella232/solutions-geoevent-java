@@ -127,11 +127,13 @@ GeoEventProducer, EventUpdatable {
 		{
 			timeInterval = (long)properties.get("timeinterval").getValue();
 			usingTime = true;
+			usingVertex=false;
 		}
 		else if(intervalType.equals("distance"))
 		{
 			distInterval = (Double)properties.get("distanceinterval").getValue();
 			usingTime = false;
+			usingVertex=false;
 		}
 		else if (intervalType.equals("vertex"))
 		{
