@@ -101,6 +101,7 @@ GeoEventProducer, EventUpdatable {
 	private Double distInterval;
 	private long timeInterval;
 	private Boolean usingTime;
+	private Boolean usingVertex;
 	private static final BundleLogger LOGGER = BundleLoggerFactory
 			.getLogger(IncrementalPointProcessor.class);
 	public IncrementalPointProcessor(GeoEventProcessorDefinition definition) throws ComponentException {
@@ -126,12 +127,20 @@ GeoEventProducer, EventUpdatable {
 		{
 			timeInterval = (long)properties.get("timeinterval").getValue();
 			usingTime = true;
+			usingVertex=false;
 		}
 		else if(intervalType.equals("distance"))
 		{
 			distInterval = (Double)properties.get("distanceinterval").getValue();
 			usingTime = false;
+			usingVertex=false;
 		}
+		else if (intervalType.equals("vertex"))
+		{
+			usingTime=false;
+			usingVertex=true;
+		}
+
 		processWkid = (Integer)properties.get("wkid").getValue();
 		outDef = properties.get("outdefname").getValueAsString();
 		fds = new ArrayList<FieldDefinition>();
@@ -208,7 +217,15 @@ GeoEventProducer, EventUpdatable {
 		Unit unit = LinearUnit.create(9001);
 		LinearUnit lu = (LinearUnit) unit;
 		double distTotal = GeometryEngine.geodesicLength(polyln, processSr, lu);
-		int numHops = 0;
+		if(usingVertex)
+		{
+			processVertices(ge, polyln, distTotal, start, end, lu, projected);
+		}
+		else
+		{
+			processIncrements(ge, polyln, startPt, distTotal, start, end, projected);
+		}
+		/*int numHops = 0;
 		long timeTotal = end - start;
 		if(usingTime)
 		{
@@ -243,9 +260,122 @@ GeoEventProducer, EventUpdatable {
 			send(msg);
 			startPt = (Point)projGeo;
 			ptIndex = ip.getNextVertexIndex();
-		}
+		}*/
 		
 		return null;
+	}
+	
+	private void processIncrements(GeoEvent ge, Polyline polyln, Point startPt, double distTotal, long start, long end, Boolean projected) throws MessagingException, FieldException
+	{
+		int numHops = 0;
+		long timeTotal = end - start;
+		Date timeStart = new Date(start);
+		if(usingTime)
+		{
+			distInterval = distTotal/(timeTotal/timeInterval);
+			numHops = (int) Math.floor(distTotal/distInterval);
+		}
+		else
+		{
+			numHops = (int) Math.floor(distTotal/distInterval);
+			timeInterval = timeTotal/numHops;
+		}
+		
+		Integer ptIndex = 0;
+		GeoEvent msg = null;
+		//Geometry outGeo = null;
+		//Geometry projGeo = null;
+		for(int i = 0; i < numHops; ++i)
+		{
+			IncrementPoint ip = this.getNextPoint(polyln, startPt, ptIndex, distInterval);
+			Geometry outGeo = null;
+			Geometry projGeo = ip.getPoint();
+			if(projected)
+			{
+				outGeo = GeometryEngine.project(projGeo, processSr, outSr);
+			}
+			else
+			{
+				outGeo=projGeo;
+			}
+			MapGeometry outMapGeo = new MapGeometry(outGeo, outSr);
+			msg = createIncrementalPointGeoevent(ge, outMapGeo, timeStart, i);
+			send(msg);
+			startPt = (Point)projGeo;
+			ptIndex = ip.getNextVertexIndex();
+		}
+	}
+	
+	private void processVertices(GeoEvent ge, Polyline polyln, double distTotal, long start, long end, LinearUnit lu, Boolean projected) throws MessagingException, FieldException
+	{
+		int count = polyln.getPointCount();
+		double currentDist = 0;
+		long currentTime = start;
+		long totalTime = end - start;
+		Geometry outGeo = null;
+		Point projGeo = null;
+		Point lastPoint = null;
+		for(int i = 0; i < count; ++i)
+		{
+			projGeo = polyln.getPoint(i);
+			
+			if(i!=0)
+			{
+				Polyline seg = new Polyline();
+				seg.startPath(lastPoint);
+				seg.lineTo(projGeo);
+				double segDist = GeometryEngine.geodesicLength(seg, processSr, lu);
+				currentDist += segDist;
+				double percent = currentDist/distTotal;
+				currentTime = (long) Math.floor((start + (totalTime*percent)));
+				
+			}
+			if(projected)
+			{
+				outGeo = GeometryEngine.project(projGeo, processSr, outSr);
+			}
+			else
+			{
+				outGeo=projGeo;
+			}
+			MapGeometry outMapGeo = new MapGeometry(outGeo, outSr);
+			double minutesFromStart = (currentTime - start)/60000;
+			GeoEvent msg = createVertexGeoevent(ge, outMapGeo, currentDist, currentTime, minutesFromStart, i);
+			send(msg);
+			lastPoint = projGeo;
+		}
+	}
+	
+	private GeoEvent createVertexGeoevent(GeoEvent event, MapGeometry outGeo, double dist, long time, double timeFromStartMinutes, Integer increment) throws MessagingException, FieldException
+	{
+		Date ts = new Date(time);
+		Double distOnLine = dist;
+		GeoEvent msg = geoEventCreator.create(outDef, definition.getUri().toString());
+		for(FieldDefinition fd: event.getGeoEventDefinition().getFieldDefinitions())
+		{
+			
+			if(fd.getTags().contains("GEOMETRY"))
+			{
+				msg.setGeometry(outGeo);
+			}
+			else if(fd.getTags().contains("TRACK_ID"))
+			{
+				String trackid = event.getTrackId() + "_" + increment.toString();
+				msg.setField("TRACK_ID", trackid);
+			}
+			else
+			{
+				msg.setField(fd.getName(), event.getField(fd.getName()));
+			}
+		}
+		msg.setField("TIMESTAMP", ts);
+		msg.setField("TIME_FROM_START", timeFromStartMinutes);
+		msg.setField("DISTANCE_ON_LINE", distOnLine);
+		msg.setProperty(GeoEventPropertyName.TYPE, "event");
+		msg.setProperty(GeoEventPropertyName.OWNER_ID, getId());
+		msg.setProperty(GeoEventPropertyName.OWNER_URI,
+				definition.getUri());
+		return msg;
 	}
 	
 	private GeoEvent createIncrementalPointGeoevent(GeoEvent event, MapGeometry outGeo, Date timestart, Integer increment) throws MessagingException, FieldException

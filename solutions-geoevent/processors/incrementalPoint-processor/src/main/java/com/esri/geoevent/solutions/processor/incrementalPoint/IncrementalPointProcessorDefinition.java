@@ -54,6 +54,7 @@ public class IncrementalPointProcessorDefinition extends GeoEventProcessorDefini
 		List<LabeledValue> allowedIn = new ArrayList<LabeledValue>();
 		allowedIn.add(new LabeledValue("${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.SEGMENTATION_TYPE_DISTANCE_LBL}","distance"));
 		allowedIn.add(new LabeledValue("${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.SEGMENTATION_TYPE_TIME_LBL}","time"));
+		allowedIn.add(new LabeledValue("${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.SEGMENTATION_TYPE_VERTEX_LBL}","vertex"));
 		
 		PropertyDefinition pdInterval= new PropertyDefinition("intervalType", PropertyType.String, "", "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.LBL_INTERVAL_TYPE}", "${com.esri.geoevent.solutions.processor.incrementalPoint.incrementalPoint-processor.DESC_INTERVAL_TYPE}",true, false, allowedIn);
 		propertyDefinitions.put(pdInterval.getPropertyName(), pdInterval);

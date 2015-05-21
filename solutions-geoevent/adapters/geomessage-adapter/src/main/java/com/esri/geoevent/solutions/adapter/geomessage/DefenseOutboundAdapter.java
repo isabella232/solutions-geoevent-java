@@ -73,11 +73,11 @@ public class DefenseOutboundAdapter extends OutboundAdapterBase {
 		MapGeometry geom = geoEvent.getGeometry();
 		if (geom.getGeometry().getType() == com.esri.core.geometry.Geometry.Type.Point) {
 			Point p = (Point) geom.getGeometry();
-			message += "<_control_point>";
+			message += "<_control_points>";
 			message += ((Double) p.getX()).toString();
 			message += ",";
 			message += ((Double) p.getY()).toString();
-			message += "</_control_point>\n\r";
+			message += "</_control_points>\n\r";
 			wkid = ((Integer) geom.getSpatialReference().getID());
 		}
 
