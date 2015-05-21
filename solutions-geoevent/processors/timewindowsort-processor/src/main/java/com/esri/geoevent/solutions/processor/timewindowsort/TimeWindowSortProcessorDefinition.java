@@ -20,17 +20,17 @@ public class TimeWindowSortProcessorDefinition extends
 	public TimeWindowSortProcessorDefinition() throws PropertyException
 	{
 		List<LabeledValue> allowedTypes = new ArrayList<LabeledValue>();
-		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.AV_STRING","string"));
-		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.AV_INTEGER","int"));
-		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.AV_LONG","long"));
-		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.AV_SHORT","short"));
-		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.AV_DOUBLE","double"));
-		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.AV_FLOAT","float"));
-		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.AV_DATE","date"));
+		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.AV_STRING}","string"));
+		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.AV_INTEGER}","int"));
+		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.AV_LONG}","long"));
+		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.AV_SHORT}","short"));
+		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.AV_DOUBLE}","double"));
+		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.AV_FLOAT}","float"));
+		allowedTypes.add(new LabeledValue("${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.AV_DATE}","date"));
 		
-		propertyDefinitions.put("interval", new PropertyDefinition("interval", PropertyType.Integer, 60000, "${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.LBL_INTERVAL}", "${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.DESC_INTERVAL}", true, false));
-		propertyDefinitions.put("orderby", new PropertyDefinition("orderby", PropertyType.String, "", "${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.LBL_SORT_FLD}", "${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.DESC_SORT_FLD}", true, false));
-		propertyDefinitions.put("expectedType", new PropertyDefinition("expectedType", PropertyType.String, "", "${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.LBL_EXPECTED}", "${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.DESC_EXPECTED}", true, false, allowedTypes));
+		propertyDefinitions.put("interval", new PropertyDefinition("interval", PropertyType.Integer, 60000, "${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.LBL_INTERVAL}", "${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.DESC_INTERVAL}", true, false));
+		propertyDefinitions.put("orderby", new PropertyDefinition("orderby", PropertyType.String, "", "${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.LBL_SORT_FLD}", "${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.DESC_SORT_FLD}", true, false));
+		propertyDefinitions.put("expectedType", new PropertyDefinition("expectedType", PropertyType.String, "", "${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.LBL_EXPECTED}", "${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.DESC_EXPECTED}", true, false, allowedTypes));
 	}
 	
 	@Override
@@ -50,12 +50,12 @@ public class TimeWindowSortProcessorDefinition extends
 
 	@Override
 	public String getLabel() {
-		return "${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.PROCESSOR_LABEL}";
+		return "${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.PROCESSOR_LABEL}";
 	}
 
 	@Override
 	public String getDescription() {
-		return "${com.esri.geoevent.solutions.processor.timewindowsort.timewindowsort-processor.PROCESSOR_DESC}";
+		return "${com.esri.geoevent.solutions.processor.timewindowsort.tws-processor.PROCESSOR_DESC}";
 	}
 
 	@Override

@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.esri.geoevent.solutions.processor.timewindowsort</groupId>
-  <artifactId>timewindowsort-processor</artifactId>
+  <artifactId>tws-processor</artifactId>
   <packaging>bundle</packaging>
   <version>10.3.0</version>
   <name>timewindowsort-processor</name>
