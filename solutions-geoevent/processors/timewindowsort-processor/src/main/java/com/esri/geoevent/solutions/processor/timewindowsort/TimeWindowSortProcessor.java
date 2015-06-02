@@ -250,7 +250,6 @@ public class TimeWindowSortProcessor extends GeoEventProcessorBase implements
 	public void run() {
 		while (this.monitoring) {
 			try {
-				Thread.sleep(interval);
 				if (running) {
 					long now = System.currentTimeMillis();
 					long testInterval = now - this.timestamp;
@@ -267,7 +266,7 @@ public class TimeWindowSortProcessor extends GeoEventProcessorBase implements
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void flush() throws MessagingException
+	private void flush() throws MessagingException, InterruptedException
 	{
 		HashMap cacheCopy = null;
 
@@ -331,6 +330,7 @@ public class TimeWindowSortProcessor extends GeoEventProcessorBase implements
 				msg.setProperty(GeoEventPropertyName.OWNER_URI,
 						definition.getUri());
 				send(msg);
+				t.wait(250);
 			}
 		}
 		cacheCopy.clear();
