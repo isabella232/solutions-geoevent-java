@@ -875,7 +875,7 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 					}
 					else
 					{
-						List<String> l = nameSortMap.get(attVal);
+						List<String> l = nameSortMap.get(sortAttVal);
 						l.add(item);
 						Collections.sort(l);
 					}
