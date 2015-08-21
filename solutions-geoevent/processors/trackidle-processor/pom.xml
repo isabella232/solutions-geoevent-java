@@ -17,7 +17,7 @@
 
 	<groupId>com.esri.geoevent.solutions.processor.trackidle</groupId>
 	<artifactId>trackidle-processor</artifactId>
-	<version>10.3.0</version>
+	<version>10.3.1</version>
 	<packaging>bundle</packaging>
 
 	<name>trackidle-processor Blueprint Bundle</name>
@@ -53,62 +53,25 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
-		<!--  <dependency>
-			<groupId>com.esri.ges.sdk</groupId>
-			<artifactId>ges-lib</artifactId>
-			<version>10.3.0</version>
-		</dependency>-->
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.3.0</version>
-			<scope>provided</scope>
+			<version>10.3.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.esri.geometry</groupId>
 			<artifactId>geometry-api</artifactId>
-			<version>10.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.esri.ges.manager</groupId>
-			<artifactId>agsconnectionmanager-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.esri.ges.framework.datastore</groupId>
-			<artifactId>agsconnection-datastore</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.esri.ges.framework.datastore</groupId>
-			<artifactId>datastore-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.esri.arcgis.discovery</groupId>
-			<artifactId>arcgis-ejb</artifactId>
-			<version>10.3.0.4160</version>
+			<version>10.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.5</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.osgi.core</artifactId>
 			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.2</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

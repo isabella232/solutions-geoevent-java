@@ -22,7 +22,7 @@
 
     <groupId>com.esri.geoevent.solutions.processor.polygon2pt</groupId>
     <artifactId>polygon2pt-processor</artifactId>
-    <version>10.3.0</version>
+    <version>10.3.1</version>
     <packaging>bundle</packaging>
 
     <name>polygon2pt-processor Blueprint Bundle</name>
@@ -60,9 +60,9 @@
 	<dependencies>
 		
 		<dependency>
-			<groupId>com.esri.ges.sdk</groupId>
-			<artifactId>ges-lib</artifactId>
-			<version>10.3.0</version>
+			<groupId>com.esri.geoevent.sdk</groupId>
+			<artifactId>geoevent-sdk</artifactId>
+			<version>10.3.1</version>
 		</dependency>
 		
 		<dependency>
@@ -70,33 +70,15 @@
 			<artifactId>commons-logging</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.5</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.osgi.core</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.2</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
    			<groupId>com.esri.geometry</groupId>
    			<artifactId>geometry-api</artifactId>
-   			<version>10.3.0</version>
+   			<version>10.3.1</version>
 		</dependency>
-		<!--  <dependency>
-			<groupId>com.esri.arcgis.runtime</groupId>
-			<artifactId>runtime</artifactId>
-			<version>10.1.1</version>
-			<scope>provided</scope>
-		</dependency>-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

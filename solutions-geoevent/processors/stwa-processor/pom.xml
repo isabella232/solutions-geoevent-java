@@ -4,7 +4,7 @@
   <groupId>com.esri.geoevent.solutions.processor.stwa</groupId>
   <artifactId>stwa-processor</artifactId>
   <packaging>bundle</packaging>
-  <version>10.3.0</version>
+  <version>10.3.1</version>
   <name>stwa-processor</name>
   <url>http://maven.apache.org</url>
   <description>stwa-processor OSGi blueprint bundle project.</description>
@@ -40,9 +40,9 @@
 	<dependencies>
 		
 		<dependency>
-			<groupId>com.esri.ges.sdk</groupId>
-			<artifactId>ges-lib</artifactId>
-			<version>10.3.0</version>
+			<groupId>com.esri.geoevent.sdk</groupId>
+			<artifactId>geoevent-sdk</artifactId>
+			<version>10.3.1</version>
 		</dependency>
 		
 		<dependency>
@@ -50,26 +50,9 @@
 			<artifactId>commons-logging</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.5</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.osgi.core</artifactId>
 			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.2</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-   			<groupId>com.esri.geometry</groupId>
-   			<artifactId>geometry-api</artifactId>
-   			<version>10.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

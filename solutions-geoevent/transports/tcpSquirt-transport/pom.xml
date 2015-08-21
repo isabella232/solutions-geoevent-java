@@ -7,7 +7,7 @@
 	<packaging>bundle</packaging>
 	<groupId>com.esri.geoevent.solutions.transport.tcpsquirt</groupId>
 	<artifactId>tcpsquirt-transport</artifactId>
-	<version>10.3.0</version>
+	<version>10.3.1</version>
 	<name>Esri :: AGES :: Transport :: TCPSQUIRT</name>
 	<properties>
 		<contact.address>geoevent@esri.com</contact.address>
@@ -31,9 +31,9 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>com.esri.ges.sdk</groupId>
-			<artifactId>ges-lib</artifactId>
-			<version>10.3.0</version>
+			<groupId>com.esri.geoevent.sdk</groupId>
+			<artifactId>geoevent-sdk</artifactId>
+			<version>10.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
@@ -50,6 +50,46 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.m2e</groupId>
+				<artifactId>lifecycle-mapping</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<lifecycleMappingMetadata>
+						<pluginExecutions>
+							<pluginExecution>
+								<pluginExecutionFilter>
+									<groupId>
+										org.codehaus.mojo
+									</groupId>
+									<artifactId>
+										license-maven-plugin
+									</artifactId>
+									<versionRange>
+										[1.5,)
+									</versionRange>
+									<goals>
+										<goal>
+											update-file-header
+										</goal>
+									</goals>
+								</pluginExecutionFilter>
+								<action>
+									<ignore></ignore>
+								</action>
+							</pluginExecution>
+						</pluginExecutions>
+					</lifecycleMappingMetadata>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>

@@ -225,7 +225,7 @@ public class BufferProcessorDefinition extends GeoEventProcessorDefinitionBase {
 
 	@Override
 	public String getVersion() {
-		return "10.3.0";
+		return "10.3.1";
 	}
 
 	@Override

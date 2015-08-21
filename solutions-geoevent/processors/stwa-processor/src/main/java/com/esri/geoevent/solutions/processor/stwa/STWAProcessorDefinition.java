@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.esri.arcgis.interop.Properties;
 import com.esri.ges.core.property.LabeledValue;
 import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
