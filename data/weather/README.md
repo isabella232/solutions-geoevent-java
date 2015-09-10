@@ -1,6 +1,6 @@
-# Importing Current Weather data into GeoEvent Processor for Server
+# Importing Current Weather data into GeoEvent extension for ArcGIS Server
 
-Below are instructions for creating your own map of current weather (provided by NOAA) that is frequently updated through the GeoEvent Processor for Server.  The regex Text Adapter and the Update Only Processor are both employed.
+Below are instructions for creating your own map of current weather (provided by NOAA) that is frequently updated through the GeoEvent extension for ArcGIS Server.  The regex Text Adapter and the Update Only Processor are both employed.
 
 ![Image of weather map](weatherMap.JPG)
 
@@ -18,7 +18,7 @@ Below are instructions for creating your own map of current weather (provided by
 
 ## Requirements
 
-* To run this sample, you will require access to an installation of ArcGIS for Server and an Enterprise Geodatabase (or an organizational account on ArcGIS Online)
+* To run this sample, you will require access to an installation of ArcGIS for Server and a Managed Geodatabase or Datastore (or an organizational account on ArcGIS Online).
 * See common [solutions-geoevent-java requirements](../../README.md#requirements).
 * Also, you will need to ensure you have installed:
     * [regex Text Adapter](../../solutions-geoevent/adapters/regexText-adapter/README.md)
@@ -27,21 +27,23 @@ Below are instructions for creating your own map of current weather (provided by
 ## Configuration
 
 * First, create an editable Feature Service that will act as the destination for the incoming weather data.
-    *  Download the Current Weather Schema from the Portal (https://afmiedev.esri.com/arcgis/home/item.html?id=5043432e48d347fe958f60e26afc8cf9).
+    *  Download the Current Weather Schema which is held within the map package above named BUOY_METAR.mpk within the BUOY_METAR.zip file.
     *  Copy this schema to an Enterprise Geodatabase, and ensure the Feature Classes are registered as versioned.
     *  Re-point the layers in the mxd to the feature classes you've just created in your Enterprise Geodatabase, and save the MXD.
     *  In the Catalog window in ArcMap, right click on the MXD and choose 'Share as a service'
     *  Publish the service, opting to enable Feature Access with editing, and naming the service 'CurrentWeather'
+	
+	*  If you are using the ArcGIS Datastore as your Managed Geodatabase the Feature Classes will copy to the DataStore when the service is published.
     
-* Secondly, add your ArcGIS for Server connection as a Data Store to GeoEvent Processor for Server
+* Secondly, register your ArcGIS for Server with the GeoEvent Data Store in GeoEvent extension for Server using the GeoEvent Manager
     *  Navigate to 'Site' > 'GeoEvent Processor' > 'Data Stores' and, if your ArcGIS for Server connection is not already listed as registered, click 'Register ArcGIS Server' and register your server.
 
-* Thirdly, you can create the appropriate connector, inputs, outputs and geoevent service all in one go by importing a single configuration file.
-    *  Browse to `solutions-geoevent-java\data\configurations` and locate the `GeoEventConfig-METARandBUOY.xml` configuration file  This file is located [here](../configurations/GeoEventConfig-METARandBUOY.xml). 
-    *  Open this file in a Text Editor (e.g. Notepad) and use the Replace function to find and replace the text '[ArcGIS Server Name]' with the name of your ArcGIS Server data store (created above). It may also be necessary to change the <path> entry (e.g. if your service resides in a folder named 'Environment', change <path>/</path> to <path>Environment/</path>. Save your changes.
+* Thirdly, you can import the required inputs, outputs and geoevent services by importing a single configuration file.
+    *  Browse to `solutions-geoevent-java\data\configurations` and locate the `GeoEventConfig-METARandBUOY_10.3.1.xml` configuration file  This file is located [here](../configurations/GeoEventConfig-METARandBUOY_10.3.1.xml). It is also located within the BUOY_METAR.zip file.
+    *  Open this file in a Text Editor (e.g. Notepad) and use the Replace function to find and replace the text '[ArcGIS Server Name]' with the name of your ArcGIS Server instance (created above). It may also be necessary to change the <path> entry (e.g. if your service resides in a folder named 'Environment', change <path>/</path> to <path>Environment/</path>. Save your changes.
     *  Navigate to ‘Site’ > ‘GeoEvent Processor’ > ‘Configuration Store’ and click ‘Import Configuration’.
 
-* Fourthly, check your inputs, services and outputs have started
+* Fourth, check your inputs, services and outputs have started successfully
     *  In ArcGIS GeoEvent Processor Manager, navigate to 'Services' > 'Monitor' and check the status of the following:
         *  Outputs
             *  buoy-fs-out
@@ -59,11 +61,9 @@ Below are instructions for creating your own map of current weather (provided by
 
 *  Finally, view the service you created above in a map to see the stations with up-to-date weather information against them. In a web map, you can set your layers to refresh at an appropriate interval to ensure they show up-to-date information.
 
-*  SEE IT LIVE: https://afmiedev.esri.com/arcgis/home/item.html?id=7cfa0d486a8342f6afd7c7a446fa9537
-
 ## Usage
 
-*  Note that you should use NOAA's services in a responsible manner. This sample uses static files of recent updates that are published by NOAA every 1 - 5 minutes. The frequency of polling is pre-set to 5 minutes (300 seconds) for the purposes of demonstration. However, you should poll as infrequently as your use case allows in order not to expend NOAA's server resources unncessarily.
+*  Note that you should use NOAA's services in a responsible manner. This sample uses static files of recent updates that are published by NOAA every 1 - 5 minutes. The frequency of polling is pre-set to 5 minutes (300 seconds) for the purposes of demonstration. However, you should poll as infrequently as your use case allows in order not to expend NOAA's server resources unnecessarily.
 
 *  Should you only be interested in a restricted set of data, such as:
     *  a small geographic area
@@ -85,7 +85,7 @@ Below are instructions for creating your own map of current weather (provided by
      
 ## Licensing
 
-Copyright 2014 Esri
+Copyright 2015 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
