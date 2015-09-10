@@ -1,13 +1,13 @@
 package com.esri.geoevent.solutions.processor.ll2mgrs;
 
 public class UTM {
-	private double northing;
-	private double easting;
-	private double zoneNumber;
+	private int northing;
+	private int easting;
+	private int zoneNumber;
 	private char zoneLetter;
 	private Integer accuracy;
 
-	public UTM(double northing, double easting, double zoneNumber, char zoneLetter, Integer accuracy) {
+	public UTM(int northing, int easting, int zoneNumber, char zoneLetter, Integer accuracy) {
 
 		this.northing = northing;
 		this.easting = easting;
@@ -16,15 +16,15 @@ public class UTM {
 		this.accuracy = accuracy;
 	}
 	
-	public double getNorthing() {
+	public int getNorthing() {
 		return northing;
 	}
 
-	public double getEasting() {
+	public int getEasting() {
 		return easting;
 	}
 
-	public double getZoneNumber() {
+	public int getZoneNumber() {
 		return zoneNumber;
 	}
 

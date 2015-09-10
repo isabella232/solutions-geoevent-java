@@ -47,6 +47,7 @@ public class MGRSProcessor extends GeoEventProcessorBase{
 		Point pt = (Point)geo;
 		
 		LL ll = new LL(pt.getX(), pt.getY());
+		ll.setAccuracy(accuracy);
 		
 		MGRS2LatLongConverter converter = new MGRS2LatLongConverter();
 		String mgrs = converter.LL2MRGS(ll);
@@ -72,7 +73,7 @@ public class MGRSProcessor extends GeoEventProcessorBase{
 	public void afterPropertiesSet()
 	{
 		geofld = properties.get("geofld").getValueAsString();
-		newdef = properties.get("newDef").getValueAsString();
+		newdef = properties.get("eventdef").getValueAsString();
 		accuracy = (Integer)properties.get("accuracy").getValue();
 		try {
 			FieldDefinition fd = new DefaultFieldDefinition("mgrs", FieldType.String);

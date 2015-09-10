@@ -2,8 +2,13 @@ package com.esri.geoevent.solutions.processor.ll2mgrs;
 
 import java.util.regex.Pattern;
 
+import com.esri.ges.framework.i18n.BundleLogger;
+import com.esri.ges.framework.i18n.BundleLoggerFactory;
+
 public class MGRS2LatLongConverter {
 
+	private static final BundleLogger LOGGER = BundleLoggerFactory
+			.getLogger(MGRS2LatLongConverter.class);
 	private final int num_100k_sets = 6;
 	private char[] set_origin_column_letters = {'A','J','S','A','J','S'};
 	private char[] set_origin_row_letters = {'A','F','A','F','A','F'};
@@ -22,7 +27,7 @@ public class MGRS2LatLongConverter {
 	{
 		double lat = ll.getLat();
 		double lon = ll.getLon();
-		int accuracy =- ll.getAccuracy();
+		int accuracy = ll.getAccuracy();
 		UTM utm = this.LL2UTM(lat, lon);
 		String mgrs = encode(utm, accuracy);
 		return mgrs;
@@ -43,7 +48,7 @@ public class MGRS2LatLongConverter {
 		return (180.0 * (rad / Math.PI));
 	}
 
-	private UTM LL2UTM(Double lat, Double lon) {
+	private UTM LL2UTM(Double lon, Double lat) {
 		Double a = 6378137.0;
 		Double eccSquared = 0.00669438;
 		Double k0 = 0.9996;
@@ -69,7 +74,7 @@ public class MGRS2LatLongConverter {
 
 		double lonOrigin = (zoneNumber - 1) * 6 - 180 + 3;
 		double lonOriginRad = degToRad(lonOrigin);
-		double eccPrimeSquared = eccSquared / (1 - eccSquared);
+		double eccPrimeSquared = (eccSquared) / (1 - eccSquared);
 
 		double N = a
 				/ Math.sqrt(1 - eccSquared * Math.sin(latRad)
@@ -107,7 +112,7 @@ public class MGRS2LatLongConverter {
 		if (lat < 0.0)
 			UTMNorthing += 10000000.0;
 		char zoneLetter = getLetterDesignator(lat);
-		UTM utm = new UTM(UTMNorthing, UTMEasting, zoneNumber, zoneLetter, null);
+		UTM utm = new UTM((int)Math.floor(UTMNorthing), (int)Math.floor(UTMEasting), (int)zoneNumber, zoneLetter, null);
 
 		return utm;
 	}
@@ -115,7 +120,7 @@ public class MGRS2LatLongConverter {
 	private char getLetterDesignator(double lat) {
 		char letterDesignator = 'Z';
 
-		if (84 >= lat){
+		if ((84 >= lat) && (lat >= 72)) {
 			letterDesignator = 'X';
 		}
 		else if ((72 > lat) && (lat >= 64)) {
@@ -162,9 +167,9 @@ public class MGRS2LatLongConverter {
 	}
 	
 	private LL UTM2LL(UTM utm) {
-		double utmNorthing = utm.getNorthing();
-		double utmEasting = utm.getEasting();
-		double zoneNumber = utm.getZoneNumber();
+		int utmNorthing = (int)utm.getNorthing();
+		int utmEasting = (int)utm.getEasting();
+		int zoneNumber = (int)utm.getZoneNumber();
 		char zoneLetter = utm.getZoneLetter();
 		if (zoneNumber < 0 || zoneNumber > 60)
 			return null;
@@ -234,7 +239,7 @@ public class MGRS2LatLongConverter {
 		return ll;
 	}
 
-	private String get100kID(double easting, double northing, double zoneNumber) {
+	private String get100kID(int easting, int northing, int zoneNumber) {
 		int setParm = get100kSetForZone(zoneNumber);
 		int setColumn = (int) Math.floor(easting / 100000);
 		int setRow = (int) Math.floor(northing / 100000) % 20;
@@ -242,7 +247,7 @@ public class MGRS2LatLongConverter {
 	}
 
 	private int get100kSetForZone(double i) {
-		int setParm = (int) (i % num_100k_sets);
+		int setParm = (int)i % num_100k_sets;
 		if (setParm == 0) {
 			setParm = num_100k_sets;
 		}
@@ -254,7 +259,7 @@ public class MGRS2LatLongConverter {
 	{
 		int index = parm - 1;
 		char colOrigin = set_origin_column_letters[index];
-		char rowOrigin = set_origin_column_letters[index];
+		char rowOrigin = set_origin_row_letters[index];
 		
 		int colInt = colOrigin + column - 1;
 		int rowInt = rowOrigin + row;
@@ -293,9 +298,11 @@ public class MGRS2LatLongConverter {
 		  else {
 		    rollover = false;
 		  }
-
+		  char rowletter;
 		  if (((rowInt == I) || ((rowOrigin < I) && (rowInt > I))) || (((rowInt > I) || (rowOrigin < I)) && rollover)) {
 		    rowInt++;
+		    rowletter = (char)rowInt;
+		    int l = (int)rowletter;
 		  }
 
 		  if (((rowInt == O) || ((rowOrigin < O) && (rowInt > O))) || (((rowInt > O) || (rowOrigin < O)) && rollover)) {
@@ -310,22 +317,34 @@ public class MGRS2LatLongConverter {
 			rowInt = rowInt - V + A - 1;
 		}
 		
-		String twoLetter = String.valueOf(colInt) + String.valueOf(rowInt);
+		String twoLetter = String.valueOf((char)colInt) + String.valueOf((char)rowInt);
 		return twoLetter;
 		
 	}
 	
-	private String encode(UTM utm, Integer accuracy)
-	{
-		String strEasting = "00000" + ((Double)utm.getEasting()).toString();
-		String strNorthing = "00000" + ((Double)utm.getNorthing()).toString();
-		String zoneNum = ((Double)utm.getZoneNumber()).toString();
-		String zoneLetter = String.valueOf(utm.getZoneLetter());
-		String _100kId = get100kID(utm.getEasting(), utm.getNorthing(), utm.getZoneNumber());
-		String sEastingMod = strEasting.substring(strEasting.length()-5, accuracy);
-		String sNorthingMod = strNorthing.substring(strEasting.length() - 5, accuracy);
-		
-		return zoneNum + zoneLetter + " " +  _100kId +  " " + sEastingMod + " " + sNorthingMod;
+	private String encode(UTM utm, Integer accuracy) {
+		try {
+			String strEasting = "00000"
+					+ ((Integer) utm.getEasting()).toString();
+			String strNorthing = "00000"
+					+ ((Integer) utm.getNorthing()).toString();
+			String zoneNum = Integer.valueOf(((int)(((double) utm.getZoneNumber())))).toString();
+			String zoneLetter = String.valueOf(utm.getZoneLetter());
+			String _100kId = get100kID((int)utm.getEasting(), (int)utm.getNorthing(),
+					(int)utm.getZoneNumber());
+			Integer eastLen = strEasting.length();
+			Integer northLen = strNorthing.length();
+			Integer eastStart = (eastLen - 5);
+			Integer northStart = (northLen - 5);
+
+			String sEastingMod = strEasting.substring(eastStart, eastStart+accuracy);
+			String sNorthingMod = strNorthing.substring(northStart, northStart+accuracy);
+			return zoneNum + zoneLetter + _100kId + " " + sEastingMod
+					+ " " + sNorthingMod;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			throw e;
+		}
 		
 	}
 	
@@ -353,7 +372,7 @@ public class MGRS2LatLongConverter {
 			i++;
 		}
 		
-		double zoneNumber = Double.valueOf(sb);
+		int zoneNumber = Integer.valueOf(sb);
 		
 		if (i == 0 || i+3 == len)
 		{
@@ -368,8 +387,8 @@ public class MGRS2LatLongConverter {
 		
 		hunK = mgrs.substring(i, i += 2);	
 		int set = get100kSetForZone(zoneNumber);
-		double east100k = getEastingFromChar(String.valueOf(hunK.charAt(0)), set);
-		double north100k = getNorthingFromChar(String.valueOf(hunK.charAt(1)), set);
+		Integer east100k = getEastingFromChar(String.valueOf(hunK.charAt(0)), set);
+		Integer north100k = getNorthingFromChar(String.valueOf(hunK.charAt(1)), set);
 		
 		while(north100k < getMinNorthing(zoneLetter))
 		{
@@ -383,8 +402,8 @@ public class MGRS2LatLongConverter {
 			//throw error
 		}
 		int sep = remainder/2;
-		double sepEasting = 0.0;
-		double sepNorthing = 0.0;
+		Integer sepEasting = 0;
+		Integer sepNorthing = 0;
 		Integer accuracyBonus = null;
 		String sepEastingString;
 		String sepNorthingString;
@@ -392,13 +411,13 @@ public class MGRS2LatLongConverter {
 		{
 			accuracyBonus = (int)(100000.0 / Math.pow(10, sep));
 			sepEastingString = mgrs.substring(i, i+ sep);
-			sepEasting = Double.valueOf(sepEastingString) + accuracyBonus;
+			sepEasting = Integer.valueOf(sepEastingString) + accuracyBonus;
 			sepNorthingString = mgrs.substring(i + sep);
-			sepNorthing =Double.valueOf(sepNorthingString) * accuracyBonus;
+			sepNorthing =Integer.valueOf(sepNorthingString) * accuracyBonus;
 		}
 		
-		double easting = sepEasting + east100k;
-		double northing = sepNorthing + north100k;
+		int easting = sepEasting + east100k;
+		int northing = sepNorthing + north100k;
 
 		UTM utm = new UTM(northing, easting, zoneNumber, zoneLetter, accuracyBonus);
 		
@@ -406,9 +425,9 @@ public class MGRS2LatLongConverter {
 	}
 
 	
-	private double getEastingFromChar(String e, int set) {
+	private int getEastingFromChar(String e, int set) {
 		int curCol = set_origin_column_letters[set - 1];
-		double eastingValue = 100000.0;
+		int eastingValue = 100000;
 		boolean rewindMarker = false;
 
 		while (curCol != e.charAt(0)) {
@@ -429,9 +448,9 @@ public class MGRS2LatLongConverter {
 		return eastingValue;
 	}
 
-	private double getNorthingFromChar(String n, int set) {
+	private int getNorthingFromChar(String n, int set) {
 		int curRow = set_origin_row_letters[set - 1];
-		double northingValue = 0.0;
+		int northingValue = 0;
 		boolean rewindMarker = false;
 
 		while (curRow != n.charAt(0)) {
@@ -449,7 +468,7 @@ public class MGRS2LatLongConverter {
 				curRow = A;
 				rewindMarker = true;
 			}
-			northingValue += 100000.0;
+			northingValue += 100000;
 		}
 
 		return northingValue;
