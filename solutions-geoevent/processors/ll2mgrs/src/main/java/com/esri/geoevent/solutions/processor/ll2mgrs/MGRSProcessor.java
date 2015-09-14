@@ -40,6 +40,11 @@ public class MGRSProcessor extends GeoEventProcessorBase{
 	public GeoEvent process(GeoEvent evt) throws Exception {
 		MapGeometry mapGeo = (MapGeometry) evt.getField(geofld);
 		Geometry geo = mapGeo.getGeometry();
+		int wkid = mapGeo.getSpatialReference().getID();
+		if(wkid != 4326)
+		{
+			return null;
+		}
 		if(geo.getType() != Geometry.Type.Point)
 		{
 			return null;
