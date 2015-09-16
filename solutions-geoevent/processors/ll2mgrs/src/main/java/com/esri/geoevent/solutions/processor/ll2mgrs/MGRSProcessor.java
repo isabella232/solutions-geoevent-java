@@ -7,8 +7,6 @@ import java.util.List;
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.MapGeometry;
 import com.esri.core.geometry.Point;
-import com.esri.geoevent.utilities.LL;
-import com.esri.geoevent.utilities.MGRS2LatLongConverter;
 import com.esri.ges.core.ConfigurationException;
 import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.DefaultFieldDefinition;
@@ -92,7 +90,11 @@ public class MGRSProcessor extends GeoEventProcessorBase{
 		}
 	}
 	
+	
+	
 	//getters setters
+	
+	
 	public void setManager(GeoEventDefinitionManager manager)
 	{
 		this.manager =  manager;

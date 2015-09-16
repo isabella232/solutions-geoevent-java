@@ -26,9 +26,18 @@
 		<property name="bundleContext" ref="blueprintBundleContext" />
 		<property name="manager" ref="geoDefManagerService" />
 		<property name="messaging" ref="messagingService" />
-	</bean>
 
+	</bean>
+	 <bean id="LatLongProcessorServiceBean"
+		class="com.esri.geoevent.solutions.processor.ll2mgrs.LatLongProcessorService">
+		<property name="bundleContext" ref="blueprintBundleContext" />
+		<property name="manager" ref="geoDefManagerService" />
+		<property name="messaging" ref="messagingService" />
+
+	</bean>
     <service id="MGRSProcessorService" ref="MGRSProcessorServiceBean"
+		interface="com.esri.ges.processor.GeoEventProcessorService" />
+	 <service id="LatLongProcessorService" ref="LatLongProcessorServiceBean"
 		interface="com.esri.ges.processor.GeoEventProcessorService" />
 
 </blueprint>

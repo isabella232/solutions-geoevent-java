@@ -7,12 +7,13 @@ import com.esri.ges.processor.GeoEventProcessorDefinitionBase;
 
 public class MGRSProcessorDefinition extends GeoEventProcessorDefinitionBase{
 	
-	private String lblGeoField = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_GEO_FLD}";
-	private String descGeoField= "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_GEO_FLD}";
-	private String lblNewDef = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_NEW_DEF}";
-	private String descNewDef = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_NEW_DEF}";
-	private String lblAccuracy = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_ACCURACY}";
-	private String descAccuracy= "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_ACCURACY}";
+	
+	private String lblGeoField = "${com.esri.geoevent.solutions.processor.ll2mgrs.ll2mgrs-processor.LBL_GEO_FLD}";
+	private String descGeoField= "${com.esri.geoevent.solutions.processor.ll2mgrs.ll2mgrs-processor.DESC_GEO_FLD}";
+	private String lblNewDef = "${com.esri.geoevent.solutions.processor.ll2mgrs.ll2mgrs-processor.LBL_NEW_DEF}";
+	private String descNewDef = "${com.esri.geoevent.solutions.processor.ll2mgrs.ll2mgrs-processor.DESC_NEW_DEF}";
+	private String lblAccuracy = "${com.esri.geoevent.solutions.processor.ll2mgrs.ll2mgrs-processor.LBL_ACCURACY}";
+	private String descAccuracy= "${com.esri.geoevent.solutions.processor.ll2mgrs.ll2mgrs-processor.DESC_ACCURACY}";
 	
 	public MGRSProcessorDefinition() {
 		try {
