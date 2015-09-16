@@ -1,6 +1,5 @@
 package com.esri.geoevent.solutions.processor.ll2mgrs;
 
-import com.esri.geoevent.solutions.processor.ll2mgrs.BoundingBox;
 
 public class LL {
 	private double lat;
@@ -8,7 +7,7 @@ public class LL {
 	private Integer accuracy = null;
 	private BoundingBox bb = null;
 
-	LL(double lat, double lon) {
+	public LL(double lat, double lon) {
 		this.lat = lat;
 		this.lon = lon;
 	}
@@ -36,9 +35,9 @@ public class LL {
 		return bb;
 	}
 	
-	public void setBoundingBox(BoundingBox bb)
+	public void setBoundingBox(BoundingBox bb2)
 	{
-		this.bb = bb;
+		this.bb = bb2;
 	}
 	
 	

@@ -1,20 +1,24 @@
 package com.esri.geoevent.solutions.processor.ll2mgrs;
 
 import com.esri.ges.core.component.ComponentException;
+import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
 import com.esri.ges.messaging.Messaging;
 import com.esri.ges.processor.GeoEventProcessor;
 import com.esri.ges.processor.GeoEventProcessorServiceBase;
 
-public class MGRSProcessorService extends GeoEventProcessorServiceBase {
+public class LatLongProcessorService  extends GeoEventProcessorServiceBase {
 	private GeoEventDefinitionManager manager;
 	public Messaging messaging;
-	public MGRSProcessorService()
+
+	public LatLongProcessorService() throws PropertyException
 	{
-			definition = new MGRSProcessorDefinition();
+		definition=new LatLongProcessorDefinition();
 	}
+
+	@Override
 	public GeoEventProcessor create() throws ComponentException {
-		MGRSProcessor processor =  new MGRSProcessor(definition);
+		LatLongProcessor processor = new LatLongProcessor(definition);
 		processor.setManager(manager);
 		processor.setMessaging(messaging);
 		return processor;
@@ -29,7 +33,4 @@ public class MGRSProcessorService extends GeoEventProcessorServiceBase {
 	{
 		this.messaging = messaging;
 	}
-	
-
-
 }

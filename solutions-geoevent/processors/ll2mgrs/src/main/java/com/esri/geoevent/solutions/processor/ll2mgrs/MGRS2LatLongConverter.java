@@ -2,13 +2,14 @@ package com.esri.geoevent.solutions.processor.ll2mgrs;
 
 import java.util.regex.Pattern;
 
-import com.esri.ges.framework.i18n.BundleLogger;
-import com.esri.ges.framework.i18n.BundleLoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+
 
 public class MGRS2LatLongConverter {
 
-	private static final BundleLogger LOGGER = BundleLoggerFactory
-			.getLogger(MGRS2LatLongConverter.class);
+	private static final Log LOGGER = LogFactory.getLog(MGRS2LatLongConverter.class);
 	private final int num_100k_sets = 6;
 	private char[] set_origin_column_letters = {'A','J','S','A','J','S'};
 	private char[] set_origin_row_letters = {'A','F','A','F','A','F'};
@@ -23,7 +24,7 @@ public class MGRS2LatLongConverter {
 	}
 
 	
-	public String  LL2MRGS(LL ll)
+	public String  LL2MRGS(LL ll) throws Exception
 	{
 		double lat = ll.getLat();
 		double lon = ll.getLon();
@@ -322,7 +323,7 @@ public class MGRS2LatLongConverter {
 		
 	}
 	
-	private String encode(UTM utm, Integer accuracy) {
+	private String encode(UTM utm, Integer accuracy) throws Exception {
 		try {
 			String strEasting = "00000"
 					+ ((Integer) utm.getEasting()).toString();
@@ -555,3 +556,4 @@ public class MGRS2LatLongConverter {
 	
 
 }
+

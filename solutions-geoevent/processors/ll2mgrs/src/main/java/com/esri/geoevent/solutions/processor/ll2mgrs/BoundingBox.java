@@ -3,7 +3,7 @@ package com.esri.geoevent.solutions.processor.ll2mgrs;
 public class BoundingBox
 {
 	double xmin, ymin, xmax, ymax;
-	BoundingBox(double xmin, double ymin, double xmax, double ymax)
+	public BoundingBox(double xmin, double ymin, double xmax, double ymax)
 	{
 		this.xmin = xmin;
 		this.ymin = ymin;

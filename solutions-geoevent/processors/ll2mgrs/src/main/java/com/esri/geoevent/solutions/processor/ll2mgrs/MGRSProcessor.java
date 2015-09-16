@@ -90,7 +90,11 @@ public class MGRSProcessor extends GeoEventProcessorBase{
 		}
 	}
 	
+	
+	
 	//getters setters
+	
+	
 	public void setManager(GeoEventDefinitionManager manager)
 	{
 		this.manager =  manager;

@@ -1,5 +1,6 @@
 package com.esri.geoevent.solutions.processor.ll2mgrs;
 
+
 public class UTM {
 	private int northing;
 	private int easting;
