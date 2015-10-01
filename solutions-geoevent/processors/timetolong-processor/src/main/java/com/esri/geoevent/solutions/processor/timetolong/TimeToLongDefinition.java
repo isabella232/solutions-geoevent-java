@@ -23,12 +23,15 @@ public class TimeToLongDefinition extends GeoEventProcessorDefinitionBase{
 	String lvlong="${com.esri.geoevent.solutions.processor.timetolong.timetolong-processor.TYPE_LONG}";
 	String lvfloat="${com.esri.geoevent.solutions.processor.timetolong.timetolong-processor.TYPE_FLOAT}";
 	String lvdouble="${com.esri.geoevent.solutions.processor.timetolong.timetolong-processor.TYPE_DOUBLE}";
+	String lvstring="${com.esri.geoevent.solutions.processor.timetolong.timetolong-processor.TYPE_STRING}";
+
 	public TimeToLongDefinition() throws PropertyException
 	{
 		List<LabeledValue> allowedValues = new ArrayList<LabeledValue>();
 		allowedValues.add(new LabeledValue(lvlong, "long"));
 		allowedValues.add(new LabeledValue(lvfloat, "float"));
 		allowedValues.add(new LabeledValue(lvdouble, "double"));
+		allowedValues.add(new LabeledValue(lvstring, "string"));
 		
 		propertyDefinitions.put("timefld", new PropertyDefinition("timefld", PropertyType.String, "", timefldlbl, timeflddesc, true, false));
 		propertyDefinitions.put("outputtype", new PropertyDefinition("outputtype", PropertyType.String, "", converttolbl, converttodesc, true, false, allowedValues));
