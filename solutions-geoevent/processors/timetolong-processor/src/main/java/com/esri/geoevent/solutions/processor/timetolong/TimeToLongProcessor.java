@@ -21,9 +21,10 @@ import com.esri.ges.messaging.Messaging;
 import com.esri.ges.processor.GeoEventProcessorBase;
 import com.esri.ges.processor.GeoEventProcessorDefinition;
 
-public class TimeToLongProcessor extends GeoEventProcessorBase{
+public class TimeToLongProcessor extends GeoEventProcessorBase {
 	private GeoEventDefinitionManager manager;
 	public Messaging messaging;
+
 	public TimeToLongProcessor(GeoEventProcessorDefinition definition)
 			throws ComponentException {
 		super(definition);
@@ -40,11 +41,12 @@ public class TimeToLongProcessor extends GeoEventProcessorBase{
 	private GeoEventDefinition ged;
 	private Boolean createDef = false;
 	private List<FieldDefinition> fds;
-	
+
 	@Override
 	public boolean isGeoEventMutator() {
 		return true;
 	}
+
 	@Override
 	public GeoEvent process(GeoEvent evt) throws Exception {
 		if (createDef) {
@@ -64,7 +66,10 @@ public class TimeToLongProcessor extends GeoEventProcessorBase{
 			} else if (outputtype.equals("double")) {
 				Double dbldate = longdate * 1.0;
 				evt.setField(numfld, dbldate);
-			}
+			}else if (outputtype.equals("string")) {
+				String strdate = ((Long) longdate).toString();
+				evt.setField(numfld, strdate);
+			} 
 		} else {
 
 			if (outputtype.equals("long")) {
@@ -86,6 +91,12 @@ public class TimeToLongProcessor extends GeoEventProcessorBase{
 						.createGeoEventCreator();
 				geOut = geoEventCreator.create(ged.getGuid(), new Object[] {
 						evt.getAllFields(), dbldate });
+			} else if (outputtype.equals("string")) {
+				String strdate = ((Long) longdate).toString();
+				GeoEventCreator geoEventCreator = messaging
+						.createGeoEventCreator();
+				geOut = geoEventCreator.create(ged.getGuid(), new Object[] {
+						evt.getAllFields(), strdate });
 			}
 			geOut.setProperty(GeoEventPropertyName.TYPE, "message");
 			geOut.setProperty(GeoEventPropertyName.OWNER_ID, getId());
@@ -95,7 +106,7 @@ public class TimeToLongProcessor extends GeoEventProcessorBase{
 		return geOut;
 
 	}
-	
+
 	@Override
 	public void afterPropertiesSet() {
 		timefld = properties.get("timefld").getValueAsString();
@@ -109,17 +120,14 @@ public class TimeToLongProcessor extends GeoEventProcessorBase{
 				FieldDefinition fd = null;
 				if (outputtype.equals("long")) {
 					fd = new DefaultFieldDefinition(numfld, FieldType.Long);
-				}
-				else if (outputtype.equals("float"))
-				{
+				} else if (outputtype.equals("float")) {
 					fd = new DefaultFieldDefinition(numfld, FieldType.Float);
-				}
-				else if (outputtype.equals("double"))
-				{
+				} else if (outputtype.equals("double")) {
 					fd = new DefaultFieldDefinition(numfld, FieldType.Double);
+				} else if (outputtype.equals("string")) {
+					fd = new DefaultFieldDefinition(numfld, FieldType.String);
 				}
-				
-				
+
 				fds = new ArrayList<FieldDefinition>();
 				fds.add(fd);
 				if ((ged = manager.searchGeoEventDefinition(newdefname,
@@ -132,21 +140,18 @@ public class TimeToLongProcessor extends GeoEventProcessorBase{
 		}
 
 	}
-	
-	//getters and setters
-	public void setMessaging(Messaging messaging)
-	{
-		this.messaging=messaging;
+
+	// getters and setters
+	public void setMessaging(Messaging messaging) {
+		this.messaging = messaging;
 	}
-	
-	public void setManager(GeoEventDefinitionManager manager)
-	{
+
+	public void setManager(GeoEventDefinitionManager manager) {
 		this.manager = manager;
 	}
-	
-	private void createGeoEventDefinition(GeoEvent event)
-	{
-		
+
+	private void createGeoEventDefinition(GeoEvent event) {
+
 		GeoEventDefinition eventDef = event.getGeoEventDefinition();
 		try {
 			ged = eventDef.augment(fds);
