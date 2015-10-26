@@ -1,4 +1,4 @@
-# Interpolate Points
+# Lat/Lon to MGRS Processor
 
 Lat/Lon to MGRS Processor - Converts Lat Long cooidinates into MGRS coordinate. 
 
