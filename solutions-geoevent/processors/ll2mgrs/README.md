@@ -2,7 +2,7 @@
 
 Lat/Lon to MGRS Processor - Converts Lat Long cooidinates into MGRS coordinate. 
 
-![Image of Lat Lon](ll2mgrs.png)
+![Image of Lat Lon](ll2mgrs.PNG)
 
 ## Sections
 
