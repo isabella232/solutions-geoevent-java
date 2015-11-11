@@ -24,34 +24,36 @@ public class SpatialQProcessorDefinition extends GeoEventProcessorDefinitionBase
 {
 	private static final Log LOG = LogFactory
 			.getLog(SpatialQProcessorDefinition.class);
-	private String lblGeoSrc = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_GEO_SRC}";
-	private String descGeoSrc = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_GEO_SRC}";
-	private String lblGeoFld = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_GEO_FIELD}";
-	private String descGeoFld = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_GEO_FIELD}";
-	private String lblBufferDist = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_BUFFER_DISTANCE}";
-	private String descBufferDist = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_BUFFER_DISTANCE}";
-	private String lblBufferUnits = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_BUFFER_UNITS}";
-	private String descBufferUnits = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_BUFFER_UNITS}";
-	private String lblWKIDIn = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_WKID_IN}";
-	private String descWKIDIn = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_WKID_IN}";
-	private String lblWKIDBuffer = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_WKID_BUFFER}";
-	private String descWKIDBuffer = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_WKID_BUFFER}";	
-	private String lblWKIDOut = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_WKID_OUT}";
-	private String descWKIDOut = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_WKID_OUT}";	
-	private String lblGeoDefName = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_GEO_DEF_NAME}";
-	private String descGeoDefName = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_GEO_DEF_NAME}";
-	private String lblConnection = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_CONNECTION}";
-	private String descConnection = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_CONNECTION}";
-	private String lblFolder = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_FOLDER}";
-	private String descFolder = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_FOLDER}";
-	private String lblService = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_SERVICE}";
-	private String descService = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_SERVICE}";
-	private String lblLayer = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_LAYER}";
-	private String descLayer = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_LAYER}";
-	private String lblWC = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_WC}";
-	private String descWC = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_WC}";
-	private String lblQueryFld = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_QUERY_FIELD}";
-	private String descQueryFld = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_QUERY_FIELD}";
+	private String lblGeoSrc = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_GEO_SRC}";
+	private String descGeoSrc = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_GEO_SRC}";
+	private String lblGeoFld = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_GEO_FIELD}";
+	private String descGeoFld = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_GEO_FIELD}";
+	private String lblBufferDist = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_BUFFER_DISTANCE}";
+	private String descBufferDist = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_BUFFER_DISTANCE}";
+	private String lblBufferUnits = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_BUFFER_UNITS}";
+	private String descBufferUnits = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_BUFFER_UNITS}";
+	private String lblWKIDIn = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_WKID_IN}";
+	private String descWKIDIn = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_WKID_IN}";
+	private String lblWKIDBuffer = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_WKID_BUFFER}";
+	private String descWKIDBuffer = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_WKID_BUFFER}";	
+	private String lblWKIDOut = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_WKID_OUT}";
+	private String descWKIDOut = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_WKID_OUT}";	
+	private String lblGeoDefName = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_GEO_DEF_NAME}";
+	private String descGeoDefName = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_GEO_DEF_NAME}";
+	private String lblConnection = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_CONNECTION}";
+	private String descConnection = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_CONNECTION}";
+	private String lblFolder = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_FOLDER}";
+	private String descFolder = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_FOLDER}";
+	private String lblService = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_SERVICE}";
+	private String descService = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_SERVICE}";
+	private String lblLayer = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_LAYER}";
+	private String descLayer = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_LAYER}";
+	private String lblWC = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_WC}";
+	private String descWC = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_WC}";
+	private String lblQueryFld = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_QUERY_FIELD}";
+	private String descQueryFld = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_QUERY_FIELD}";
+	private String lblEndPoint = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.LBL_ENDPOINT}";
+	private String descEndPoint = "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.DESC_ENDPOINT}";
 	
 	public SpatialQProcessorDefinition()
 	{
@@ -59,11 +61,11 @@ try {
 			
 
 			List<LabeledValue> allowedGeoSources = new ArrayList<LabeledValue>();
-			allowedGeoSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_EVENT_LBL}","Geoevent"));
-			allowedGeoSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_EVENT_DEF_LBL}","Event_Definition"));
-			allowedGeoSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_BUFFER_LBL}","Buffer"));
+			allowedGeoSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.SRC_GEO_EVENT_LBL}","Geoevent"));
+			allowedGeoSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.SRC_GEO_EVENT_DEF_LBL}","Event_Definition"));
+			allowedGeoSources.add(new LabeledValue("${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.SRC_GEO_BUFFER_LBL}","Buffer"));
 			PropertyDefinition procGeometrySource = new PropertyDefinition(
-					"geosrc", PropertyType.String, "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.SRC_GEO_EVENT_LBL}",
+					"geosrc", PropertyType.String, "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.SRC_GEO_EVENT_LBL}",
 					lblGeoSrc, descGeoSrc,
 					true, false, allowedGeoSources);
 			
@@ -94,13 +96,13 @@ try {
 			propertyDefinitions.put(procRadius.getPropertyName(), procRadius);
 			
 			List<LabeledValue> unitsAllowedVals = new ArrayList<LabeledValue>();
-			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_METERS_LBL}","Meters"));
-			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_KM_LBL}","Kilometers"));
-			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_FT_LBL}","Feet"));
-			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_MILES_LBL}","Miles"));
-			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_NM_LBL}","Nautical Miles"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.UNITS_METERS_LBL}","Meters"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.UNITS_KM_LBL}","Kilometers"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.UNITS_FT_LBL}","Feet"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.UNITS_MILES_LBL}","Miles"));
+			unitsAllowedVals.add(new LabeledValue("${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.UNITS_NM_LBL}","Nautical Miles"));
 			PropertyDefinition procUnits = new PropertyDefinition("units",
-					PropertyType.String, "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.UNITS_METERS_LBL}", lblBufferUnits, descBufferUnits,
+					PropertyType.String, "${com.esri.geoevent.solutions.processor.spatialquery.spatialquery-processor.UNITS_METERS_LBL}", lblBufferUnits, descBufferUnits,
 					true, false, unitsAllowedVals);
 			procUnits.setDependsOn("geosrc=Buffer");
 
@@ -135,7 +137,10 @@ try {
 			
 			PropertyDefinition pLayer = new PropertyDefinition("layer", PropertyType.ArcGISLayer, null, lblLayer, descLayer, true, false);
 			propertyDefinitions.put(pLayer.getPropertyName(), pLayer);
-					  
+			
+			PropertyDefinition pdRE = new PropertyDefinition("endpoint", PropertyType.String, "", lblEndPoint, descEndPoint, false, false);
+			propertyDefinitions.put(pdRE.getPropertyName(), pdRE);
+			
 			PropertyDefinition pdwc = new PropertyDefinition( "wc", PropertyType.String, "", lblWC, descWC, false, false); 
 			propertyDefinitions.put(pdwc.getPropertyName(), pdwc);
 

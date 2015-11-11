@@ -53,6 +53,11 @@
 			<version>10.3.1</version>
 		</dependency>
 		<dependency>
+			<groupId>com.esri.arcgis.discovery</groupId>
+			<artifactId>arcgis-servicelib</artifactId>
+			<version>10.3.0.4322</version>
+		</dependency>
+		<dependency>
 			<groupId>com.esri.ges.manager</groupId>
 			<artifactId>agsconnectionmanager-api</artifactId>
 			<version>${project.version}</version>
@@ -100,6 +105,7 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
