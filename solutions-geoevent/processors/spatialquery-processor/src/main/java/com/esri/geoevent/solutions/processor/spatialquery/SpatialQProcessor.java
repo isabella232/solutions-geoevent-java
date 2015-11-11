@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -26,10 +27,14 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
+import com.esri.arcgis.discovery.servicelib.ServerDirectory;
+import com.esri.arcgis.discovery.servicelib.ServerDirectoryType;
+import com.esri.arcgis.discovery.servicelib.ServiceConfigProperties;
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.LinearUnit;
@@ -51,10 +56,15 @@ import com.esri.ges.core.geoevent.FieldType;
 import com.esri.ges.core.geoevent.GeoEvent;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
 import com.esri.ges.core.geoevent.GeoEventPropertyName;
+import com.esri.ges.core.http.GeoEventHttpClient;
+import com.esri.ges.core.http.GeoEventHttpClientService;
+import com.esri.ges.core.http.KeyValue;
 import com.esri.ges.core.property.Property;
 import com.esri.ges.core.validation.ValidationException;
 import com.esri.ges.datastore.agsconnection.ArcGISServerConnection;
+import com.esri.ges.datastore.agsconnection.ArcGISServerConnection.ConnectionType;
 import com.esri.ges.datastore.agsconnection.ArcGISServerType;
+import com.esri.ges.datastore.agsconnection.DefaultAGOLConnection;
 import com.esri.ges.datastore.agsconnection.Layer;
 import com.esri.ges.framework.i18n.BundleLogger;
 import com.esri.ges.framework.i18n.BundleLoggerFactory;
@@ -101,7 +111,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 	private Layer layer;
 	private String layerId;
 	private String field;
-	// Field[] fields;
+	private String endpoint=null;
 	private Boolean calcDist;
 	private String wc;
 	private com.esri.core.geometry.Geometry inGeometry;
@@ -112,7 +122,19 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 	private Messaging messaging;
 	private GeoEventCreator geoEventCreator;
 	private GeoEventProducer geoEventProducer;
-
+	private String token = null;
+	private ConnectionType connectionType;
+	private DefaultAGOLConnection agolconn;
+	public GeoEventHttpClientService httpClientService;
+	private boolean useReferer = true;
+	private String webTierUserName;
+	private String webTierEncryptedPassword;
+	private String userName;
+	private String password;
+	private String agolpassword;
+	private String agoluser;
+	private final int defaultTimeout = 30000;
+	private ObjectMapper mapper = new ObjectMapper();
 	protected SpatialQProcessor(GeoEventProcessorDefinition definition)
 			throws ComponentException {
 		super(definition);
@@ -315,7 +337,12 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 							geoEvent.setField("QUERY_GEOMETRY", mapGeo);
 						}
 						else if (fields.contains(name)) {
-							value = att.get(name).toString();
+							Object tmpVal = att.get(name);
+							if (tmpVal != null) {
+								value = att.get(name).toString();
+							} else {
+								value = null;
+							}
 							src = "feature";
 						} else {
 							Object val = inEvent.getField(name);
@@ -418,8 +445,10 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		folder = properties.get("folder").getValueAsString();
 		service = properties.get("service").getValueAsString();
 		lyrName = properties.get("layer").getValueAsString();
+		
 		try {
 			conn = connectionManager.getArcGISServerConnection(connName);
+			agolconn = (DefaultAGOLConnection)conn;
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 			ValidationException ve = new ValidationException(
@@ -435,6 +464,17 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		layer = conn.getLayer(folder, service, lyrName,
 				ArcGISServerType.FeatureServer);
 		layerId = ((Integer) layer.getId()).toString();
+		if(!properties.get("endpoint").getValueAsString().isEmpty())
+		{
+			endpoint=properties.get("endpoint").getValueAsString();
+		}
+		connectionType = conn.getConnectionType();
+		try {
+			token = conn.getDecryptedToken();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		field = properties.get("field").getValueAsString();
 		wc = properties.get("wc").getValueAsString();
 	}
@@ -521,6 +561,11 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 	public void setConnectionManager(ArcGISServerConnectionManager cm) {
 		connectionManager = cm;
 	}
+	
+	public void setHttpClentService(GeoEventHttpClientService service)
+	{
+		httpClientService = service;
+	}
 
 	@Override
 	public String toString() {
@@ -539,7 +584,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		return sb.toString();
 	}
 
-	public ArrayList<Object> CreateQueries(GeoEvent ge) {
+	public ArrayList<Object> CreateQueries(GeoEvent ge) throws Exception {
 		Set<String> eventTokens = eventTokenMap.keySet();
 		Iterator<String> eventIt = eventTokens.iterator();
 		while (eventIt.hasNext()) {
@@ -553,10 +598,30 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		}
 		ArrayList<Object> queries = new ArrayList<Object>();
 		URL url = conn.getUrl();
-		String baseUrl = url.getProtocol() + "://" + url.getHost() + ":"
-				+ url.getPort() + url.getPath() + "rest/services/";
-		String curPath = baseUrl + "/" + folder + "/" + service
-				+ "/FeatureServer/" + layerId;
+		String protocol = url.getProtocol();
+		String host = url.getHost();
+		Integer port = url.getPort();
+		String path = url.getPath();
+		String baseUrl = null;
+		String curPath=null;
+		if (endpoint != null)
+		{
+			curPath = endpoint;
+		}
+		else
+		{
+			baseUrl = protocol + "://" + host + port.toString() + path + "rest/services";
+			curPath = baseUrl + "/" + folder + "/" + service+ "/FeatureServer/" + layerId;
+		}
+		//String baseUrl = url.getProtocol() + "://" + url.getHost() + ":"
+				//+ url.getPort() + url.getPath() + "rest/services/";
+		if(connectionType == ConnectionType.AGOL)
+		{
+			
+			String agolUrl = DefaultAGOLConnection.ARCGIS_Dot_Com_URL;
+			//token = agolconn.getToken();
+		}
+				
 		String restpath = curPath + "/query?";
 		HashMap<String, Object> query = new HashMap<String, Object>();
 		HashMap<String, String> fieldMap = new HashMap<String, String>();
@@ -665,6 +730,10 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 					+ "&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*"
 					// + fields
 					+ "&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&gdbVersion=&returnDistinctValues=false&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&f=json";
+			if(token != null)
+			{
+				args += "&token=" + token;
+			}
 			String uri = path + args;
 			try {
 				HttpPost httppost = new HttpPost(uri);
@@ -913,4 +982,99 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		polygon.closeAllPaths();
 		return polygon;
 	}
+	
+	private String getTokenFromService() throws MalformedURLException
+	{
+		try(GeoEventHttpClient http = getHttpClient())
+		{
+			String urlString = DefaultAGOLConnection.ARCGIS_Dot_Com_URL + "sharing/generateToken";
+			URL url = new URL(urlString.replace("http://", "https://"));
+			Collection<KeyValue> params = new ArrayList<KeyValue>();
+			params.add(new KeyValue("f", "json"));
+		     params.add(new KeyValue("username", userName));
+		     params.add(new KeyValue("password", password));
+		     params.add(new KeyValue("client", "referer"));
+		     params.add(new KeyValue("referer", conn.getReferer()));
+		     String jsonResponse = http.post(url,  params, defaultTimeout);
+		     
+		     JsonNode response = (jsonResponse != null) ? mapper.readTree(jsonResponse) : mapper.createObjectNode();
+		     token = response.get("token").asText();
+			return token;
+			
+		}
+		catch(Throwable t)
+		{
+			throw new RuntimeException(t.getMessage(), t);
+		}
+		
+	}
+	
+	private GeoEventHttpClient getHttpClient()
+	{
+		
+		GeoEventHttpClient http = httpClientService.createNewClient();
+		if(useReferer)
+		{
+			http.setReferer(agolconn.getReferer());
+		}
+		Collection<Property> implProps = agolconn.getImplementationProperties();
+		
+		Iterator iterator = implProps.iterator();
+		while (iterator.hasNext()) {
+			Property property = (Property) iterator.next();
+			if (property.getName().equals("webTierUserName")) {
+				webTierUserName = property.getValue().toString();
+
+			} else if (property.getName().equals("webTierEncryptedPassword")) {
+				webTierEncryptedPassword = property.getValue().toString();
+			}
+			else if (property.getName().equals("agol.password"))
+			{
+				agolpassword = property.getValue().toString();
+			}
+			else if(property.getName().equals("agol.username"))
+			{
+				agoluser = property.getValue().toString();
+			}
+			if(webTierUserName != null && webTierEncryptedPassword != null)
+			{
+				int port = conn.getUrl().getPort();
+				if(port == -1)
+				{
+					port = (conn.getUrl().getProtocol().equals("https")) ? 443 : 80;
+				}
+				try
+				{
+					password = cryptoService.decrypt(webTierEncryptedPassword);
+					http.setUsernamePassword(webTierUserName, password, conn.getUrl().getHost(), port);
+				}
+				catch(Exception e)
+				{
+					
+				}
+			}
+			if(agoluser!= null && agolpassword != null)
+			{
+				//int port = conn.getUrl().getPort();
+				//if(port == -1)
+				//{
+					//port = (conn.getUrl().getProtocol().equals("https")) ? 443 : 80;
+				//}
+				try
+				{
+					password = cryptoService.decrypt(agolpassword);
+					userName = agoluser;
+					//http.setUsernamePassword(agoluser, password, conn.getUrl().getHost(), port);
+				}
+				catch(Exception e)
+				{
+					
+				}
+			}
+		}
+		// webtierusername = implProps.
+
+		return http;
+	}
+	
 }
