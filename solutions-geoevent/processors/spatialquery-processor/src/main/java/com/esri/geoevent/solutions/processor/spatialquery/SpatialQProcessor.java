@@ -31,10 +31,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-
-import com.esri.arcgis.discovery.servicelib.ServerDirectory;
-import com.esri.arcgis.discovery.servicelib.ServerDirectoryType;
-import com.esri.arcgis.discovery.servicelib.ServiceConfigProperties;
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.LinearUnit;
