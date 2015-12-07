@@ -22,7 +22,7 @@
 
     <groupId>com.esri.geoevent.solutions.processor.queryreport</groupId>
     <artifactId>query-report-processor</artifactId>
-    <version>10.3.1</version>
+    <version>10.4.0</version>
     <packaging>bundle</packaging>
 
     <name>query-report-processor Blueprint Bundle</name>
@@ -61,27 +61,27 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.3.1</version>
+			<version>10.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.geometry</groupId>
 			<artifactId>geometry-api</artifactId>
-			<version>10.3.1</version>
+			<version>10.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.ges.manager</groupId>
 			<artifactId>agsconnectionmanager-api</artifactId>
-			<version>${project.version}</version>
+			<version>10.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.ges.framework.datastore</groupId>
 			<artifactId>agsconnection-datastore</artifactId>
-			<version>${project.version}</version>
+			<version>10.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.ges.framework.datastore</groupId>
 			<artifactId>datastore-api</artifactId>
-			<version>${project.version}</version>
+			<version>10.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -102,7 +102,6 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.3.1</version>
-			<scope>provided</scope>
 		</dependency>
 		
 		<dependency>

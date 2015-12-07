@@ -1,4 +1,4 @@
-<transport name="IrcInboundTransport" label="${com.esri.geoevent.solutions.transport.irc.irc-transport.TRANSPORT_INBOUND_LABEL}" contact="cbailey@esri.com" version="10.3.0" domain="com.esri.geoevent.solutions.transport.irc.inbound" type="inbound">
+<transport name="IrcInboundTransport" label="${com.esri.geoevent.solutions.transport.irc.irc-transport.TRANSPORT_INBOUND_LABEL}" contact="cbailey@esri.com" version="10.4.0" domain="com.esri.geoevent.solutions.transport.irc.inbound" type="inbound">
 	<description>${com.esri.geoevent.solutions.transport.irc.irc-transport.TRANSPORT_INBOUND_DESCRIPTION}</description>
 	<propertyDefinitions>
 		<propertyDefinition propertyName="channelList" label="${com.esri.geoevent.solutions.transport.irc.irc-transport.LBL_CHANNEL_LIST}"

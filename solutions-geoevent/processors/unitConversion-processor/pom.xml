@@ -4,7 +4,7 @@
 
   <groupId>com.esri.geoevent.solutions.processor.unitconversion</groupId>
   <artifactId>unitConversion-processor</artifactId>
-  <version>10.3.1</version>
+  <version>10.4.0</version>
   <packaging>bundle</packaging>
 
   <name>unitConversion-processor</name>
@@ -35,7 +35,7 @@
   	<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.3.1</version>
+			<version>10.4.0</version>
 		</dependency>
     <dependency>
       <groupId>junit</groupId>

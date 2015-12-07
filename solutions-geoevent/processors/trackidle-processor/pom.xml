@@ -17,7 +17,7 @@
 
 	<groupId>com.esri.geoevent.solutions.processor.trackidle</groupId>
 	<artifactId>trackidle-processor</artifactId>
-	<version>10.3.1</version>
+	<version>10.4.0</version>
 	<packaging>bundle</packaging>
 
 	<name>trackidle-processor Blueprint Bundle</name>
@@ -56,13 +56,13 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.3.1</version>
+			<version>10.4.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.esri.geometry</groupId>
 			<artifactId>geometry-api</artifactId>
-			<version>10.3.1</version>
+			<version>10.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>

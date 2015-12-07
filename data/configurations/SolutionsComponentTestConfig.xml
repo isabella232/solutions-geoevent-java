@@ -3347,7 +3347,7 @@
     </tags>
     <connectors>
         <connector accessType="editable" label="Receive Common Alert Protocol (CAP) messages on a file system." name="cap-file-in" type="inbound">
-            <adapter uri="com.esri.geoevent.solutions.adapter.cap.inbound/CAP/10.3.0"/>
+            <adapter uri="com.esri.geoevent.solutions.adapter.cap.inbound/CAP/10.4.0"/>
             <defaultName>cap-file-in</defaultName>
             <description>Place CAP messages into a file folder to test functionality of CAP inbound adapter.</description>
             <properties>
@@ -3363,10 +3363,10 @@
                     <property default="input" label="Input Folder DataStore" name="inputFolderDataStore" source="transport"/>
                 </shown>
             </properties>
-            <transport uri="com.esri.ges.transport.inbound/File/10.3.1"/>
+            <transport uri="com.esri.ges.transport.inbound/File/10.4.0"/>
         </connector>
         <connector accessType="editable" label="Receive delimited text via HTTP" name="esri-in-http-text-regex" type="inbound">
-            <adapter uri="com.esri.geoevent.solutions.adapter/regexText-adapter/10.3.0"/>
+            <adapter uri="com.esri.geoevent.solutions.adapter/regexText-adapter/10.4.0"/>
             <defaultName>esri-in-http-text-regex</defaultName>
             <description>Receives delimited text via HTTP. The attributes can be delmited by a complex delimiter that can be identified by a regular expression.</description>
             <properties>
@@ -3410,10 +3410,10 @@
                     <property default="true" label="Receive New Data Only" name="honorLastModified" source="transport"/>
                 </shown>
             </properties>
-            <transport uri="com.esri.ges.transport.inbound/HTTP/10.3.1"/>
+            <transport uri="com.esri.ges.transport.inbound/HTTP/10.4.0"/>
         </connector>
         <connector accessType="editable" label="Receive Cursor on Target Over TCP Socket" name="cot-tcp-in" type="inbound">
-            <adapter uri="com.esri.geoevent.solutions.adapter.cot.inbound/CursorOnTargetIn/10.3.0"/>
+            <adapter uri="com.esri.geoevent.solutions.adapter.cot.inbound/CursorOnTargetIn/10.4.0"/>
             <defaultName>cot-tcp-in</defaultName>
             <description>Receive Cursor on Target messages over a TCP socket that opens and closes before and after the message is received</description>
             <properties>
@@ -3431,10 +3431,10 @@
                     <property default="5570" label="Server Port" name="port" source="transport"/>
                 </shown>
             </properties>
-            <transport uri="com.esri.ges.transport.inbound/TCP/10.3.1"/>
+            <transport uri="com.esri.ges.transport.inbound/TCP/10.4.0"/>
         </connector>
         <connector accessType="editable" label="Publish text to TCP" name="esri-out-text-tcp-generictext" type="outbound">
-            <adapter uri="com.esri.ges.adapter.outbound/Text/10.3.1"/>
+            <adapter uri="com.esri.ges.adapter.outbound/Text/10.4.0"/>
             <defaultName>tcp-txt-out</defaultName>
             <description>Publish GeoEvents as text to a TCP socket for display in a client application.</description>
             <properties>
@@ -3454,10 +3454,10 @@
                 </hidden>
                 <shown/>
             </properties>
-            <transport uri="com.esri.ges.transport.outbound/TCP/10.3.1"/>
+            <transport uri="com.esri.ges.transport.outbound/TCP/10.4.0"/>
         </connector>
         <connector accessType="editable" label="Send Cursor on Target message" name="cot-out" type="outbound">
-            <adapter uri="com.esri.geoevent.solutions.adapter.cot.outbound/CursorOnTargetOut/10.3.0"/>
+            <adapter uri="com.esri.geoevent.solutions.adapter.cot.outbound/CursorOnTargetOut/10.4.0"/>
             <defaultName>CoT-out</defaultName>
             <description>Send a Cursor on Target message out over tcp socket that opens on demand</description>
             <properties>
@@ -3471,10 +3471,10 @@
                     <property default="5565" label="Server Port" name="port" source="transport"/>
                 </shown>
             </properties>
-            <transport uri="com.esri.geoevent.solutions.transport.tcpsquirt.outbound/TCPSquirt/10.3.0"/>
+            <transport uri="com.esri.geoevent.solutions.transport.tcpsquirt.outbound/TCPSquirt/10.4.0"/>
         </connector>
         <connector accessType="editable" label="Receive Cursor on Target" name="cot-in" type="inbound">
-            <adapter uri="com.esri.geoevent.solutions.adapter.cot.inbound/CursorOnTargetIn/10.3.0"/>
+            <adapter uri="com.esri.geoevent.solutions.adapter.cot.inbound/CursorOnTargetIn/10.4.0"/>
             <defaultName>cot-in</defaultName>
             <description>Receive Cursor on Target messages</description>
             <properties>
@@ -3505,7 +3505,7 @@
                     <property default="" label="CoT_Types_Path" name="CoT_Types_Path" source="adapter"/>
                 </shown>
             </properties>
-            <transport uri="com.esri.ges.transport.inbound/HTTP/10.3.1"/>
+            <transport uri="com.esri.ges.transport.inbound/HTTP/10.4.0"/>
         </connector>
         <connector accessType="editable" label="Receive Geopmessages over a UDP port" name="geomsg-udp-in" type="inbound">
             <adapter uri="com.esri.geoevent.solutions.adapter.geomessage.inbound/Geomessage/10.3.0"/>

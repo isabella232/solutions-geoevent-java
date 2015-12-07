@@ -4,7 +4,7 @@
 
   <groupId>com.esri.geoevent.solutions.processor.spatialquery</groupId>
   <artifactId>spatialquery-processor</artifactId>
-  <version>10.3.1</version>
+  <version>10.4.0</version>
   <packaging>bundle</packaging>
 
   <name>spatialquery-processor</name>
@@ -45,12 +45,12 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.3.1</version>
+			<version>10.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.geometry</groupId>
 			<artifactId>geometry-api</artifactId>
-			<version>10.3.1</version>
+			<version>10.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.arcgis.discovery</groupId>
@@ -96,7 +96,6 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.3.1</version>
-			<scope>provided</scope>
 		</dependency>
 		
 		<dependency>
