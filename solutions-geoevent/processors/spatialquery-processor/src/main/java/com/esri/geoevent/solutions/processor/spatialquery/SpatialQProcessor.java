@@ -120,7 +120,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 	private GeoEventProducer geoEventProducer;
 	private String token = null;
 	private ConnectionType connectionType;
-	private DefaultAGOLConnection agolconn;
+	//private DefaultAGOLConnection agolconn;
 	public GeoEventHttpClientService httpClientService;
 	private boolean useReferer = true;
 	private String webTierUserName;
@@ -444,7 +444,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		
 		try {
 			conn = connectionManager.getArcGISServerConnection(connName);
-			agolconn = (DefaultAGOLConnection)conn;
+			//agolconn = (DefaultAGOLConnection)conn;
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 			ValidationException ve = new ValidationException(
@@ -979,7 +979,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		return polygon;
 	}
 	
-	private String getTokenFromService() throws MalformedURLException
+	/*private String getTokenFromService() throws MalformedURLException
 	{
 		try(GeoEventHttpClient http = getHttpClient())
 		{
@@ -1011,7 +1011,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		GeoEventHttpClient http = httpClientService.createNewClient();
 		if(useReferer)
 		{
-			http.setReferer(agolconn.getReferer());
+			//http.setReferer(agolconn.getReferer());
 		}
 		Collection<Property> implProps = agolconn.getImplementationProperties();
 		
@@ -1071,6 +1071,6 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		// webtierusername = implProps.
 
 		return http;
-	}
+	}*/
 	
 }
