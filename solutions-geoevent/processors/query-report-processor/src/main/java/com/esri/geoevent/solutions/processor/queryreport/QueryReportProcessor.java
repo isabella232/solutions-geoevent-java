@@ -107,43 +107,44 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 	private SpatialReference srIn;
 	private SpatialReference srBuffer;
 	private SpatialReference srOut;
-	double radius;
-	String units;
-	int inwkid;
-	int outwkid;
-	int bufferwkid;
-	String geoSrc;
-	Boolean useCentroid;
-	String eventfld;
-	Boolean useTimeStamp;
-	String file;
-	String host;
+	private double radius;
+	private String units;
+	private int inwkid;
+	private int outwkid;
+	private int bufferwkid;
+	private String geoSrc;
+	private Boolean useCentroid;
+	private String eventfld;
+	private Boolean useTimeStamp;
+	private String file;
+	private String host;
 	String outDefName;
 	String connName;
-	ArcGISServerConnection conn;
-	String folder;
-	String service;
-	String lyrName;
-	Layer layer;
-	String layerId;
-	String field;
+	private ArcGISServerConnection conn;
+	private String folder;
+	private String service;
+	private String lyrName;
+	private Layer layer;
+	private String layerId;
+	private String field;
 	//Field[] fields;
-	Boolean calcDist;
-	String wc;
-	String lyrHeaderCfg;
-	String distToken="";
-	Boolean sortByDist;
-	String distUnits="";
+	private Boolean calcDist;
+	private String wc;
+	private String lyrHeaderCfg;
+	private String distToken="";
+	private Boolean sortByDist;
+	private String distUnits="";
 	//String token;
-	String sortField;
-	String itemConfig;
-	String title;
-	String header;
+	private String sortField;
+	private String itemConfig;
+	private String title;
+	private String header;
 	private com.esri.core.geometry.Geometry inGeometry;
-	GeoEvent currentEvent = null;
-	String ts;
-	String time;
-	
+	private GeoEvent currentEvent = null;
+	private String ts;
+	private String time;
+	private String endpoint=null;
+	private String token;
 	public QueryReportProcessor(GeoEventProcessorDefinition definition, GeoEventDefinitionManager m, ArcGISServerConnectionManager cm, Messaging msg)
 			throws ComponentException {
 		super(definition);
@@ -217,6 +218,16 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 		layerId = ((Integer)layer.getId()).toString();
 		field = properties.get("field").getValueAsString();
 		sortField = properties.get("sortfield").getValueAsString();
+		if(!properties.get("endpoint").getValueAsString().isEmpty())
+		{
+			endpoint=properties.get("endpoint").getValueAsString();
+		}
+		try {
+			token = conn.getDecryptedToken();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//fields = conn.getFields(folder, service, layer.getId(), ArcGISServerType.FeatureServer);
 		calcDist = (Boolean)properties.get("calcDistance").getValue();
 		wc = properties.get("wc").getValueAsString();
@@ -486,9 +497,17 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 	{
 		ArrayList<Object>queries = new ArrayList<Object>();
 		URL url = conn.getUrl();
-		String baseUrl = url.getProtocol() +"://"+ url.getHost() + ":" + url.getPort()
+		String curPath=null;
+		if (endpoint != null)
+		{
+			curPath = endpoint;
+		}
+		else
+		{
+			String baseUrl = url.getProtocol() +"://"+ url.getHost() + ":" + url.getPort()
 				+ url.getPath() + "rest/services/";
-		String curPath = baseUrl + "/" + folder + "/" + service + "/FeatureServer/" + layerId;
+		  	curPath = baseUrl + "/" + folder + "/" + service + "/FeatureServer/" + layerId;
+		}
 		String restpath = curPath + "/query?";
 		HashMap<String, Object> query = new HashMap<String, Object>();
 		HashMap<String, String> fieldMap = new HashMap<String, String>();
@@ -548,6 +567,10 @@ public class QueryReportProcessor extends GeoEventProcessorBase {
 					+ "&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*"
 					//+ fields
 					+ "&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&gdbVersion=&returnDistinctValues=false&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&f=json";
+			if(token != null)
+			{
+				args += "&token=" + token;
+			}
 			String uri = path + args;
 			try {
 				HttpPost httppost = new HttpPost(uri);
