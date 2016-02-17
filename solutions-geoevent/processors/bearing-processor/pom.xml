@@ -22,7 +22,7 @@
 
     <groupId>com.esri.geoevent.solutions.processor.bearing</groupId>
     <artifactId>bearing-processor</artifactId>
-    <version>10.4,0</version>
+    <version>10.4.0</version>
     <packaging>bundle</packaging>
 
     <name>bearing-processor Blueprint Bundle</name>
