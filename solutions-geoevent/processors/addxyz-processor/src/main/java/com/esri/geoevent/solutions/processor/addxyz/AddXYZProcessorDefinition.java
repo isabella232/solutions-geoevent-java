@@ -36,7 +36,7 @@ public class AddXYZProcessorDefinition extends GeoEventProcessorDefinitionBase {
 
 	@Override
 	public String getVersion() {
-		return "10.2.0";
+		return "10.4.0";
 	}
 
 	@Override
