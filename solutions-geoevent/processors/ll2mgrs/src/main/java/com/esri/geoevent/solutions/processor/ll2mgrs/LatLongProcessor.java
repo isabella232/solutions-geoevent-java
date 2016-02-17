@@ -22,10 +22,10 @@ import com.esri.ges.messaging.GeoEventCreator;
 import com.esri.ges.messaging.Messaging;
 import com.esri.ges.processor.GeoEventProcessorBase;
 import com.esri.ges.processor.GeoEventProcessorDefinition;
-import com.esri.sde.sdk.pe.PeDatum;
+
 import com.esri.sde.sdk.pe.factory.PeFactory;
-import com.esri.sde.sdk.pe.PeGeographicCS;
-import com.esri.sde.sdk.pe.PeProjectionException;
+
+
 import com.esri.sde.sdk.pe.engine.PeAngunit;
 import com.esri.sde.sdk.pe.engine.PeGeogcs;
 import com.esri.sde.sdk.pe.engine.PeNotationMgrs;

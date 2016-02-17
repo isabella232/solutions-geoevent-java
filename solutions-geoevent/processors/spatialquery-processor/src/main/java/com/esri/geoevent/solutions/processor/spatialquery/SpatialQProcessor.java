@@ -57,11 +57,11 @@ import com.esri.ges.core.http.GeoEventHttpClientService;
 import com.esri.ges.core.http.KeyValue;
 import com.esri.ges.core.property.Property;
 import com.esri.ges.core.validation.ValidationException;
-import com.esri.ges.datastore.agsconnection.ArcGISServerConnection;
-import com.esri.ges.datastore.agsconnection.ArcGISServerConnection.ConnectionType;
-import com.esri.ges.datastore.agsconnection.ArcGISServerType;
+import com.esri.ges.manager.datastore.agsconnection.ArcGISServerConnection;
+import com.esri.ges.manager.datastore.agsconnection.ArcGISServerConnection.ConnectionType;
+import com.esri.ges.manager.datastore.agsconnection.ArcGISServerType;
 import com.esri.ges.datastore.agsconnection.DefaultAGOLConnection;
-import com.esri.ges.datastore.agsconnection.Layer;
+import com.esri.ges.manager.datastore.agsconnection.Layer;
 import com.esri.ges.framework.i18n.BundleLogger;
 import com.esri.ges.framework.i18n.BundleLoggerFactory;
 import com.esri.ges.manager.datastore.agsconnection.ArcGISServerConnectionManager;
@@ -120,7 +120,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 	private GeoEventProducer geoEventProducer;
 	private String token = null;
 	private ConnectionType connectionType;
-	private DefaultAGOLConnection agolconn;
+	//private DefaultAGOLConnection agolconn;
 	public GeoEventHttpClientService httpClientService;
 	private boolean useReferer = true;
 	private String webTierUserName;
@@ -444,7 +444,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		
 		try {
 			conn = connectionManager.getArcGISServerConnection(connName);
-			agolconn = (DefaultAGOLConnection)conn;
+			//agolconn = (DefaultAGOLConnection)conn;
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 			ValidationException ve = new ValidationException(
@@ -606,7 +606,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		}
 		else
 		{
-			baseUrl = protocol + "://" + host + port.toString() + path + "rest/services";
+			baseUrl = protocol + "://" + host +":" + port.toString() + path + "rest/services";
 			curPath = baseUrl + "/" + folder + "/" + service+ "/FeatureServer/" + layerId;
 		}
 		//String baseUrl = url.getProtocol() + "://" + url.getHost() + ":"
@@ -979,7 +979,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		return polygon;
 	}
 	
-	private String getTokenFromService() throws MalformedURLException
+	/*private String getTokenFromService() throws MalformedURLException
 	{
 		try(GeoEventHttpClient http = getHttpClient())
 		{
@@ -1011,7 +1011,7 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		GeoEventHttpClient http = httpClientService.createNewClient();
 		if(useReferer)
 		{
-			http.setReferer(agolconn.getReferer());
+			//http.setReferer(agolconn.getReferer());
 		}
 		Collection<Property> implProps = agolconn.getImplementationProperties();
 		
@@ -1071,6 +1071,6 @@ public class SpatialQProcessor extends GeoEventProcessorBase implements
 		// webtierusername = implProps.
 
 		return http;
-	}
+	}*/
 	
 }

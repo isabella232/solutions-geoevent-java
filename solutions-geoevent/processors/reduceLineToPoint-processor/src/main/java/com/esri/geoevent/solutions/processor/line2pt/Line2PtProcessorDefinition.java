@@ -77,7 +77,7 @@ public class Line2PtProcessorDefinition extends GeoEventProcessorDefinitionBase 
 
 	@Override
 	public String getVersion() {
-		return "10.3.0";
+		return "10.4.0";
 	}
 
 	@Override

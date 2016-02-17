@@ -27,8 +27,10 @@ package com.esri.geoevent.solutions.processor.queryreport;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import com.esri.ges.core.property.LabeledValue;
 import com.esri.ges.core.property.PropertyDefinition;
 import com.esri.ges.core.property.PropertyException;
@@ -105,7 +107,8 @@ public class QueryReportProcessorDefinition extends
 	private String descItemToken = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_ITEM_TOKEN}";
 	private String lblItemCfg = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_ITEM_CONFIG}";
 	private String descItemCfg = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_ITEM_CONFIG}";
-			
+	private String lblEndPoint = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.LBL_ENDPOINT}";
+	private String descEndPoint = "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.DESC_ENDPOINT}";		
 	public QueryReportProcessorDefinition() {
 		try {
 			PropertyDefinition procReportName = new PropertyDefinition(
@@ -221,7 +224,10 @@ public class QueryReportProcessorDefinition extends
 			
 			PropertyDefinition pdLyrHeader = new PropertyDefinition("lyrheader", PropertyType.String, "", lblLayerHeader, descLayerHeader, false, false);
 			propertyDefinitions.put(pdLyrHeader.getPropertyName(), pdLyrHeader);
-					  
+			
+			PropertyDefinition pdRE = new PropertyDefinition("endpoint", PropertyType.String, "", lblEndPoint, descEndPoint, false, false);
+			propertyDefinitions.put(pdRE.getPropertyName(), pdRE);
+			
 			PropertyDefinition pdwc = new PropertyDefinition( "wc", PropertyType.String, "", lblWC, descWC, false, false); 
 			propertyDefinitions.put(pdwc.getPropertyName(), pdwc);
 
@@ -301,7 +307,7 @@ public class QueryReportProcessorDefinition extends
 
 	@Override
 	public String getVersion() {
-		return "10.3.0";
+		return "10.4.0";
 	}
 
 	@Override
