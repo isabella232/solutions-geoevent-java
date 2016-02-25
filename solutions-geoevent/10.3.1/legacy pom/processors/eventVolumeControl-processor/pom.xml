@@ -4,7 +4,7 @@
 
 	<groupId>com.esri.geoevent.solutions.processor.evc</groupId>
 	<artifactId>eventVolumeControl-processor</artifactId>
-	<version>10.4.0</version>
+	<version>10.3.1</version>
 	<packaging>bundle</packaging>
 
 	<name>eventVolumeControl-processor</name>
@@ -32,10 +32,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.esri.geoevent.sdk</groupId>
-			<artifactId>geoevent-sdk</artifactId>
-			<version>10.4.0</version>
-		</dependency>
+				<groupId>com.esri.geoevent.sdk</groupId>
+				<artifactId>geoevent-sdk</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

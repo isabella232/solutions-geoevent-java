@@ -20,14 +20,14 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.esri.geoevent.solutions.processor.bearing</groupId>
-    <artifactId>bearing-processor</artifactId>
+    <groupId>com.esri.geoevent.solutions.processor.addxyz</groupId>
+    <artifactId>addxyz-processor</artifactId>
     <version>10.3.1</version>
     <packaging>bundle</packaging>
 
-    <name>bearing-processor Blueprint Bundle</name>
-    <description>bearing-processor OSGi blueprint bundle project.</description>
-		<properties>
+    <name>addxyz-processor Blueprint Bundle</name>
+    <description>addxyz-processor OSGi blueprint bundle project.</description>
+	<properties>
 		<contact.address>geoevent@esri.com</contact.address>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.bundle.plugin.version>2.3.6</maven.bundle.plugin.version>
@@ -59,10 +59,30 @@
 	</dependencyManagement>
 	<dependencies>
 		<dependency>
+			<groupId>com.esri.geoevent.solutions.util</groupId>
+			<artifactId>Utilities</artifactId>
+			<version>10.3.0</version>
+		</dependency>
+		<dependency>
 				<groupId>com.esri.geoevent.sdk</groupId>
 				<artifactId>geoevent-sdk</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+		<dependency>
+			<groupId>com.esri.ges.manager</groupId>
+			<artifactId>agsconnectionmanager-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.esri.ges.framework.datastore</groupId>
+			<artifactId>agsconnection-datastore</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.esri.ges.framework.datastore</groupId>
+			<artifactId>datastore-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -70,7 +90,7 @@
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.13</version>
+			<version>1.9.5</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -82,6 +102,7 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.2</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
    			<groupId>com.esri.geometry</groupId>
@@ -109,8 +130,8 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
-						<source>1.7</source>
-						<target>1.7</target>
+						<source>1.6</source>
+						<target>1.6</target>
 					</configuration>
 				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
@@ -161,7 +182,7 @@
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<AGES-Domain>com.esri.geoevent.solutions.processor</AGES-Domain>
 						<Export-Package />
-						<Private-Package>com.esri.geoevent.solutions.processor.bearing</Private-Package>
+						<Private-Package>com.esri.geoevent.solutions.processor.addxyz</Private-Package>
                     </instructions>
                 </configuration>
             </plugin>
