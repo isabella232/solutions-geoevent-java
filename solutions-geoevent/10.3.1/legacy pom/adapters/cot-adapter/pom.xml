@@ -38,11 +38,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>com.esri.ges.sdk</groupId>
-			<artifactId>ges-lib</artifactId>
-			<version>10.3.0</version>
-			<scope>provided</scope>
-		</dependency>
+		<dependency>
+				<groupId>com.esri.geoevent.sdk</groupId>
+				<artifactId>geoevent-sdk</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -69,7 +69,7 @@
 		<dependency>
    			<groupId>com.esri.geometry</groupId>
    			<artifactId>geometry-api</artifactId>
-   			<version>10.3.0</version>
+   			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 

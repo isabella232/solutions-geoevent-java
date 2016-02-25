@@ -4,7 +4,7 @@
 
 	<groupId>com.esri.geoevent.parent</groupId>
 	<artifactId>cache-aware-fieldcalculator</artifactId>
-	<version>10.3.0</version>
+	<version>10.3.1</version>
 	<packaging>pom</packaging>
 
 	<name>Esri :: GeoEvent :: Cache-Aware Field Calculator</name>
@@ -23,11 +23,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.esri.geoevent.sdk</groupId>
-			<artifactId>geoevent-sdk</artifactId>
-			<version>10.3.0</version>
-			<scope>provided</scope>
-		</dependency>
+				<groupId>com.esri.geoevent.sdk</groupId>
+				<artifactId>geoevent-sdk</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
