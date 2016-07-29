@@ -15,7 +15,13 @@
 			<id>GEP</id>
 			<name>GeoEvent Processor embedded repository</name>
 			<layout>default</layout>
-			<url>file:///Program Files/ArcGIS/Server/GeoEventProcessor/System</url>
+			<url>file:///Program Files/ArcGIS/Server/GeoEvent/System</url>
+		</repository>	
+		<repository>
+			<id>GEP2</id>
+			<name>GeoEvent Processor</name>
+			<layout>default</layout>
+			<url>file:///geoevent-10.2.0.1154\geoevent-10.2.0\system</url>
 		</repository>		
 	</repositories>
 	<dependencies>
