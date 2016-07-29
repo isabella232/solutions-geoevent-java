@@ -35,7 +35,6 @@ import com.esri.ges.processor.GeoEventProcessorServiceBase;
 public class Polygon2PtProcessorService extends GeoEventProcessorServiceBase {
 	private static final Log LOG = LogFactory
 			.getLog(Polygon2PtProcessorService.class);
-	//public GeoEventDefinitionManager manager;
 	public Polygon2PtProcessorService() throws PropertyException {
 		definition = new Polygon2PtProcessorDefinition();
 	}

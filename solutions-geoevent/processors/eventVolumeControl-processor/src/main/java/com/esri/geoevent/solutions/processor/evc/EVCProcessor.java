@@ -1,11 +1,15 @@
 package com.esri.geoevent.solutions.processor.evc;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.esri.geoevent.solutions.processor.evc.EVCProcessor.TrackRecord;
 import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.GeoEvent;
 import com.esri.ges.core.property.Property;
@@ -16,7 +20,7 @@ public class EVCProcessor extends GeoEventProcessorBase {
 	private long eventsPerInterval;
 	private long intervalInMillis; // 1000 milliseconds is a second.
 	private static final Log LOG = LogFactory.getLog(EVCProcessor.class);
-	private Map<String, TrackRecord> trackCache = new HashMap<String, TrackRecord>();
+	private Map<String, TrackRecord> trackCache = new ConcurrentHashMap<String, TrackRecord>();
 	//private Map<Long, String> timeCache = new HashMap<Long, String>();
 	private TrackRecord defaultTrack = new TrackRecord();
 	private long lastCleanup = System.currentTimeMillis();
@@ -121,10 +125,19 @@ public class EVCProcessor extends GeoEventProcessorBase {
 	private void cleanup() {
 		try {
 			long now = System.currentTimeMillis();
-			for (String track : trackCache.keySet()) {
+			
+			/*for (String track : trackCache.keySet()) {
 				if (now - trackCache.get(track).lastTime > 4 * intervalInMillis)
 					trackCache.remove(track);
-			}
+			}*/
+			Iterator<Entry<String, TrackRecord>> it = trackCache.entrySet().iterator();
+					while (it.hasNext()){
+						@SuppressWarnings("rawtypes")
+						Map.Entry pair = (Map.Entry)it.next();
+						if (now - (((TrackRecord)pair.getValue()).lastTime) > 4 * intervalInMillis)
+							it.remove();
+						
+					}
 			lastCleanup = System.currentTimeMillis();
 		} catch (Exception e) {
 			LOG.error(e.getMessage());

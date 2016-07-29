@@ -90,7 +90,67 @@ public class TrackIdleProcessor extends GeoEventProcessorBase {
 
 	@Override
 	public GeoEvent process(GeoEvent geoEvent) throws Exception {
-		return processGeoEvent(geoEvent);
+		GeoEvent msg = null;
+
+		if (createDef) {
+			createGeoEventDefinition(geoEvent, keepFields);
+			createDef=false;
+		}
+
+		if (geoEvent.getTrackId() == null || geoEvent.getGeometry() == null) {
+			LOGGER.warn("NULL_ERROR");
+			return null;
+		}
+		if (trackIdles == null) {
+			LOGGER.warn("TRACK_IDLES_NULL");
+			return null;
+		}
+		try {
+			String cacheKey = buildCacheKey(geoEvent);
+			TrackIdleProcessorStart idleStart = trackIdles.get(cacheKey);
+			Date startTime = (Date)geoEvent.getField("TIME_START");
+			long currentStartTime = startTime.getTime();
+			if (idleStart != null && idleStart.getGeometry() != null) {
+				if (!hasGeometryMoved(geoEvent.getGeometry(),
+						idleStart.getGeometry(), tolerance)) {
+					
+					double idleDuration = (currentStartTime - idleStart
+							.getStartTime().getTime()) / 1000.0;
+					idleDuration = idleDuration >= 0 ? idleDuration
+							: -idleDuration;
+					idleDuration = Math.round(idleDuration * 10.0) / 10.0;
+					if (idleDuration >= idleLimit) {
+						idleStart.setIdleDuration(idleDuration);
+
+						if (notificationMode == TrackIdleProcessorNotificationMode.Continuous)
+							msg = createTrackIdleGeoEvent(idleStart, true,
+									geoEvent, ged);
+						else if (!idleStart.isIdling())
+							msg = createTrackIdleGeoEvent(idleStart, true,
+									geoEvent, ged);
+						idleStart.setIdling(true);
+
+					}
+				}
+				else
+				{
+					if (idleStart.isIdling())
+					{
+						msg = createTrackIdleGeoEvent(idleStart, false, geoEvent, ged);
+					}
+					idleStart.setGeometry(geoEvent.getGeometry());
+					idleStart.setStartTime(geoEvent.getStartTime());
+					idleStart.setIdling(false);
+				}
+			} else {
+				trackIdles.put(
+						cacheKey,
+						new TrackIdleProcessorStart(geoEvent.getTrackId(), startTime, geoEvent.getGeometry()));
+			}
+		} catch (Exception error) {
+			LOGGER.error(error.getMessage(), error);
+		}
+		return msg;
 	}
 
 	@Override
@@ -294,4 +354,32 @@ public class TrackIdleProcessor extends GeoEventProcessorBase {
 	public void setManager(GeoEventDefinitionManager manager) {
 		this.manager = manager;
 	}
+	
+	@Override
+	public void shutdown()
+	{
+		super.shutdown();
+		//GeoEvent Extension is shutting down
+	}
+	
+	@Override
+	public void onServiceStart()
+	{
+		//GeoEvent Service is starting
+	}
+	
+	@Override
+	public void onServiceStop(){
+		//GeoEvent Service is stopping
+	}
+	
+	@Override
+	public boolean isGeoEventMutator()
+	{
+		//Must return true if processor is going to 
+		//Modify the GeoEvent passed in.
+		return false;
+	}
+	
+	
 }
