@@ -52,6 +52,9 @@ public class EllipseProcessor extends GeoEventProcessorBase {
 	private Integer inwkid;
 	private Integer outwkid;
 	private Integer procwkid;
+	private String majAxisSource;
+	private String minAxisSource;
+	private String rotSource;
 	
 	public EllipseProcessor(GeoEventProcessorDefinition definition)
 			throws ComponentException {
@@ -67,7 +70,7 @@ public class EllipseProcessor extends GeoEventProcessorBase {
 	@Override
 	public void afterPropertiesSet()
 	{
-		String majAxisSource = properties.get("majorAxisSource").getValue().toString();
+		majAxisSource = properties.get("majorAxisSource").getValue().toString();
 		if(majAxisSource.equals("Constant"))
 		{
 			majorAxisRadius = (Double) properties.get("majorAxisRadius").getValue();
@@ -76,7 +79,7 @@ public class EllipseProcessor extends GeoEventProcessorBase {
 		{
 			majorAxisField =properties.get("majorAxisEvent").getValueAsString();
 		}
-		String minAxisSource = properties.get("minorAxisSource").getValue().toString();
+		minAxisSource = properties.get("minorAxisSource").getValue().toString();
 		if(minAxisSource.equals("Constant"))
 		{
 			minorAxisRadius = (Double) properties.get("minorAxisRadius").getValue();
@@ -86,7 +89,7 @@ public class EllipseProcessor extends GeoEventProcessorBase {
 			minorAxisField = properties.get("minorAxisEvent").getValueAsString();
 		}
 		
-		String rotSource = properties.get("rotationSource").getValue().toString();
+		rotSource = properties.get("rotationSource").getValue().toString();
 		if(rotSource.equals("Constant"))
 		{
 			rotation = (Double) properties.get("rotation").getValue();
@@ -109,15 +112,15 @@ public class EllipseProcessor extends GeoEventProcessorBase {
 			return null;
 		}
 		inwkid = ge.getGeometry().getSpatialReference().getID();
-		if(majorAxisRadius.isNaN())
+		if(majAxisSource.equals("Event"))
 		{
 			majorAxisRadius = (Double)ge.getField(majorAxisField);
 		}
-		if(minorAxisRadius.isNaN())
+		if(minAxisSource.equals("Event"))
 		{
 			minorAxisRadius = (Double)ge.getField(minorAxisField);
 		}
-		if(rotation.isNaN())
+		if(rotSource.equals("Event"))
 		{
 			rotation=(Double)ge.getField(rotationField);
 		}
