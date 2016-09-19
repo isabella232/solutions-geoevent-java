@@ -3,7 +3,7 @@
 	
 	<groupId>com.esri.geoevent.solutions.adapter.geomessage</groupId> 
 		
-	<version>10.4.0</version> 
+	<version>10.4.1</version> 
 	
 	<packaging>bundle</packaging>
 	<artifactId>geomessage-adapter</artifactId>
@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.4.0</version>
+			<version>10.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

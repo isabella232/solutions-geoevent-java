@@ -63,21 +63,7 @@
 			<artifactId>geoevent-sdk</artifactId>
 			<version>10.4.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.esri.ges.manager</groupId>
-			<artifactId>agsconnectionmanager-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.esri.ges.framework.datastore</groupId>
-			<artifactId>agsconnection-datastore</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.esri.ges.framework.datastore</groupId>
-			<artifactId>datastore-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
