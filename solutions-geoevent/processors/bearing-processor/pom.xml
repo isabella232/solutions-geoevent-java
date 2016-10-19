@@ -22,7 +22,7 @@
 
     <groupId>com.esri.geoevent.solutions.processor.bearing</groupId>
     <artifactId>bearing-processor</artifactId>
-    <version>10.4.0</version>
+    <version>10.5.0</version>
     <packaging>bundle</packaging>
 
     <name>bearing-processor Blueprint Bundle</name>
@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.4.0</version>
+			<version>10.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -86,7 +86,7 @@
 		<dependency>
    			<groupId>com.esri.geometry</groupId>
    			<artifactId>geometry-api</artifactId>
-   			<version>10.4.0</version>
+   			<version>10.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

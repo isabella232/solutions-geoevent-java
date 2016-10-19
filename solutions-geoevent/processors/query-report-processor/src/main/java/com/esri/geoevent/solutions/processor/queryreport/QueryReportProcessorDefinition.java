@@ -307,17 +307,17 @@ public class QueryReportProcessorDefinition extends
 
 	@Override
 	public String getVersion() {
-		return "10.4.0";
+		return "10.5.0";
 	}
 
 	@Override
 	public String getLabel() {
-		return "Query Report Processor";
+		return "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.PROCESSOR_LBL}";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Executes spatial query and returns configured report";
+		return "${com.esri.geoevent.solutions.processor.queryreport.query-report-processor.PROCESSOR_DESC}";
 	}
 
 	@Override

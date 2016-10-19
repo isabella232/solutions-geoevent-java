@@ -1,4 +1,4 @@
-<transport name="IrcOutboundTransport" label="${com.esri.geoevent.solutions.transport.irc.irc-transport.TRANSPORT_OUTBOUND_LABEL}" contact="geoeventprocessor@esri.com" version="10.4.0" domain="com.esri.geoevent.solutions.transport.irc.outbound" type="outbound">
+<transport name="IrcOutboundTransport" label="${com.esri.geoevent.solutions.transport.irc.irc-transport.TRANSPORT_OUTBOUND_LABEL}" contact="geoeventprocessor@esri.com" version="10.5.0" domain="com.esri.geoevent.solutions.transport.irc.outbound" type="outbound">
 	<description>${com.esri.geoevent.solutions.transport.irc.irc-transport.TRANSPORT_OUTBOUND_DESCRIPTION}</description>
 		<propertyDefinitions>
 		<propertyDefinition propertyName="channelList" label="${com.esri.geoevent.solutions.transport.irc.irc-transport.LBL_CHANNEL_LIST}"

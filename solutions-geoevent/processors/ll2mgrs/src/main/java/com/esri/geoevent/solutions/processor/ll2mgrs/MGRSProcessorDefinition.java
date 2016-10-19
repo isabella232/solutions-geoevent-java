@@ -38,17 +38,17 @@ public class MGRSProcessorDefinition extends GeoEventProcessorDefinitionBase{
 
 	@Override
 	public String getVersion() {
-		return "10.3.1";
+		return "10.5.0";
 	}
 
 	@Override
 	public String getLabel() {
-		return "Lat Long to MGRS Converter";
+		return "${com.esri.geoevent.solutions.processor.ll2mgrs.ll2mgrs-processor.LBL_LL2MGRS_PROCESSOR}";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Converts Lat / Lon coordinates to MGRS";
+		return "${com.esri.geoevent.solutions.processor.ll2mgrs.ll2mgrs-processor.DESC_LL2MGRS_PROCESSOR}";
 	}
 
 	@Override

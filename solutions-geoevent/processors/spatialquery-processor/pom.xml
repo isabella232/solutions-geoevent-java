@@ -4,7 +4,7 @@
 
   <groupId>com.esri.geoevent.solutions.processor.spatialquery</groupId>
   <artifactId>spatialquery-processor</artifactId>
-  <version>10.4.0</version>
+  <version>10.5.0</version>
   <packaging>bundle</packaging>
 
   <name>spatialquery-processor</name>
@@ -45,18 +45,14 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.4.0</version>
+			<version>10.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.geometry</groupId>
 			<artifactId>geometry-api</artifactId>
-			<version>10.4.0</version>
+			<version>10.5.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.esri.arcgis.discovery</groupId>
-			<artifactId>arcgis-servicelib</artifactId>
-			<version>10.3.0.4322</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.esri.ges.manager</groupId>
 			<artifactId>agsconnectionmanager-api</artifactId>
@@ -72,11 +68,7 @@
 			<artifactId>datastore-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.esri.arcgis.discovery</groupId>
-			<artifactId>arcgis-ejb</artifactId>
-			<version>10.3.0.4160</version>
-		</dependency>
+
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>

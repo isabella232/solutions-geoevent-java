@@ -22,7 +22,7 @@
 
     <groupId>com.esri.geoevent.solutions.processor.addxyz</groupId>
     <artifactId>addxyz-processor</artifactId>
-    <version>10.4.0</version>
+    <version>10.5.0</version>
     <packaging>bundle</packaging>
 
     <name>addxyz-processor Blueprint Bundle</name>
@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.4.0</version>
+			<version>10.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.ges.manager</groupId>
@@ -101,7 +101,7 @@
 		<dependency>
    			<groupId>com.esri.geometry</groupId>
    			<artifactId>geometry-api</artifactId>
-   			<version>10.4.0</version>
+   			<version>10.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

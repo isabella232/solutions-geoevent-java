@@ -4,7 +4,7 @@
   <groupId>com.esri.geoevent.solutions.transport.mlobi</groupId>
   <artifactId>mlobi-transport</artifactId>
   <packaging>bundle</packaging>
-  <version>10.4.0</version>
+  <version>10.5.0</version>
   <name>mlobi-transport</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.4.0</version>
+			<version>10.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.ges.manager</groupId>
@@ -88,7 +88,7 @@
 		<dependency>
    			<groupId>com.esri.geometry</groupId>
    			<artifactId>geometry-api</artifactId>
-   			<version>10.4.0</version>
+   			<version>10.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
