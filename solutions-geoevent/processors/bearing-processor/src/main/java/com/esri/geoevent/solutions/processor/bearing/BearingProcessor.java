@@ -286,41 +286,48 @@ public class BearingProcessor extends GeoEventProcessorBase {
 	
 	@Override
 	public synchronized void validate() throws ValidationException {
-	
+		try
+		{
+			super.validate();
+		}
+		catch(Exception e)
+		{
+			LOG.error(e.getMessage());
+		}
 	}
 	
 	@Override
 	public void afterPropertiesSet() {
-		String osrc = properties.get("osrc").getValueAsString();
-		//if(osrc.equals("Geometry"))
-		if(osrc.equals("geo"))
-		{
-			oUseGeo = true;
-			oGeoFldName = properties.get("oGeoFld").getValueAsString();
-			
+		try{
+			String osrc = properties.get("osrc").getValueAsString();
+			// if(osrc.equals("Geometry"))
+			if (osrc.equals("geo")) {
+				oUseGeo = true;
+				oGeoFldName = properties.get("oGeoFld").getValueAsString();
+
+			} else {
+				oXFldName = properties.get("oxFld").getValueAsString();
+				oYFldName = properties.get("oyFld").getValueAsString();
+			}
+
+			String dsrc = properties.get("dsrc").getValueAsString();
+			if (dsrc.equals("geo")) {
+				dUseGeo = true;
+				dGeoFldName = properties.get("dGeoFld").getValueAsString();
+
+			} else {
+				dXFldName = properties.get("dxFld").getValueAsString();
+				dYFldName = properties.get("dyFld").getValueAsString();
+			}
+			bfldName = properties.get("newfld").getValueAsString();
+			gedName = properties.get("newdef").getValueAsString();
+			createGeo = (Boolean) properties.get("generateGeo").getValue();
+			wkid = (Integer) properties.get("wkidout").getValue();
 		}
-		else
+		catch(Exception e)
 		{
-			oXFldName = properties.get("oxFld").getValueAsString();
-			oYFldName = properties.get("oyFld").getValueAsString();
+			LOG.error(e.getMessage());
 		}
-		
-		String dsrc = properties.get("dsrc").getValueAsString();
-		if(dsrc.equals("geo"))
-		{
-			dUseGeo = true;
-			dGeoFldName = properties.get("dGeoFld").getValueAsString();
-			
-		}
-		else
-		{
-			dXFldName = properties.get("dxFld").getValueAsString();
-			dYFldName = properties.get("dyFld").getValueAsString();
-		}
-		bfldName = properties.get("newfld").getValueAsString();
-		gedName = properties.get("newdef").getValueAsString();
-		createGeo = (Boolean)properties.get("generateGeo").getValue();
-		wkid = (Integer)properties.get("wkidout").getValue();
 	}
 	
 }

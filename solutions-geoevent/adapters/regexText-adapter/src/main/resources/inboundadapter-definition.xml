@@ -1,4 +1,4 @@
-<adapter name="regexText-adapter" label="Regex Text Inbound Adapter" domain="com.esri.geoevent.solutions.adapter" type="inbound" version="10.3.0">
+<adapter name="regexText-adapter" label="Regex Text Inbound Adapter" domain="com.esri.geoevent.solutions.adapter" type="inbound" version="10.5.0">
 	<description>Capable of receiving text data in CSV (or similar) format, but with an attribute separator that can be defined by a regular expression.</description>
 	<propertyDefinitions>
 		<propertyDefinition propertyName="CreateUnrecognizedGeoEventDefinitions" label="${com.esri.ges.framework.adapter.text-adapter.CREATE_NEW_UNRECOGNIZED_GED_LBL}" description="${com.esri.ges.framework.adapter.text-adapter.CREATE_NEW_UNRECOGNIZED_GED_DESC}" propertyType="Boolean" defaultValue="true" mandatory="false" readOnly="false" dependsOn="IncomingDataContainsGeoEventDefinition=true"/>

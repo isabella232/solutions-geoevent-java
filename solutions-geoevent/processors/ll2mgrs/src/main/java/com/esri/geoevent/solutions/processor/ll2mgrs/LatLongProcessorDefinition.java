@@ -38,17 +38,17 @@ public class LatLongProcessorDefinition extends GeoEventProcessorDefinitionBase{
 
 	@Override
 	public String getVersion() {
-		return "10.4.0";
+		return "10.5.0";
 	}
 
 	@Override
 	public String getLabel() {
-		return "MGRS to Lat Long Converter";
+		return "${com.esri.geoevent.solutions.processor.ll2mgrs.ll2mgrs-processor.LBL_MGRS2LL_PROCESSOR}";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Converts MGRS coordinates to Lat / Lon. Returns southwest corner of MGRS or a bounding box ";
+		return "${com.esri.geoevent.solutions.processor.ll2mgrs.ll2mgrs-processor.DESC_MGRS2LL_PROCESSOR}";
 	}
 
 	@Override
