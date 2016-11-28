@@ -2,7 +2,7 @@ package com.esri.geoevent.solutions.processor.visibility;
 
 /*
  * #%L
- * Esri :: AGES :: Solutions :: Processor :: Geometry
+ * Esri :: AGES :: Solutions :: Processor :: Visibility
  * $Id:$
  * $HeadURL:$
  * %%
@@ -28,8 +28,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
+
+import com.esri.ges.framework.i18n.BundleLogger;
+import com.esri.ges.framework.i18n.BundleLoggerFactory;
 
 import com.esri.ges.core.component.ComponentException;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
@@ -42,8 +45,11 @@ import com.esri.ges.processor.GeoEventProcessorDefinitionBase;
 
 public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBase {
 	
-	private static final Log LOG = LogFactory
-			.getLog(VisibilityProcessorDefinition.class);
+	// private static final Log LOG = LogFactory.getLog(VisibilityProcessorDefinition.class);
+			
+	private static final BundleLogger LOG = BundleLoggerFactory.getLogger(VisibilityProcessorDefinition.class);
+
+			
 	private String lblGPService="${com.esri.geoevent.solutions.processor.visibility.visibility-processor.LBL_GP_SERVICE}";
 	private String descGPService="${com.esri.geoevent.solutions.processor.visibility.visibility-processor.DESC_GP_SERVICE}";
 	private String lblElevService="${com.esri.geoevent.solutions.processor.visibility.visibility-processor.LBL_ELEVATION_SERVICE}";
@@ -83,6 +89,9 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 	
 	public VisibilityProcessorDefinition() {
 		try {
+			
+			LOG.info("VisibilityProcessorDefinition(constructor) starting");
+						
 			PropertyDefinition procGpService = new PropertyDefinition(
 					"gpservice", PropertyType.String, "", lblGPService,
 					descGPService, true, false);
@@ -122,14 +131,14 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 
 
 			PropertyDefinition procEventX = new PropertyDefinition(
-					"observerXEvent", PropertyType.String, "",
+					"observerXEvent", PropertyType.String, "X_FIELD_NAME",
 					lblObsXFld, descObsXFld,
 					true, false);
 			procEventX.setDependsOn("observerSource=Field");
 			propertyDefinitions.put(procEventX.getPropertyName(), procEventX);
 
 			PropertyDefinition procEventY = new PropertyDefinition(
-					"observerYEvent", PropertyType.String, "",
+					"observerYEvent", PropertyType.String, "Y_FIELD_NAME",
 					lblObsYFld, descObsYFld,
 					true, false);
 			procEventY.setDependsOn("observerSource=Field");
@@ -154,7 +163,7 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 			propertyDefinitions.put(procRadius.getPropertyName(), procRadius);
 
 			PropertyDefinition procRadiusEvent = new PropertyDefinition(
-					"radiusEvent", PropertyType.String, "",
+					"radiusEvent", PropertyType.String, "RADIUS_FIELD_NAME",
 					lblRadFld,
 					descRadFld, true, false);
 			procRadiusEvent.setDependsOn("radiusSource=Event");
@@ -188,7 +197,7 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 			propertyDefinitions.put(procElev.getPropertyName(), procElev);
 
 			PropertyDefinition procElevEvent = new PropertyDefinition(
-					"elevationEvent", PropertyType.String, "",
+					"elevationEvent", PropertyType.String, "ELEVATION_FIELD",
 					lblElevFld,
 					descElevFld, true, false);
 			procElevEvent.setDependsOn("elevationSource=Event");
@@ -217,19 +226,21 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 					descWKIDOut, true, false);
 			propertyDefinitions.put(procWKIDOut.getPropertyName(), procWKIDOut);
 		} catch (PropertyException e) {
-			LOG.error("Geometry processor");
+			LOG.error("VisibilityProcessorDefinition exception");
 			LOG.error(e.getMessage());
-			LOG.error(e.getStackTrace());
+			//LOG.error(e.getStackTrace());
 
 		} catch (Exception e) {
-			LOG.error("Geometry processor");
+			LOG.error("VisibilityProcessorDefinition exception");
 			LOG.error(e.getMessage());
-			LOG.error(e.getStackTrace());
+			//LOG.error(e.getStackTrace());
 
 		}
+		
+		LOG.info("VisibilityProcessorDefinition ending");
+
 	}
 	
-
 
 	@Override
 	public String getName() {
@@ -238,12 +249,12 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 
 	@Override
 	public String getDomain() {
-		return "com.esri.geoevent.solutions.processor.geometry";
+		return "com.esri.geoevent.solutions.processor.visibility";
 	}
 
 	@Override
 	public String getVersion() {
-		return "10.5.0";
+		return "10.4.1";
 	}
 
 	@Override
