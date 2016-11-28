@@ -37,8 +37,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+// import org.apache.commons.logging.Log;
+// import org.apache.commons.logging.LogFactory;
+
+import com.esri.ges.framework.i18n.BundleLogger;
+import com.esri.ges.framework.i18n.BundleLoggerFactory;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -75,7 +79,10 @@ import com.esri.ges.processor.GeoEventProcessorDefinition;
 
 
 public class VisibilityProcessor extends GeoEventProcessorBase {
-	private static final Log LOG = LogFactory.getLog(VisibilityProcessor.class);
+	// private static final Log LOG = LogFactory.getLog(VisibilityProcessor.class);
+	
+	private static final BundleLogger LOG = BundleLoggerFactory.getLogger(VisibilityProcessor.class);
+
 	public GeoEventDefinitionManager manager;
 	private SpatialReference srIn;
 	private SpatialReference srBuffer;
@@ -116,6 +123,8 @@ public class VisibilityProcessor extends GeoEventProcessorBase {
 	@Override 
 	public void afterPropertiesSet()
 	{
+		LOG.info("afterPropertiesSet starts.................");
+
 		outDefName = properties.get("outdefname").getValueAsString();
 		gp = properties.get("gpservice").getValue().toString();
 		is = properties.get("imageservice").getValue().toString();
@@ -140,11 +149,16 @@ public class VisibilityProcessor extends GeoEventProcessorBase {
 		elevEventfld = properties.get("elevationEvent").getValue().toString();
 		outwkid = (Integer) properties.get("wkidout").getValue();
 		procwkid = (Integer) properties.get("wkidbuffer").getValue();
+
+		LOG.info("afterPropertiesSet ends.................");
+
 	}
 	
 	@Override
 	public synchronized void validate() throws ValidationException
 	{
+		LOG.info("validate starts.................");
+
 		super.validate();
 		try
 		{
@@ -159,10 +173,16 @@ public class VisibilityProcessor extends GeoEventProcessorBase {
 			LOG.error(ve.getMessage());
 			throw ve;
 		}
+		
+		LOG.info("validate ends................");
+
 	}
 	
 	@Override
 	public GeoEvent process(GeoEvent ge) throws Exception {
+		
+		LOG.info("VisibilityProcessor.process starts.................");
+				
 		double radius;
 		if(!ge.getGeoEventDefinition().getTagNames().contains("GEOMETRY"))
 		{
@@ -188,12 +208,19 @@ public class VisibilityProcessor extends GeoEventProcessorBase {
 		{
 			elevation = (Double)ge.getField(elevEventfld);
 		}
-		GeoEvent outGeo= ConstructVisibilityRest(ge, gp, is, radius, radiusUnit,  elevation, units_elev, procwkid);
+		
+		LOG.info("Calling ConstructVisibilityRest.................");
+
+		GeoEvent outGeo = ConstructVisibilityRest(ge, gp, is, radius, radiusUnit,  elevation, units_elev, procwkid);
+		
+		LOG.info("VisibilityProcessor.process ends.................");
+
 		return outGeo;
 	}
 	
 	private GeoEvent ConstructVisibilityRest(GeoEvent ge, String gpservice, String imageservice, double range, String unit,  double elevation, String units_elev, int wkid) throws UnsupportedEncodingException, IOException, ConfigurationException, FieldException, MessagingException, GeoEventDefinitionManagerException 
 	{
+LOG.info("Starting ConstructVisibilityRest.................");
 		UnitConverter uc = new UnitConverter();
 		range = uc.Convert(range, unit, srBuffer);
 		String procUnitName = srBuffer.getUnit().getName();
@@ -264,6 +291,9 @@ public class VisibilityProcessor extends GeoEventProcessorBase {
 			p = (Point)GeometryEngine.project(p, srIn, srBuffer);
 			obs = ((Double)p.getX()).toString() + " " + ((Double)p.getY()).toString();
 		}
+		
+LOG.info("Got Values in ConstructVisibilityRest.................");
+			
 		String contentType = "application/json";
 		HttpClient httpclient = HttpClientBuilder.create().build();
 		String observers = URLEncoder.encode(obs, "UTF-8");
@@ -363,6 +393,9 @@ public class VisibilityProcessor extends GeoEventProcessorBase {
 			}
 		}
 		catch(Exception ex){
+			
+			LOG.error("Exception in ConstructVisibilityRest: " + ex.getMessage());
+
 			return null;
 		}
 		GeoEventDefinition geoDef = ge.getGeoEventDefinition();
@@ -396,6 +429,9 @@ public class VisibilityProcessor extends GeoEventProcessorBase {
 	          geOut.setProperty(property.getKey(), property.getValue());
 		//queries.clear();
 		//responseMap.clear();
+		
+LOG.info("Ending ConstructVisibilityRest.................");
+		
 		return geOut;
 	}
 	
