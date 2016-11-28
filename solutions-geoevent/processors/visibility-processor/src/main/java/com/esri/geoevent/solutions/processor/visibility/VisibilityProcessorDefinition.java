@@ -106,30 +106,30 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 			propertyDefinitions.put(procObserverSource.getPropertyName(),
 					procObserverSource);
 
-			PropertyDefinition procObserverX = new PropertyDefinition(
+			/*PropertyDefinition procObserverX = new PropertyDefinition(
 					"observerX", PropertyType.Double, 0.0, lblObsX,
-					descObsX, true, false);
+					descObsX, false, false);
 			procObserverX.setDependsOn("observerSource=Constant");
 			propertyDefinitions.put(procObserverX.getPropertyName(),
 					procObserverX);
 
 			PropertyDefinition procObserverY = new PropertyDefinition(
 					"observerY", PropertyType.Double, 0.0, lblObsY,
-					descObsY, true, false);
+					descObsY, false, false);
 			procObserverY.setDependsOn("observerSource=Constant");
 			propertyDefinitions.put(procObserverY.getPropertyName(),
-					procObserverY);
+					procObserverY);*/
 
 
 			PropertyDefinition procEventX = new PropertyDefinition(
-					"observerXEvent", PropertyType.String, "",
+					"observerXEvent", PropertyType.String, "x",
 					lblObsXFld, descObsXFld,
 					true, false);
 			procEventX.setDependsOn("observerSource=Field");
 			propertyDefinitions.put(procEventX.getPropertyName(), procEventX);
 
 			PropertyDefinition procEventY = new PropertyDefinition(
-					"observerYEvent", PropertyType.String, "",
+					"observerYEvent", PropertyType.String, "y",
 					lblObsYFld, descObsYFld,
 					true, false);
 			procEventY.setDependsOn("observerSource=Field");
@@ -148,13 +148,13 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 					procRadiusSource);
 
 			PropertyDefinition procRadius = new PropertyDefinition("radius",
-					PropertyType.Double, 1000, lblRad,
-					descRad, true, false);
+					PropertyType.Double, 1000.0, lblRad,
+					descRad, false, false);
 			procRadius.setDependsOn("radiusSource=Constant");
 			propertyDefinitions.put(procRadius.getPropertyName(), procRadius);
 
 			PropertyDefinition procRadiusEvent = new PropertyDefinition(
-					"radiusEvent", PropertyType.String, "",
+					"radiusEvent", PropertyType.String, "radius",
 					lblRadFld,
 					descRadFld, true, false);
 			procRadiusEvent.setDependsOn("radiusSource=Event");
@@ -182,13 +182,13 @@ public class VisibilityProcessorDefinition extends GeoEventProcessorDefinitionBa
 					procElevSource);
 
 			PropertyDefinition procElev = new PropertyDefinition("elevation",
-					PropertyType.Double, 0, lblElev,
+					PropertyType.Double, 0.0, lblElev,
 					descElev, true, false);
 			procElev.setDependsOn("elevationSource=Constant");
 			propertyDefinitions.put(procElev.getPropertyName(), procElev);
 
 			PropertyDefinition procElevEvent = new PropertyDefinition(
-					"elevationEvent", PropertyType.String, "",
+					"elevationEvent", PropertyType.String, "elevation",
 					lblElevFld,
 					descElevFld, true, false);
 			procElevEvent.setDependsOn("elevationSource=Event");
