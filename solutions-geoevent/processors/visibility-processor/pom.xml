@@ -58,7 +58,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
-		<dependency>
+		  <dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
 			<version>10.5.0</version>

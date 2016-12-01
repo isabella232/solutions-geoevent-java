@@ -40,12 +40,16 @@ import java.util.Map;
 // import org.apache.commons.logging.Log;
 // import org.apache.commons.logging.LogFactory;
 
+
+
+
 import com.esri.ges.framework.i18n.BundleLogger;
 import com.esri.ges.framework.i18n.BundleLoggerFactory;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -68,6 +72,8 @@ import com.esri.ges.core.geoevent.FieldType;
 import com.esri.ges.core.geoevent.GeoEvent;
 import com.esri.ges.core.geoevent.GeoEventDefinition;
 import com.esri.ges.core.geoevent.GeoEventPropertyName;
+import com.esri.ges.core.http.GeoEventHttpClient;
+import com.esri.ges.core.http.GeoEventHttpClientService;
 import com.esri.ges.core.validation.ValidationException;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManagerException;
@@ -103,12 +109,14 @@ public class VisibilityProcessor extends GeoEventProcessorBase {
 	private int outwkid;
 	private int procwkid;
 	private Messaging messaging;
+	private GeoEventHttpClientService httpClientService;
 	
-	public VisibilityProcessor(GeoEventProcessorDefinition definition)
+	public VisibilityProcessor(GeoEventProcessorDefinition definition, GeoEventHttpClientService service)
 			throws ComponentException {
 		super(definition);
 		//manager = m;
 		//tagMgr=tm;
+		this.httpClientService = service;
 		geoEventMutator = true;
 		
 	}
@@ -295,7 +303,8 @@ LOG.info("Starting ConstructVisibilityRest.................");
 LOG.info("Got Values in ConstructVisibilityRest.................");
 			
 		String contentType = "application/json";
-		HttpClient httpclient = HttpClientBuilder.create().build();
+		GeoEventHttpClient http = httpClientService.createNewClient();
+		//HttpClient httpclient = HttpClientBuilder.create().build();
 		String observers = URLEncoder.encode(obs, "UTF-8");
 		imageservice = URLEncoder.encode(imageservice, "UTF-8");
 		String geoJson=GeometryEngine.geometryToJson(srBuffer, mask);
@@ -313,7 +322,8 @@ LOG.info("Got Values in ConstructVisibilityRest.................");
 		try {
 			HttpPost httppost = new HttpPost(uri);
 			httppost.setHeader("Accept", contentType);
-			HttpResponse response = httpclient.execute(httppost);
+			CloseableHttpResponse response = http.execute(httppost, GeoEventHttpClient.DEFAULT_TIMEOUT);
+			//HttpResponse response = http.execute(httppost);
 
 			HttpEntity entity = response.getEntity();
 			
