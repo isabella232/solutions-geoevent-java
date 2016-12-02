@@ -5,12 +5,13 @@
 	<reference id="geoDefManagerService"
 		interface="com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager" />
 	<reference id="messagingService" interface="com.esri.ges.messaging.Messaging" />
-
+	<reference id="httpClientService" interface="com.esri.ges.core.http.GeoEventHttpClientService" />
 	<bean id="visibilityProcessorServiceBean"
 		class="com.esri.geoevent.solutions.processor.visibility.VisibilityProcessorService">
 		<property name="bundleContext" ref="blueprintBundleContext" />
 		<property name="manager" ref="geoDefManagerService" />
 		<property name="messaging" ref="messagingService" />
+		<property name="httpClientService" ref="httpClientService" />
 	</bean>
 
 	<service id="visibilityProcessorService" ref="visibilityProcessorServiceBean"
