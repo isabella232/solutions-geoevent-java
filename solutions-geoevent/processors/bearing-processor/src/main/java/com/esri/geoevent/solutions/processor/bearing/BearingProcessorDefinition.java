@@ -40,49 +40,54 @@ public class BearingProcessorDefinition extends GeoEventProcessorDefinitionBase 
 
 	public BearingProcessorDefinition() throws PropertyException {
 		
-		List<LabeledValue> srcValues = new ArrayList<LabeledValue>();
-		srcValues.add(new LabeledValue(srcGeoLbl, "geo"));
-		srcValues.add(new LabeledValue(srcCoordLbl, "coord"));
-		PropertyDefinition pdOriginSource = new PropertyDefinition("osrc", PropertyType.String, defaultSrc, lblOSrc, descOSrc, true, false, srcValues);
+		List<LabeledValue> oSrcValues = new ArrayList<LabeledValue>();
+		oSrcValues.add(new LabeledValue(srcGeoLbl, "geo"));
+		oSrcValues.add(new LabeledValue(srcCoordLbl, "coord"));
+		
+		List<LabeledValue> dSrcValues = new ArrayList<LabeledValue>();
+		dSrcValues.add(new LabeledValue(srcGeoLbl, "geo"));
+		dSrcValues.add(new LabeledValue(srcCoordLbl, "coord"));
+		
+		PropertyDefinition pdOriginSource = new PropertyDefinition("osrc", PropertyType.String, srcGeoLbl, lblOSrc, descOSrc, true, false, oSrcValues);
 		propertyDefinitions.put(pdOriginSource.getPropertyName(), pdOriginSource);
 
-		PropertyDefinition pdOGeoFld = new PropertyDefinition("oGeoFld", PropertyType.String, "", lblOFld, descOFld, false, false);
+		PropertyDefinition pdOGeoFld = new PropertyDefinition("oGeoFld", PropertyType.String, "ORIGIN_GEOMETRY_FIELD", lblOFld, descOFld, false, false);
 		pdOGeoFld.setDependsOn("osrc=geo");
 		propertyDefinitions.put(pdOGeoFld.getPropertyName(), pdOGeoFld);
 		
-		PropertyDefinition pdOXField = new PropertyDefinition("oxFld", PropertyType.String, "", lblOX, descOX, false, false);
+		PropertyDefinition pdOXField = new PropertyDefinition("oxFld", PropertyType.String, "ORIGIN_X_FIELD", lblOX, descOX, false, false);
 		pdOXField.setDependsOn("osrc=coord");
 		propertyDefinitions.put(pdOXField.getPropertyName(), pdOXField);
 		
-		PropertyDefinition pdOYField = new PropertyDefinition("oyFld", PropertyType.String, "", lblOY, descOY, false, false);
+		PropertyDefinition pdOYField = new PropertyDefinition("oyFld", PropertyType.String, "ORIGIN_Y_FIELD", lblOY, descOY, false, false);
 		pdOYField.setDependsOn("osrc=coord");
 		propertyDefinitions.put(pdOYField.getPropertyName(),pdOYField);
 		
-		PropertyDefinition pdDestinationSource = new PropertyDefinition("dsrc", PropertyType.String, defaultSrc, lblDSrc, descDSrc, true, false, srcValues);
+		PropertyDefinition pdDestinationSource = new PropertyDefinition("dsrc", PropertyType.String, defaultSrc, lblDSrc, "", true, false, dSrcValues);
 		propertyDefinitions.put(pdDestinationSource.getPropertyName(),pdDestinationSource);
 				
-		PropertyDefinition pdDGeoFld = new PropertyDefinition("dGeoFld", PropertyType.String, "", lblDFld, descDFld, false, false);
+		PropertyDefinition pdDGeoFld = new PropertyDefinition("dGeoFld", PropertyType.String, "DESTINATION_GEOMETRY_FIELD", lblDFld, descDFld, false, false);
 		pdDGeoFld.setDependsOn("dsrc=geo");
 		propertyDefinitions.put(pdDGeoFld.getPropertyName(),pdDGeoFld);
 		
-		PropertyDefinition pdDXField = new PropertyDefinition("dxFld", PropertyType.String, "", lblDX, descDX, false, false);
+		PropertyDefinition pdDXField = new PropertyDefinition("dxFld", PropertyType.String, "DESTINATION_X_FIELD", lblDX, descDX, false, false);
 		pdDXField.setDependsOn("dsrc=coord");
 		propertyDefinitions.put(pdDXField.getPropertyName(),pdDXField);
 		
-		PropertyDefinition pdDYField = new PropertyDefinition("dyFld", PropertyType.String, "", lblDY, descDY, false, false);
+		PropertyDefinition pdDYField = new PropertyDefinition("dyFld", PropertyType.String, "DESTINATION_Y_FIELD", lblDY, descDY, false, false);
 		pdDYField.setDependsOn("dsrc=coord");
 		propertyDefinitions.put(pdDYField.getPropertyName(),pdDYField);
 		
-		PropertyDefinition pdBearingField = new PropertyDefinition("newfld", PropertyType.String, "", lblNewFld, descNewFld, true, false);
+		PropertyDefinition pdBearingField = new PropertyDefinition("newfld", PropertyType.String, "bearing", lblNewFld, descNewFld, true, false);
 		propertyDefinitions.put(pdBearingField.getPropertyName(), pdBearingField);
 		
 		PropertyDefinition pdGenerateGeometry = new PropertyDefinition("generateGeo", PropertyType.Boolean, true, lblGenerateGeo, descGenerateGeo, true, false);
 		propertyDefinitions.put(pdGenerateGeometry.getPropertyName(), pdGenerateGeometry);
 		
-		PropertyDefinition pdOutWkid = new PropertyDefinition("wkidout", PropertyType.Integer, 4326, lblWkidOut, descWkidOut, "generategeo=true", false, false);
+		PropertyDefinition pdOutWkid = new PropertyDefinition("wkidout", PropertyType.Integer, 4326, lblWkidOut, descWkidOut, "generateGeo=true", false, false);
 		propertyDefinitions.put(pdOutWkid.getPropertyName(), pdOutWkid);
 		
-		PropertyDefinition pdNewGeoDef = new PropertyDefinition("newdef", PropertyType.String, "", lblEventDefName, descEventDefName, true, false);
+		PropertyDefinition pdNewGeoDef = new PropertyDefinition("newdef", PropertyType.String, "calculate_bearing", lblEventDefName, descEventDefName, true, false);
 		propertyDefinitions.put(pdNewGeoDef.getPropertyName(), pdNewGeoDef);
 	}
 	@Override
