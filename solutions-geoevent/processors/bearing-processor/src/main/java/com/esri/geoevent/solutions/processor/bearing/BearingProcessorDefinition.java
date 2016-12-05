@@ -79,7 +79,7 @@ public class BearingProcessorDefinition extends GeoEventProcessorDefinitionBase 
 		PropertyDefinition pdGenerateGeometry = new PropertyDefinition("generateGeo", PropertyType.Boolean, true, lblGenerateGeo, descGenerateGeo, true, false);
 		propertyDefinitions.put(pdGenerateGeometry.getPropertyName(), pdGenerateGeometry);
 		
-		PropertyDefinition pdOutWkid = new PropertyDefinition("wkidout", PropertyType.Integer, 4326, lblWkidOut, descWkidOut, "generategeo=true", false, false);
+		PropertyDefinition pdOutWkid = new PropertyDefinition("wkidout", PropertyType.Integer, 4326, lblWkidOut, descWkidOut, "generateGeo=true", false, false);
 		propertyDefinitions.put(pdOutWkid.getPropertyName(), pdOutWkid);
 		
 		PropertyDefinition pdNewGeoDef = new PropertyDefinition("newdef", PropertyType.String, "", lblEventDefName, descEventDefName, true, false);
