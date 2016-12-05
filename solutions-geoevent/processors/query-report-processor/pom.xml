@@ -22,7 +22,7 @@
 
     <groupId>com.esri.geoevent.solutions.processor.queryreport</groupId>
     <artifactId>query-report-processor</artifactId>
-    <version>10.4.0</version>
+    <version>10.3.0</version>
     <packaging>bundle</packaging>
 
     <name>query-report-processor Blueprint Bundle</name>
@@ -44,7 +44,7 @@
 			<id>GEP</id>
 			<name>GeoEvent Processor embedded repository</name>
 			<layout>default</layout>
-			<url>file:///Program Files/ArcGIS/Server/GeoEvent/System</url>
+			<url>file:///Program Files/ArcGIS/Server/GeoEvent/system</url>
 		</repository>
 	</repositories>
 
@@ -61,27 +61,27 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.4.0</version>
+			<version>10.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.geometry</groupId>
 			<artifactId>geometry-api</artifactId>
-			<version>10.4.0</version>
+			<version>10.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.ges.manager</groupId>
 			<artifactId>agsconnectionmanager-api</artifactId>
-			<version>10.4.0</version>
+			<version>10.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.ges.framework.datastore</groupId>
 			<artifactId>agsconnection-datastore</artifactId>
-			<version>10.4.0</version>
+			<version>10.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esri.ges.framework.datastore</groupId>
 			<artifactId>datastore-api</artifactId>
-			<version>10.4.0</version>
+			<version>10.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
