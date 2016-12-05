@@ -256,7 +256,7 @@ public class UnitConversionProcessorDefinition extends
 	@Override
 	public String getVersion()
 	{
-		return "10.4.0";
+		return "10.3.0";
 	}
 
 	@Override
