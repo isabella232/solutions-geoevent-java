@@ -41,8 +41,8 @@ public class BearingProcessor extends GeoEventProcessorBase {
 	private String dYFldName;
 	private Boolean oUseGeo = false;
 	private Boolean dUseGeo = false;
-	private String bfldName = properties.get("newfld").getValueAsString();
-	private String gedName = properties.get("newdef").getValueAsString();
+	private String bfldName;
+	private String gedName;
 	private Boolean createGeo = false;
 	private Integer wkid;
 	private static final Log LOG = LogFactory
@@ -301,23 +301,29 @@ public class BearingProcessor extends GeoEventProcessorBase {
 		try{
 			String osrc = properties.get("osrc").getValueAsString();
 			// if(osrc.equals("Geometry"))
+			oXFldName = properties.get("oxFld").getValueAsString();
+			oYFldName = properties.get("oyFld").getValueAsString();
+			oGeoFldName = properties.get("oGeoFld").getValueAsString();
 			if (osrc.equals("geo")) {
 				oUseGeo = true;
-				oGeoFldName = properties.get("oGeoFld").getValueAsString();
+				//oGeoFldName = properties.get("oGeoFld").getValueAsString();
 
 			} else {
-				oXFldName = properties.get("oxFld").getValueAsString();
-				oYFldName = properties.get("oyFld").getValueAsString();
+				//oXFldName = properties.get("oxFld").getValueAsString();
+				//oYFldName = properties.get("oyFld").getValueAsString();
 			}
 
 			String dsrc = properties.get("dsrc").getValueAsString();
+			dXFldName = properties.get("dxFld").getValueAsString();
+			dYFldName = properties.get("dyFld").getValueAsString();
+			dGeoFldName = properties.get("dGeoFld").getValueAsString();
 			if (dsrc.equals("geo")) {
 				dUseGeo = true;
-				dGeoFldName = properties.get("dGeoFld").getValueAsString();
+				//dGeoFldName = properties.get("dGeoFld").getValueAsString();
 
 			} else {
-				dXFldName = properties.get("dxFld").getValueAsString();
-				dYFldName = properties.get("dyFld").getValueAsString();
+				//dXFldName = properties.get("dxFld").getValueAsString();
+				//dYFldName = properties.get("dyFld").getValueAsString();
 			}
 			bfldName = properties.get("newfld").getValueAsString();
 			gedName = properties.get("newdef").getValueAsString();
