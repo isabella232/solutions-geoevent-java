@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>com.esri.geoevent.transport</groupId>
 			<artifactId>http-transport</artifactId>
-			<version>10.3.0</version>
+			<version>10.4.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/http-transport-10.3.1.jar</systemPath>
 		</dependency>
@@ -88,7 +88,7 @@
 		<dependency>
    			<groupId>com.esri.geometry</groupId>
    			<artifactId>geometry-api</artifactId>
-   			<version>10.4.0</version>
+   			<version>10.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
