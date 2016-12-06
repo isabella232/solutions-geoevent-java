@@ -3,7 +3,7 @@
 	
 	<groupId>com.esri.geoevent.solutions.adapter.geomessage</groupId> 
 		
-	<version>10.4.1</version> 
+	<version>10.3.0</version> 
 	
 	<packaging>bundle</packaging>
 	<artifactId>geomessage-adapter</artifactId>
@@ -18,7 +18,7 @@
 			<id>GEP</id>
 			<name>GeoEvent Processor embedded repository</name>
 			<layout>default</layout>
-			<url>file:///Program Files/ArcGIS/Server/GeoEvent/System</url>
+			<url>file:///Program Files/ArcGIS/Server/GeoEvent/system</url>
 		</repository>
 	</repositories>
 		
@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.4.1</version>
+			<version>10.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
