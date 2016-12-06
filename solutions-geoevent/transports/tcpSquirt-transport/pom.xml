@@ -7,7 +7,7 @@
 	<packaging>bundle</packaging>
 	<groupId>com.esri.geoevent.solutions.transport.tcpsquirt</groupId>
 	<artifactId>tcpsquirt-transport</artifactId>
-	<version>10.4.0</version>
+	<version>10.3.0</version>
 	<name>Esri :: AGES :: Transport :: TCPSQUIRT</name>
 	<properties>
 		<contact.address>geoevent@esri.com</contact.address>
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.4.0</version>
+			<version>10.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
