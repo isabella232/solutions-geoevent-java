@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.esri.geoevent.solutions.transport.irc</groupId>
 	<artifactId>irc-transport</artifactId>
-	<version>10.4.0</version>
+	<version>10.3.0</version>
 	<packaging>bundle</packaging>
 	<name>Esri :: AGES :: Transport :: Irc Transport</name>
 	<properties>
@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>com.esri.geoevent.sdk</groupId>
 			<artifactId>geoevent-sdk</artifactId>
-			<version>10.4.0</version>
+			<version>10.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
