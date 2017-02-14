@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.esri.ges.core.component.ComponentException;
+import com.esri.ges.core.http.GeoEventHttpClientService;
 import com.esri.ges.core.property.PropertyException;
 import com.esri.ges.manager.geoeventdefinition.GeoEventDefinitionManager;
 import com.esri.ges.messaging.Messaging;
@@ -39,7 +40,7 @@ public class VisibilityProcessorService extends GeoEventProcessorServiceBase {
 			.getLog(VisibilityProcessorService.class);
 	public GeoEventDefinitionManager manager;
 	public Messaging messaging;
-
+	public GeoEventHttpClientService httpClientService;
 	public VisibilityProcessorService() {
 		definition = new VisibilityProcessorDefinition();
 	}
@@ -47,7 +48,7 @@ public class VisibilityProcessorService extends GeoEventProcessorServiceBase {
 	@Override
 	public GeoEventProcessor create() throws ComponentException {
 		try {
-			VisibilityProcessor vproc = new VisibilityProcessor(definition);
+			VisibilityProcessor vproc = new VisibilityProcessor(definition, httpClientService);
 			vproc.setManager(manager);
 			vproc.setMessaging(messaging);
 			return vproc;
@@ -72,7 +73,10 @@ public class VisibilityProcessorService extends GeoEventProcessorServiceBase {
 	{
 		this.messaging = messaging;
 	}
-	
+	public void setHttpClientService(GeoEventHttpClientService service)
+	{
+		this.httpClientService=service;
+	}
 	
 
 }
