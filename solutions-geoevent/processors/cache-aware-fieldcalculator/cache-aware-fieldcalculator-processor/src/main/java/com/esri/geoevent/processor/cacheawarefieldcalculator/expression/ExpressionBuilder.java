@@ -1458,7 +1458,16 @@ public class ExpressionBuilder
           return (args != null && args.length == 2) ? String.valueOf(args[0]).contains(String.valueOf(args[1])) : null;
         }
       });
-      
+
+      functions.put("nvl", new Function("nvl", 2)
+      {
+        @Override
+        public Object applyFunction(Object... args)
+        {
+          return (args != null && args.length == 2) ? (args[0] != null ? args[0] : args[1]) : null;
+        }
+      });
+			
       functions.put("replaceFirst", new Function("replaceFirst", 3)
       {
         @Override
