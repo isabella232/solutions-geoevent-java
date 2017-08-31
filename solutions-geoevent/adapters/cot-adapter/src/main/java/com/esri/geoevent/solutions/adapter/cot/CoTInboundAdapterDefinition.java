@@ -233,7 +233,7 @@ public class CoTInboundAdapterDefinition extends AdapterDefinitionBase {
 		loadXSD("XSD-Add-on/CoT__flow-tags_.xsd", detailsDef );
 		loadXSD("XSD-Add-on/CoT_remarks.xsd", detailsDef );
 		loadXSD("XSD-Add-on/CoT_request.xsd", detailsDef );
-		loadXSD("XSD-Add-on/CoT_sensor.xml", detailsDef );
+		loadXSD("XSD-Add-on/CoT_sensor.xsd", detailsDef );
 		loadXSD("XSD-Add-on/CoT_shape.xsd", detailsDef );
 		loadXSD("XSD-Add-on/CoT_spatial.xsd", detailsDef );
 		loadXSD("XSD-Add-on/CoT_track.xsd", detailsDef );
