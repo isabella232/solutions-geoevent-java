@@ -361,7 +361,7 @@ LOG.info("Got Values in ConstructVisibilityRest.................");
 						// com.esri.ges.spatial.Geometry tmpgesVis = null;
 						// com.esri.ges.spatial.Geometry tmpgesNonVis =
 						// null;
-						if (code == 0) {
+						if (code == 1) {
 							@SuppressWarnings("unchecked")
 							Map<String, Object> objGeo = (Map<String, Object>) feature.get("geometry");
 							Geometry tmpvis = generateGeoFromMap(objGeo);
