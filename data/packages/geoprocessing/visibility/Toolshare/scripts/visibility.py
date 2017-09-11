@@ -12,6 +12,8 @@
 import arcpy, os, math, json
 from arcpy import env
 from arcpy import sa
+from arcpy.sa import *
+import arcpy.mapping as map
 import ErrorHandling as ErrorHandling
 
 class Viewshed:
@@ -39,7 +41,7 @@ class Viewshed:
         self.height = height
         self.mask = mask
         self.sref = arcpy.SpatialReference(wkid)
-
+        self.radius=radius
         #self.wkidin = wkidin
         #self.wkidout=wkidout
         #self.wkidproc= wkidproc
@@ -50,7 +52,9 @@ class Viewshed:
         self.buffer = self.__makeBuffers__(radius)
         self.cellsize = self.__CalculateCellSize__(self.buffer)
         self.islyr = self.__CreateISLayer__(imageService)
-        observersz = self.__appendZs__(self.obsproc)
+        #self.islyr = imageService
+
+        #observersz = self.__appendZs__(self.obsproc)
         #self.obsz = self.__makeObserver__(observersz, 'obsz', self.wkidproc)
         self.mask = self.__CreateMask__(mask)
 
@@ -69,6 +73,7 @@ class Viewshed:
             arcpy.AddMessage("observation fc: " + arcpy.Describe(obs).name)
             #obsproj = os.path.join(self.scratchgdb, name+'_proj')
             obsout = os.path.join(self.scratchgdb, name+'out')
+            #obsout = os.path.join(r"C:\GEE\visibility\visibility.gdb", 'obsot2')
             obs.save(obsout);
 
 ##            if(curwkid != self.wkidproc):
@@ -79,8 +84,8 @@ class Viewshed:
 ##            else:
 ##                obsout=obs
             h=self.height
-            arcpy.AddField_management(obsout, "OFFSETA", "DOUBLE", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
-            arcpy.CalculateField_management(obsout, "OFFSETA", h, "PYTHON", "")
+            #arcpy.AddField_management(obsout, "OFFSETA", "DOUBLE", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
+            #arcpy.CalculateField_management(obsout, "OFFSETA", h, "PYTHON", "")
             return obsout
         except arcpy.ExecuteError:
             EH = ErrorHandling.ErrorHandling()
@@ -108,7 +113,8 @@ class Viewshed:
             arcpy.AddMessage("Calculating cellsize...")
             width = arcpy.Describe(ds).extent.width
             height = arcpy.Describe(ds).extent.height
-            return max(float(max(width,height))/2000.0,30.0)
+            #return max(float(max(width,height))/2000.0,30.0)
+            return max(float(max(width,height))/250.0,10.0)
         except arcpy.ExecuteError:
             EH = ErrorHandling.ErrorHandling()
             line, filename, err = EH.trace()
@@ -120,8 +126,14 @@ class Viewshed:
         try:
             arcpy.AddMessage("Creating image service layer...")
             outislyr=os.path.join("in_memory",'ras_dsm')
+            #outislyr2 = os.path.join(r"C:\GEE\visibility", "outislyr2")
+
             arcpy.AddMessage("image service layer: " + outislyr)
-            arcpy.MakeImageServerLayer_management(service, outislyr, self.buffer, "", "CLOSEST_TO_CENTER", "", "", "", self.cellsize)
+            arcpy.MakeImageServerLayer_management(service, outislyr, self.buffer, "", "CLOSEST_TO_CENTER", "", "", "")
+            #filteredraster = sa.FocalStatistics(outislyr, "", "MEAN", "")
+            #newraster = Raster(outislyr)
+            #newraster.save(outislyr2)
+            #return filteredraster
             return outislyr
         except arcpy.ExecuteError:
             EH = ErrorHandling.ErrorHandling()
@@ -182,10 +194,12 @@ class Viewshed:
             arcpy.env.extent = self.buffer
             tempEnvironment1 = arcpy.env.cellSize
             arcpy.env.cellSize = self.cellsize
+            arcpy.AddMessage("cellsize: " + str(arcpy.env.cellSize))
             tempEnvironment2 = arcpy.env.mask
             arcpy.env.mask = self.buffer
-            outraster = sa.Viewshed(self.islyr, self.obsproc, 1, "CURVED_EARTH", 0.13)
-            #outrastertemp = os.path.join(self.scratch, 'outvis')
+            #outraster = sa.Viewshed(self.islyr, self.obsproc, 1, "FLAT_EARTH", 0.13)
+            outraster = sa.Visibility(self.islyr, self.obsproc, analysis_type="FREQUENCY", nonvisible_cell_value="ZERO", z_factor=1, curvature_correction="CURVED_EARTH",refractivity_coefficient=0.13, observer_offset=self.height, outer_radius=self.radius, vertical_upper_angle=90, vertical_lower_angle=-90)
+            #outrastertemp = os.path.join(r"C:\GEE\visibility", 'outvis')
             #outraster.save(outrastertemp)
             vshedtmp = os.path.join("in_memory", 'vshedtmp')
             vsheddis = os.path.join("in_memory", 'vsheddis')
@@ -195,7 +209,7 @@ class Viewshed:
             arcpy.env.extent = tempEnvironment0
             arcpy.env.cellSize = tempEnvironment1
             arcpy.env.mask = tempEnvironment2
-            arcpy.RasterToPolygon_conversion(outraster, vshedtmp, "SIMPLIFY", "VALUE")
+            arcpy.RasterToPolygon_conversion(outraster, vshedtmp, "NO_SIMPLIFY", "VALUE")
             arcpy.Dissolve_management(vshedtmp, vsheddis, "gridcode", "", "MULTI_PART", "DISSOLVE_LINES")
 
 ##            if(self.wkidproc != self.wkidout):
@@ -272,7 +286,7 @@ class Viewshed:
                 result = arcpy.GetCellValue_management(self.islyr, coordpair)
                 e = result.getOutput(0)
                 if e != 'NoData':
-                    v = int(e) + self.height
+                    v = float(e) + self.height
                 else:
                     v = self.height
                 if len(newcoords)>0:
