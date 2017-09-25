@@ -1,5 +1,6 @@
 # esd-adapter
-___This repository is no longer maintained__
+
+___This repository is no longer maintained___
 
 The esd adapter provides an example of how to ingest Exploitation Support Data (ESD) messages as geoevents.
 
