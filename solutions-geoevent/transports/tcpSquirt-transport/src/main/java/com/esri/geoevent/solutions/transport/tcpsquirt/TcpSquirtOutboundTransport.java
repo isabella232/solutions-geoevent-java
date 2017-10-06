@@ -117,7 +117,13 @@ public class TcpSquirtOutboundTransport extends OutboundTransportBase implements
 				selector = Selector.open();
 				serverSocketChannel = ServerSocketChannel.open();
 				serverSocketChannel.configureBlocking(false);
-				serverSocketChannel.socket().bind(new InetSocketAddress(port));
+				try{
+					serverSocketChannel.socket().bind(new InetSocketAddress(port));
+				}
+				catch(IOException ex)
+				{
+					
+				}
 				serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 				receiving = true;
 			} catch (IOException ex) {
