@@ -1,3 +1,5 @@
+***This repository is no longer maintained. For information on Defense Solutions offerings for ArcGIS GeoEvent Extension, please visit the [Defense Solutions Proofs of Concept](https://github.com/Esri/defense-solutions-proofs-of-concept/tree/master/geoevent-components/) repository.***
+
 solutions-geoevent-java 
 ====================
 
