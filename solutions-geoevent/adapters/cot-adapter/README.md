@@ -55,7 +55,7 @@ The CoT Adapter provides an example of how to input Cursor on Target (CoT) XML m
     * Note a Send Cursor on Target outbound connector that sends CoT messages over a TCP channel that opens on demand was created when you deployed the CoT Adaptor.
 ![Image of create connector](doc/cot-outbound-connector.png)
 * Next use GeoEvent Processor Manager to:
-    * Create a new Input Connector to receive CoT messages using the Receive Cursor on Target connector created when you deployed the CoT Adapter.
+    * Create a new input to receive CoT messages using the Receive Cursor on Target connector created when you deployed the CoT Adapter.
 	* For the XSD_Path  property, use the location of the CoTtypes.xml downloaded from GitHub ([download location]/solutions-geoevent-java/solutions-geoevent/adapters/cot-adapter/src/main/resources/CoTTypes/CoTtypes.xml).
 	* For the CoT_Types_Path property, use the location of the CoTtypes.xml downloaded from GitHub ([download location]/solutions-geoevent-java/solutions-geoevent/adapters/cot-adapter/src/main/resources/XSD-Add-on).
 ![Image of create connector](doc/cot-inbound-service.png)
