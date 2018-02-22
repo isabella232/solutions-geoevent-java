@@ -15,6 +15,8 @@ from arcpy import sa
 from arcpy.sa import *
 import arcpy.mapping as map
 import ErrorHandling as ErrorHandling
+import traceback
+import sys
 
 class Viewshed:
 
@@ -35,6 +37,7 @@ class Viewshed:
             env.workspace = ws
         self.workspace = str(env.workspace)
         env.overwriteOutput = True
+        self.observers = observers
         self.scratch = str(env.scratchWorkspace)
         self.scratchgdb = env.scratchGDB
         self.service = imageService
@@ -114,7 +117,7 @@ class Viewshed:
             width = arcpy.Describe(ds).extent.width
             height = arcpy.Describe(ds).extent.height
             #return max(float(max(width,height))/2000.0,30.0)
-            return max(float(max(width,height))/250.0,10.0)
+            return max(float(min(width,height))/250.0,30.0)
         except arcpy.ExecuteError:
             EH = ErrorHandling.ErrorHandling()
             line, filename, err = EH.trace()
@@ -190,6 +193,7 @@ class Viewshed:
 
     def createViewshed(self):
         try:
+            arcpy.AddMessage("observer: " + str(self.observers))
             tempEnvironment0 = arcpy.env.extent
             arcpy.env.extent = self.buffer
             tempEnvironment1 = arcpy.env.cellSize
@@ -229,11 +233,17 @@ class Viewshed:
             fset.load(vis)
             return fset
         except arcpy.ExecuteError:
-            EH = ErrorHandling.ErrorHandling()
+            '''EH = ErrorHandling.ErrorHandling()
             line, filename, err = EH.trace()
             m = "Python error on " + line + " of " + __file__ + \
                 " : with error - " + err
-            arcpy.AddError(m)
+            arcpy.AddError(m)'''
+            tb = sys.exc_info()[2]
+            tbinfo = traceback.format_tb(tb)[0]
+            pymsg = "ConditionOne Errors:\nTraceback info:\n{0}\nError Info:{1}\nArcPy Errors{2}".format(tbinfo,
+            str(sys.exc_info()[1]),
+            arcpy.GetMessages(2))
+            arcpy.AddMessage(pymsg)
 
     def __createFC__(self, points, sr, name):
         try:
