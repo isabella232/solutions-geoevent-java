@@ -117,7 +117,10 @@ class Viewshed:
             width = arcpy.Describe(ds).extent.width
             height = arcpy.Describe(ds).extent.height
             #return max(float(max(width,height))/2000.0,30.0)
-            return max(float(min(width,height))/250.0,30.0)
+            #return min(float(min(width,height))/250.0,30.0)
+            arcpy.AddMessage('width: ' + str(width))
+            arcpy.AddMessage('height: ' + str(height))
+            return float(min(width,height))/250.0
         except arcpy.ExecuteError:
             EH = ErrorHandling.ErrorHandling()
             line, filename, err = EH.trace()

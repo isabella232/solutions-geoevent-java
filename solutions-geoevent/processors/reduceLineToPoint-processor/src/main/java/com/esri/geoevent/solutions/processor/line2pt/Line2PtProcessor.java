@@ -154,22 +154,29 @@ public class Line2PtProcessor extends GeoEventProcessorBase {
 	
 	private GeoEvent createLine2PtGeoevent(GeoEvent event, MapGeometry outGeo, Date ts) throws MessagingException, FieldException
 	{
-		GeoEventCreator creator = messaging.createGeoEventCreator();
-		GeoEvent msg = creator.create(outDef, definition.getUri().toString());
-		for(FieldDefinition fd: event.getGeoEventDefinition().getFieldDefinitions())
+		try{
+			GeoEventCreator creator = messaging.createGeoEventCreator();
+			GeoEvent msg = creator.create(outDef, definition.getUri().toString());
+			for(FieldDefinition fd: event.getGeoEventDefinition().getFieldDefinitions())
+			{
+				if(fd.getTags().contains("GEOMETRY"))
+				{
+					msg.setGeometry(outGeo);
+				}
+				else
+				{
+					String fdname = fd.getName();
+					
+					msg.setField(fd.getName(), event.getField(fd.getName()));
+				}
+				msg.setField("TIMESTAMP", ts);
+		
+			}
+			return msg;
+		}catch(Exception e)
 		{
-			if(fd.getTags().contains("GEOMETRY"))
-			{
-				msg.setGeometry(outGeo);
-			}
-			else
-			{
-				msg.setField(fd.getName(), event.getField(fd.getName()));
-			}
-			msg.setField("TIMESTAMP", ts);
-	
+			return null;
 		}
-		return msg;
 	}
 	
 	private void createGeoEventDefinition(GeoEvent event)

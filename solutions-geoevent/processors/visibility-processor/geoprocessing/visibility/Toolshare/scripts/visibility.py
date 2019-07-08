@@ -108,7 +108,8 @@ class Viewshed:
             arcpy.AddMessage("Calculating cellsize...")
             width = arcpy.Describe(ds).extent.width
             height = arcpy.Describe(ds).extent.height
-            return max(float(max(width,height))/2000.0,30.0)
+            #return max(float(min(width,height))/250.0,30.0)
+            return float(min(width,height))/250.0
         except arcpy.ExecuteError:
             EH = ErrorHandling.ErrorHandling()
             line, filename, err = EH.trace()
